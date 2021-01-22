@@ -1,0 +1,13 @@
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\bin\Debug\netcoreapp3.1\QuickSort.exe
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\bin\Debug\netcoreapp3.1\QuickSort.deps.json
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\bin\Debug\netcoreapp3.1\QuickSort.runtimeconfig.json
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\bin\Debug\netcoreapp3.1\QuickSort.runtimeconfig.dev.json
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\bin\Debug\netcoreapp3.1\QuickSort.dll
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\bin\Debug\netcoreapp3.1\QuickSort.pdb
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\obj\Debug\netcoreapp3.1\QuickSort.csprojAssemblyReference.cache
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\obj\Debug\netcoreapp3.1\QuickSort.csproj.CoreCompileInputs.cache
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\obj\Debug\netcoreapp3.1\QuickSort.AssemblyInfoInputs.cache
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\obj\Debug\netcoreapp3.1\QuickSort.AssemblyInfo.cs
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\obj\Debug\netcoreapp3.1\QuickSort.dll
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\obj\Debug\netcoreapp3.1\QuickSort.pdb
+C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\C#筆記\QuickSort\obj\Debug\netcoreapp3.1\QuickSort.genruntimeconfig.cache

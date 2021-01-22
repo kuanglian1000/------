@@ -1,0 +1,55 @@
+SOP-MVC筆記(ASPDOTNET_CORE)
+
+	常用指令：
+	(create a web app)
+		dotnet new mvc -o <ProjectName> // ProjectName資料夾內 , 新增 ASP.NET Core MVC專案
+		code -r <ProjectName> //以VS Code 開啟 ProjectName.csproj 專案檔
+		
+	(Run the app)
+		dotnet dev-certs https --trust //產生測試用憑證,並信任它
+		Ctrl+F5 //啟動非偵錯模式
+	
+	(Add a controller)
+		在Controller資料夾內，新增<HelloWorld>Controller.cs 類別 : 繼承自Controller類別
+			
+			using Microsoft.AspNetCore.Mvc;
+			using System.Text.Encodings.Web;
+			namespace ProjectName.Controllers
+			{
+				public class HelloWorldController : Controller
+				{
+					public IActionResult Index() 	//回傳值必須是ActionResult的子類別，例：IActionResult
+					{
+						return View();
+					}
+				}
+			}
+	
+	(Add a view)
+		在 Views/HelloWorld 資料夾內，新增 Index.csthml 檔案
+	
+	(Change Views and layout pages，類似ASP.NET WEB FROM的 MasterPage )
+		1.用哪個Layout設定放在：Views\_ViewStart.cshtml  ex. Layout = "_Layout";  //它預設會去Views\Shared\內找 "_Layout.cshtml" 的檔案
+		2.Layout template == MasterPage , @RenderBody() == ContentPlactHolder
+	
+	(Add a data model class)
+		在 Models 資料夾內，新增 Movie.cs 檔案，定義資料類別屬性
+		
+			using System;
+			using System.ComponentModel.DataAnnotations;
+			
+			namespace ProjectName.Models
+			{
+				public class Movie
+				{
+					public int Id {get;set;}
+					
+					[DataType(DataType.Date)]
+					public DateTime ReleaseDate {get;set;}
+					...
+				}
+			}
+	
+	(Add NuGet packages) <==Download EntityFrameworkCore==>
+		執行下列指令，安裝 "EntityFrameworkCore" 套件
+		

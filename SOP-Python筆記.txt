@@ -1,0 +1,77 @@
+SOP-Python學習筆記.txt
+
+================================
+CH5-保存使用者資料
+	py manage.py makemigrations
+
+	py manage.py migrate --no-input
+
+	使用Python內建的unittest , 有時候怪怪的 , Firefox會開不起來
+	而且還要另外執行 "py manage.py runserver" 把網站開起來
+	
+	如果改用 Django LiveServerTestCase , 
+	from django.test import LiveServerTestCase
+	> 指令:"py manage.py test" , 執行網站所有APP內的"test.py" (FT or UT都有可能)
+	> 指令:"py manage.py test lists" , lists是個真APP , 所以裡面的 "test.py" 放的都是 UnitTest
+	> 指令:"py manage.py test function_tests" , function_tests是個假APP 
+		, 故意新增 __init__.py & test.py , 假裝是APP , 但test.py裡面裝的是 FunctionTest(並利用Selenium模擬User操作)
+
+================================
+CH4-我們用這些測試作什麼
+	# 回顧 : TDD流程，在實務上
+		> 功能測試(FT) => 確認程式行為是正確的 ==> 判斷程式能否正常運作的工具
+		> 單元測試(UT) => 作為實際程式修改 ==> 視為協助Programmer寫好程式的工具
+		> 單元測試(UT)/Coding(單元測試循環)
+		> 重構,修改程式碼,但不變更程式功能
+	# 這種 FT + UT 作法 , 又稱為 "雙迴圈TDD"
+	
+	# Django內的APP , 新增後 , 必須還要到setting.py , 加入 "INSTALLED_APPS"
+	
+	# 單元測試
+		> 規則1:不要測試常數
+			ex. 
+				wibble = 3
+				assert wibble == 3
+		> 規則2:UnitTest通常在測試邏輯、控制流程和設定
+			ex.
+				self.assertTrue(response.content.startswith(b'<html>'))
+				像是這種字元測試的意義不大
+		> 規則3:利用現有框架進行測試 , 是個不錯的方法
+
+	# 重構
+		> 所謂的重構(refactor) : 改善程式碼 , 但不變更程式功能
+		> 規則1:不可以在沒有測試的情況下 , 進行重構
+
+================================
+CH3-使用單元測試(UnitTest)，來測試簡單的首頁
+
+	> 啟動 Django Web Server
+		py manage.py runserver
+
+	> 執行單元測試(UT)
+		py manage.py test 
+			# Django會執行test.py內的TestCase
+			# 單元測試(UT),以 [程式員角度] 開發程式,以最少且正確指令完成功能
+	
+	> 執行功能測試(FT)
+		py function_tests.py
+			# 這裡用的是selenium套件 => from selenium import webdriver
+			# 功能測試(FT),以 [使用者角度] 驗證功能,確保使用程序及邏輯是正確的
+
+	> UnitTest/Coding Cycle
+		1.run UnitTest at Terminal (在終端機執行單元測試)
+		2.use Editor to modify the least code(使用編輯器修改最少量的程式碼)
+		3.repeat step 1 & 2(不斷地重複上述步驟)
+
+================================
+基本語法
+	print(format(<variable>,'format style'))
+	format style
+		'5d'    length = 5 , type is digit , default 靠右
+		'10.2f' length = 10 including 2 小數點 , type is float
+		'10s'   length = 10 , type is character
+		'>5d'   靠右
+		'^10.2f'置中
+		'<10s'  靠左
+	ex.
+			print(format(10,'>10s'))
