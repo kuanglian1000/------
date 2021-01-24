@@ -11,10 +11,9 @@ CH5-保存使用者資料
 	
 	如果改用 Django LiveServerTestCase , 
 	from django.test import LiveServerTestCase
-	> 指令:"py manage.py test" , 執行網站所有APP內的"test.py" (FT or UT都有可能)
-	> 指令:"py manage.py test lists" , lists是個真APP , 所以裡面的 "test.py" 放的都是 UnitTest
-	> 指令:"py manage.py test function_tests" , function_tests是個假APP 
-		, 故意新增 __init__.py & test.py , 假裝是APP , 但test.py裡面裝的是 FunctionTest(並利用Selenium模擬User操作)
+	> 指令:"py manage.py test" => 執行網站所有APP內的"test.py" (FT or UT都有可能)
+	> 指令:"py manage.py test lists" => lists是個真APP , 所以裡面的 "test.py" 放的都是 UnitTest
+	> 指令:"py manage.py test function_tests" => function_tests是個假APP , 故意新增 __init__.py & test.py , 假裝是APP , 但test.py裡面裝的是 FunctionTest(並利用Selenium模擬User操作)
 
 ================================
 CH4-我們用這些測試作什麼
