@@ -35,15 +35,22 @@ W4:2021/01/24-2021/01/30
   
   01/27(三)
     1.Mozilla > Django教學
+      1.1.
   
   01/26(二)
     1.Mozilla > Django教學
+      1.1.Django Tutorial Part 3: Using models(OK)
+      1.2.Django Tutorial Part 4: Django admin site(95%)
 
   01/25(一)
     0.上午繼續看<測試驅動開發,使用PYTHON>這本書，
       發現對Django有更深了解後，再來讀的速度比較快，也吸收的比較好 => 決定先作Mozilla上面的Django教學(OK)
     1.Mozilla > Django教學
-      1.1.
+      1.1.Django Introduction(OK)
+      1.2.Django 開發環境設定(OK)
+      1.3.Django 範例簡介(OK)
+      1.4.Django Tutorial Part 2: Creating a skeleton website(OK)
+
     2.準備兆豐金面試資料(OK)
       2.1. 9.6.A.公教人員保險被保險人年資紀錄表(OK)
       2.2. 列印出來(OK)

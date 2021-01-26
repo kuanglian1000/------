@@ -1,6 +1,251 @@
 SOP-Python學習筆記.txt
 
 ================================
+Django Tutorial Part 4: Django admin site
+	1.Registering models
+		#open admin.py in your app folder ex./locallibrary/catalog/admin.py
+		from django.contrib import admin
+		from .models import Author, Genre, Book, BookInstance, Language
+
+		admin.site.register(Book)
+		admin.site.register(Author)
+		admin.site.register(Genre)
+		admin.site.register(BookInstance)
+		admin.site.register(Language)
+	
+	2.Creating a superuser
+		#create a superuser by manage.py
+		py manage.py createsuperuser
+
+		#superuser id:kl.cheng
+		#superuser mail:kuanglian1000@gmail.com
+		#superuser pws:0809蘋果
+	
+	3.Logging in and using the admin site
+		py manage.py runserver #啟動WEBSITE
+		http://localhost:8000/admin
+
+	4.Advanced configuration
+		> List views 畫面調整
+		> Detail views 畫面調整
+		> Register a <ModelAdmin> class
+			1.(admin.py) ## 共 Author, Book, BookInstance 3個Models
+				# admin.site.register(Author)
+				# Define the admin class
+				class AuthorAdmin(admin.ModelAdmin):
+					pass
+				# register the admin class with the associated model
+				admin.site.register(Author,AuthorAdmin)
+
+				# Register the Admin classes for Book using the decorator
+				@admin.register(Book)
+				class BookAdmin(admin.ModelAdmin):
+					pass
+
+				# Register the Admin classes for BookInstance using the decorator
+				@admin.register(BookInstance)
+				class BookInstanceAdmin(admin.ModelAdmin)
+					pass
+		> Configure list views(自訂顯示) => list_display
+			1.(admin.py) 自訂顯示欄位
+				## => (同資料表 or ForeignKey)
+					class AuthorAdmin(admin.ModelAdmin):
+						list_display = ('last_name','first_name','date_of_birth','date_of_death')
+			2.(admin.py) 自訂顯示欄位 
+				## => ManyToManyField
+					class BookAdmin(admin.ModelAdmin):
+						list_display = ('title','author','display_genre') #關鍵在這#
+				(models.py) Model內新增 function 給 list_display 使用
+					class Book(models.Model):
+						...
+						def display_genre(self):
+							return ', '.join(genre.name for genre in self.genre.all()[:3]) #關鍵在這#
+						display_genre.short_description = 'Genre'
+		> Add list filters(自訂篩選) => list_filter
+			1.(admin.py) 自訂篩選
+				list_display = ('status' , 'due_back')
+
+	5.Organise detail view layout(自訂畫面組合)
+		> Controlling which fields are displayed and laid out => fields & exclude
+				class AuthorAdmin(admin.ModelAdmin):
+					list_display = ('last_name','first_name','date_of_birth','date_of_death')
+					fields = ['first_name','last_name',('date_of_birth','date_of_death')]
+					exclude = ['first_name']
+					# fields 設定顯示欄位 及 配置
+					# exclude 設定不顯示欄位 , Model其餘欄位都會SHOW
+					# 但 fields & exclude 發生衝突時會報錯 (例:排除 exclude 'first_name' , 卻要求顯示 'first_name' )
+
+		> Sectioning the detail view(劃分區塊) => fieldsets
+				
+
+================================
+Django Tutorial Part 3: Using models
+	1.Designing the LocalLibrary models
+	2.Model primer
+		> Model definition
+			1.Fields(Common field arguments, Common field types, )
+			2.Metadata
+				class Meta:
+					ordering = ['-my_field_name' , 'second_field']
+			3.Method
+				# 至少,每個Model class內要有這個方法,它會回傳人類看的懂字串for每個物件
+				def __str__(self):
+					return self.field_name
+		> Model management
+			1.Creating and modifying records
+				# Create a new record using the model's constructor
+				record = MyModelName(my_field_name='Instance #1')
+
+				# Save the object into the database
+				record.save()
+
+				# Access model field values using Python attribute
+				print(record.id)
+				print(record.my_field_name) #print 'Instance #1'
+
+				# Change record by modifying the fields, then calling save()
+				record.my_field_name = 'New name'
+				record.save()
+			2.Searching for records
+				## 利用 model's <objects> attribute
+				# 存取所有資料
+				all_books = Book.objects.all()
+
+				## 利用 <filter()> 方法作查詢
+				# 查詢標題欄位(title)包含'wild'的書籍
+				wild_books = Book.objects.filter(title__contains='wild')
+				num_wild_books = wild_books.count()
+
+				# 查詢參考欄位值(genre表name欄位)包含'fiction'的書籍(不區大小寫 ex. Fiction, Science fiction, non-fiction etc.)
+				books_containing_genre = Book.objects.filter(genre__name__icontains='fiction')
+	3.Defining the LocalLibrary models
+		> Genre model
+		> Book model
+		> BookInstance model
+		> Author model
+		> Language model
+	4.Re-run the database migrations
+		py manage.py makemigrations
+		py manage.py migrate
+
+================================
+Django Tutorial Part 2: Creating a skeleton website
+	1.註冊APP @setting.py INSTALLED_APPS
+	2.Testing the website framework
+		> Running database migrations
+
+				Django會追蹤model定義,並新增db migration scripts in (/<project>/<app>/migrations/)
+				==<scripts>===============
+					# 當MODEL變更時,每次記得執行下列指令
+					py manage.py makemigrations #記錄
+					py manage.py migrate #執行到DB
+				==========================
+
+		> Running the website
+				==<scripts>===============
+					# 啟動開發用Web Server
+					py manage.py runserver 
+				==========================
+
+================================
+Django開發環境設定
+	1.安裝Python
+		py --verison #檢查python版本
+		pip list #檢查已安裝的python套件
+	2.安裝Python虛擬環境
+		pip install virtualenvwrapper-win #安裝Python虛擬環境套件(virtualenvwrapper)
+
+		mkvirtualenv <env_name> ex. mkvirtualenv my_django_env #新增虛擬環境
+		deactivate # 關閉虛擬環境
+		workon # 列出可用虛擬環境
+		workon <env_name> # 啟動指定的虛擬環境
+		rmvirtualenv <env_name> # 移除指定的虛擬環境
+	3.新增django專案
+		mkdir <project folder> ex. mkdir django_test
+		cd <project folder> ex. cd django_test
+		django-admin startproject <project name> ex. django-admin startproject mytestsite
+		cd <project name folder> ex. cd mytestsite
+	4.啟動django web site
+		#切換到專案路徑內
+		py manage.py runserver
+		
+================================
+Django基本概念
+	1.(url.py)將要求<requests>送到正確的view <同controllr功能>
+		urlpatterns = [
+			path('admin/', admin.site.urls),
+			path('book/<int:id>/' , views.book_detail , name = 'book_detail'),
+			path('catalog/' , include('catalog.urls')),
+			re_path(r'^([0-9]+)/$' , views.best),
+		]
+	
+	2.(views.py)負責 recevie HTTPRequest , 並return HTTPResponse , 是 WEBAPP的核心
+		example:
+			## filename : views.py
+
+			from django.http import HttpResponse
+
+			def index(request):
+				return HttpResponse('Hello from Django!')
+		
+	3.(models.py)定義資料模式 , 不限定特定資料來源 , 須另外設定資料庫連接資訊
+		example:
+			## filename : models.py
+			
+			from django.db import models
+
+			class Team(models.Model): #繼承自 models.Model
+				team_name = models.CharField(max_length=40)
+
+				TEAM_LEVEL = (
+					('U09','Under 09s'),
+					('U10','Under 10s'),
+					('U11','Under 11s'),
+					...
+				)
+
+				team_level = models.CharField(max_length=3,choices = TEAM_LEVEL , default = 'U11')
+	
+	4.(views.py)示範如何查詢資料 , 使用Django內的QueryAPI => filter
+		example:
+			## filename : views.py
+
+			from django.shortcuts import render
+			from .models import Team
+
+			def index(request):
+				# filter語法:<columnName>__<matchType> , 
+				# ex.team_level__exact='U09' 等於 where team_level == 'U09'
+				
+				list_items = Team.objects.filter(team_level__exact='U09') 
+				context = {'yougest_teams' , list_items}
+				return render(request , '/best/index.html' , context) #回傳HttpResponse , 結合 '/best/index.html' & context資料
+
+	5.(HTML templates)Rendering data , templates 常用來產生HTML or 其他類別檔案. 
+		## Django支援原生 templating & Jinja2
+		example :
+			## filename : best/templates/best/index.html
+
+			<!DOCTYPE html>
+			<html lang="en">
+			<head>
+				<meta charset = "utf-8">
+				<title>Home Page</title>
+			</head>
+			<body>
+				{% if yougest_teams %}
+					<ul>
+						{% for team in yougest_teams %}
+							<li>{{ team.team_name }}</li>
+						{% endfor %}
+					</ul>
+				{% else %}
+					<p>No teams are available.</p>
+				{% endif %}
+			</body>
+			</html>
+
+================================
 CH5-保存使用者資料
 	py manage.py makemigrations
 
