@@ -1,6 +1,70 @@
 SOP-Python學習筆記.txt
 
 ================================
+Django Tutorial Part 6: Generic list and detail views
+	1.Overview(總覽)
+		* <generic class-based list and detail views>. => 和之前 totally different View
+			These can significantly reduce the amount of view code needed, 
+			making them easier to write and maintain.
+		* 加上自動換頁功能
+	2.Book list page : catalog/books/
+		> URL mapping
+		> View(class-based) => ListView (asp.net也有這種東西)
+		
+
+
+		
+================================
+Django Tutorial Part 5: Creating our home page
+	1.Overview(總覽)
+		* (urls.py) URL mappers to 指定對應的 views == controllers
+		* (views.py) View 負責從 models抓出資料 , 新增 HTML Page with data , 然後回傳給 User
+		* (templates/home_page.html) Templates to use when rendering data in the views.
+	2.Defining the resource URLs
+		首先定義有哪些URL pattern == 提供哪些功能給使用者
+		* catalog/ => 首頁
+		* catalog/books/ => 列出所有書籍
+		* catalog/authors/ => 列出所有作者
+		* catalog/book/<id> => 列出書本明細資訊
+		* catalog/author/<id> => 列出作者明細
+	3.Creating the index page (catalog/ => 首頁) <= 多看幾次
+		> URL mapping
+			## 這裡指定的name參數,是針對這個URL mapping的唯一識別子. 可以利用this name to "reverse" the mapper ##
+			urlpatterns = [
+					path('',views.index , name='index'),
+				]
+
+			<a href='{% url 'index' %}'>Home</a> <!--(較佳作法)加上左側語法,可以直接連結至 views.index -->
+			<a href='/catalog/'>Home</a> <!--同樣可以達到目的,但是path pattern改為 /catalog/index , 就掛了-->
+
+		> View
+			## 
+		> Template
+			## Notice:如果找不到指定的 Template , 檢查 setting.py 內 <INSTALLED_APPS> 有沒有你的 APP名稱
+			## 如果已加入<INSTALLED_APPS>，還是出現找不到的ERROR
+				## 解法1：試著先註解起來，再打開1次 <==氣死我了，突然又好了...
+				## 解法2：py manage.py runserver , 重啟SERVER
+			
+			{% template tags %}
+				ex. {% extends "base_generic.html" %}
+				ex. {% block <block_name> %} {% endblock %}
+
+			{{ template variable }} # receive from View.py
+		
+		> Referencing static files in templates
+			## 預設的 STATIC_URL => '/static/'
+
+				<!-- Add additional CSS in static file /catalog/static/css/styles.css -->
+				{% load static %}
+				<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+				{% load static %}
+  			<img src="{% static 'images/basic-django.png' %}" alt="Django Core Structure">
+
+
+
+
+================================
 Django Tutorial Part 4: Django admin site
 	1.Registering models
 		#open admin.py in your app folder ex./locallibrary/catalog/admin.py
@@ -76,7 +140,27 @@ Django Tutorial Part 4: Django admin site
 					# 但 fields & exclude 發生衝突時會報錯 (例:排除 exclude 'first_name' , 卻要求顯示 'first_name' )
 
 		> Sectioning the detail view(劃分區塊) => fieldsets
+				class BookInstanceAdmin(admin.ModelAdmin):
+					list_display = ('id','book','due_back','status','display_status')
+					list_filter = ('status','due_back')
+					fieldsets = (
+						(None , {
+							'fields':('book','imprint','id')
+						}),
+						('Availability',{
+							'fields':('status','due_back')
+						}),
+					)
+	
+	6.Inline editing of associated records(直接在資料欄上面編輯後,存檔)
+		> 再宣告一個類別繼承 (admin.TabularInline) , 這裡舉的例子是 Book & BookInstance
+				class BooksInstanceInline(admin.TabularInline):
+					model = BookInstance
 				
+				@admin.register(Book)
+				class BookAdmin(models.ModelAdmin):
+					list_display = ('title','author','display_genre')
+					inlines = [BooksInstanceInline] # KeyPoint is here
 
 ================================
 Django Tutorial Part 3: Using models
