@@ -161,3 +161,6 @@ ORDER BY name;
   1.6 Working with DMVs
     
 */
+
+備份：完整、差異、大量紀錄
+差異備份的前提是，必須要有完整備份。
