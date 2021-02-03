@@ -1,123 +1,218 @@
-2. COBOL Fundamentals
-This chapter describes the syntax, semantics and usage of the COBOL programming language as implemented by the current version of GnuCOBOL. For the rest of this document the Language is spelt as COBOL to ease reading however the compiler name retains the mixed case of GnuCOBOL.
+2. COBOL Fundamentals(OK)
+  This chapter describes the syntax, semantics and usage of the COBOL programming language as implemented by the current version of GnuCOBOL. 
+  For the rest of this document the Language is spelt as COBOL to ease reading however the compiler name retains the mixed case of GnuCOBOL.
 
-This document is intended to serve as a full-function reference and user’s guide suitable for both those readers learning COBOL for the first time as usage as a training tool, as well as those already familiar with some dialects of the COBOL language.
+  This document is intended to serve as a full-function reference and user’s guide suitable for both 
+  those readers learning COBOL for the first time as usage as a training tool, 
+  as well as those already familiar with some dialects of the COBOL language.
+  //本指南讀者為初次學習COBOL人員
 
-A separate manual exists that just contains the details of the Cobol grammar as implemented in GnuCOBOL, which is designed strictly for experienced COBOL programmers and this is taken from this guide. This does NOT contain any training subject matter.
+  A separate manual exists that just contains the details of the Cobol grammar as implemented in GnuCOBOL
+  , which is designed strictly for experienced COBOL programmers and this is taken from this guide. 
+  This does NOT contain any training subject matter.
+  //還有一份指南是給有經驗的COBOL程式員
 
-These extra manuals are: GnuCOBOL Quick Reference containing just the COBOL semantics / grammar in a short document while the other, GnuCOBOL Sample Programs, shows detailed example Cobol programs with indication of syntax used in each program.
+  These extra manuals are: GnuCOBOL Quick Reference containing just the COBOL semantics / grammar in a short document while the other
+  , GnuCOBOL Sample Programs, shows detailed example Cobol programs with indication of syntax used in each program.
+  //另外,還有GnuCOBOL快速指引,說明了COBOL語法及SAMPLE CODE
 
-For each implementation of the GnuCOBOL compiler the supplied files NEWS should also be read for any last minute updates along with files README and INSTALL for building the compiler.
+  For each implementation of the GnuCOBOL compiler the supplied files NEWS should also be read for any last minute updates along with files README and INSTALL for building the compiler.
 
 2.1. The COBOL Language - The Basics
-2.1.1. Language Reserved Words
-Cobol programs consist of a sequence of words and symbols. Words, which consist of sequences of letters (upper- and/or lower-case), digits, dashes (‘-’) and/or underscores (‘_’) may have a pre-defined, specific, meaning to the compiler or may be invented by the programmer for his/her purposes.
+2.1.1. Language Reserved Words(OK)
+  Cobol programs consist of a sequence of words and symbols. 
+  Words, which consist of sequences of letters (upper- and/or lower-case), digits, dashes (‘-’) and/or underscores (‘_’) may have a pre-defined
+  , specific, meaning to the compiler or may be invented by the programmer for his/her purposes.
 
-The GnuCOBOL language specification defines over 1130 Reserved Words — words to which the compiler assigns a special meaning. This list and number applies to the default list which covers many implementations and that it is possible to limit the list to either a specific implementation via -std=xyz[-strict] or to manually unreserve words if they are used in existing sources as user-defined words.
+  The GnuCOBOL language specification defines over 1130 Reserved Words — words to which the compiler assigns a special meaning. 
+  This list and number applies to the default list which covers many implementations 
+  and that it is possible to limit the list to either a specific implementation via -std=xyz[-strict] or to manually unreserve words 
+  if they are used in existing sources as user-defined words.
 
-Programmers may use a reserved word as part of a word they are creating themselves, but may not create their own word as an exact duplicate (without regard to case) of a COBOL reserved word. Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines and reserved words. The list of reserved words can be changed by adding or removing specific words for a given compile or as a default by use of the steering command -std and -conf. See the specific config files that are by default, held in /usr/local/share/gnucobol/config. Also using the option ‘FUNCTION ALL INTRINSIC’, will add another 100+ reserved words. These can be modified to match the requirements of a business or project team but be warned that these are updated when a new version of the compiler is built so might be more prudent to create your own configuation based on an existing one but with a different name.
+  Programmers may use a reserved word as part of a word they are creating themselves, 
+  but may not create their own word as an exact duplicate (without regard to case) of a COBOL reserved word. 
+  Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines and reserved words. 
+  The list of reserved words can be changed 
+    by adding or removing specific words for a given compile or as a default by use of the steering command -std and -conf. 
+  See the specific config files that are by default, held in /usr/local/share/gnucobol/config. 
 
-In addition, you can add and/or remove reserved words by adding one of these options to cobc to add -freserved-words=value or -freserved=word or, to remove, -fnot-reserved=word. As well as -freserved=word:alias to create an alias for a word as well as -fnot-register=word or -fregister=word to remove or add, a special register word.
+  Also using the option ‘FUNCTION ALL INTRINSIC’, will add another 100+ reserved words. 
+  These can be modified to match the requirements of a business or project team but be warned 
+  that these are updated when a new version of the compiler is built so might be more prudent to create your own configuation 
+    based on an existing one but with a different name.
 
-See Appendix B - Reserved Word List, for a complete list of GnuCOBOL reserved words .
+  In addition, you can add and/or remove reserved words by adding one of these options 
+    to cobc to add -freserved-words=value or -freserved=word or, 
+    to remove, -fnot-reserved=word. 
+    As well as -freserved=word:alias to create an alias for a word 
+    as well as -fnot-register=word or -fregister=word to remove or add, a special register word.
+  //異動GnuCOBOL保留字指令
 
-For any given version of GnuCOBOL you can also list the full current set of reserved words by running cobc with --list-reserved, --list-intrinsic, --list-system as well as --list-mnemonics. Again subject to variation depending on usage of the --std line command.
+  See Appendix B - Reserved Word List, for a complete list of GnuCOBOL reserved words .
+  //GnuCOBOL的保留字清單,請參閱 Appendix B
 
-2.1.2. User-Defined Words
-When you write GnuCOBOL programs, you’ll need to create a variety of words to represent various aspects of the program, the program’s data and the external environment in which the program will run. This will include internal names by which data files will be referenced, data item names and names of executable logic procedures.
+  For any given version of GnuCOBOL you can also list the full current set of reserved words 
+  by running cobc with --list-reserved, 
+    --list-intrinsic, 
+    --list-system as well as 
+    --list-mnemonics. 
+  Again subject to variation depending on usage of the --std line command.
+  //列出GnuCOBOL保留字
 
-User-defined words may be composed from the characters ‘A’ through ‘Z’ (upper- and/or lower-case), ‘0’ through ‘9’, dash (‘-’) and underscore (‘_’). User-defined words may neither start nor end with hyphen or underscore characters.
+2.1.2. User-Defined Words(自訂變數)(OK)
+  When you write GnuCOBOL programs, you’ll need to create a variety of words to represent various aspects of the program, the program’s data and the external environment in which the program will run. 
+  This will include internal names by which data files will be referenced, data item names and names of executable logic procedures.
 
-Other programming languages provide the programmer with a similar capability of creating their own words (names) for parts of a program; COBOL is somewhat unusual when compared to other languages in that user-defined words may start with a digit.
+  User-defined words may be composed from the characters ‘A’ through ‘Z’ (upper- and/or lower-case), ‘0’ through ‘9’, dash (‘-’) and underscore (‘_’). 
+  User-defined words may neither start nor end with hyphen or underscore characters.
+  //自訂變數可由(A-Z a-z 0-9 - _)所組成 , 但是不能以 - or _ 作為首字元
 
-With the exception of logic procedure names, which may consist entirely of nothing but digits, user-defined words must contain at least one letter.
+  Other programming languages provide the programmer with a similar capability of creating their own words (names) for parts of a program; 
+  COBOL is somewhat unusual when compared to other languages in that user-defined words may start with a digit.
+  //自訂變數不允許以 . 開頭
 
-2.1.3. Case Insensitivity
-All COBOL implementations allow the use of both upper and lower case letters in program coding. GnuCOBOL is completely insensitive to the case used when writing reserved words or user-defined names. Thus, AAAAA, aaaaa, Aaaaa and AaAaA are all the same word as far as GnuCOBOL is concerned.
+  With the exception of logic procedure names, which may consist entirely of nothing but digits, user-defined words must contain at least one letter.
+  //至少要有 1個字母(A-Z a-z)
 
-The only time the case used does matter is within quoted character strings, where character values will be exactly as coded.
+2.1.3. Case Insensitivity(COBOL 不分大小寫)(OK)
+  All COBOL implementations allow the use of both upper and lower case letters in program coding. 
+  GnuCOBOL is completely insensitive to the case used when writing reserved words or user-defined names. 
+  Thus, AAAAA, aaaaa, Aaaaa and AaAaA are all the same word as far as GnuCOBOL is concerned.
+  //AAAAA, aaaaa, Aaaaa and AaAaA 對COBOL來說 , 是相同的
 
-By convention throughout this document, COBOL reserved words will be shown entirely in UPPER-CASE while those words that were created by a programmer will be represented by tokens in mixed or lower case.
+  The only time the case used does matter is within quoted character strings, where character values will be exactly as coded.
+  //區分大小寫的唯一例外 , 在 " 這裡面區有分大小寫 " , ex. "abc" != "ABc"
 
-This isn’t a bad practice to use in actual programs, as it leads to programs where it is much easier to distinguish reserved words from user-defined ones!
+  By convention throughout this document, 
+  COBOL reserved words will be shown entirely in UPPER-CASE while those words 
+  that were created by a programmer will be represented by tokens in mixed or lower case.
 
-2.1.4. Readability of Programs
-Critics of COBOL frequently focus on the wordiness of the language, often citing the case of a so-called “Hello World” program as the “proof” that COBOL is so much more tedious to program in than more “modern” languages. This tedium is cited as such a significant impact to programmer productivity that, in their opinions, COBOL can’t go away quickly enough.
+  This isn’t a bad practice to use in actual programs, 
+  as it leads to programs where it is much easier to distinguish reserved words from user-defined ones!
+  //原則上 , 雖然COBOL不區分大小寫 , 但建議以 UPPER-CASE 字母表示保留字
 
-Here are two different “Hello World” applications, one written in Java and the second in GnuCOBOL. First, the Java version:
+2.1.4. Readability of Programs(說明了COBOL程式語言的簡潔)(OK)
+  Critics of COBOL frequently focus on the wordiness of the language, 
+  often citing the case of a so-called “Hello World” program as the “proof” 
+  that COBOL is so much more tedious to program in than more “modern” languages. 
+  This tedium is cited as such a significant impact to programmer productivity that, in their opinions, COBOL can’t go away quickly enough.
 
-    Class HelloWorld {
-        public static void main(String[] args) {
-            System.out.println("Hello World!");
-        }
-    }
-And here is the same program, written in GnuCOBOL:
+  Here are two different “Hello World” applications, one written in Java and the second in GnuCOBOL. 
+  First, the Java version:
 
-    IDENTIFICATION DIVISION.
-    PROGRAM-ID. HelloWorld.
-    PROCEDURE DIVISION.
-        DISPLAY "Hello World!".
-Both of the above programs could have been written on a single line, if desired, and both languages allow a programmer to use (or not use) indentation as they see fit to improve program readability. Sounds like a tie so far.
+      Class HelloWorld {
+          public static void main(String[] args) {
+              System.out.println("Hello World!");
+          }
+      }
 
-Let’s look at how much more “wordy” COBOL is than Java. Count the characters in the two programs. The Java program has 95 (not counting carriage returns and any indentation). The COBOL program has 89 (again, not counting carriage returns and indentation)! Technically, it could have been only 65 because the IDENTIFICATION DIVISION. header is actually optional. Clearly, “Hello World” doesn’t look any more concise in Java than it does in COBOL.
+  And here is the same program, written in GnuCOBOL:
 
-Let’s look at a different problem. Surely a program that asks a user to input a positive integer, generates the sum of all positive integers from 1 to that number and then prints the result will be MUCH shorter and MUCH easier to understand when coded in Java than in COBOL, right?
+      IDENTIFICATION DIVISION.
+      PROGRAM-ID. HelloWorld.
+      PROCEDURE DIVISION.
+          DISPLAY "Hello World!".
 
-You can be the judge. First, the Java version:
+  Both of the above programs could have been written on a single line, if desired, 
+  and both languages allow a programmer to use (or not use) indentation as they see fit to improve program readability. 
+  Sounds like a tie so far.
 
-    import java.util.Scanner;
-    public class sumofintegers {
-        public static void main(String[] arg) {
-            System.out.println("Enter a positive integer");
-            Scanner scan=new Scanner(System.in);
-            int n=scan.nextInt();
-            int sum=0;
-            for (int i=1;i<=n;i++) {
-                sum+=i;
-            }
-            System.out.println("The sum is "+sum);
-        }
-    }
-And now for the COBOL version:
+  Let’s look at how much more “wordy” COBOL is than Java. 
+  Count the characters in the two programs. 
+  The Java program has 95 (not counting carriage returns and any indentation). 
+  The COBOL program has 89 (again, not counting carriage returns and indentation)! 
+  Technically, it could have been only 65 because the IDENTIFICATION DIVISION. header is actually optional. Clearly, “Hello World” doesn’t look any more concise in Java than it does in COBOL.
 
-    IDENTIFICATION DIVISION.
-    PROGRAM-ID. SumOfIntegers.
-    DATA DIVISION.
-    WORKING-STORAGE SECTION.
-    01 n   BINARY-LONG.
-    01 i   BINARY-LONG.
-    01 sum BINARY-LONG VALUE 0.
-    PROCEDURE DIVISION.
-    DISPLAY "Enter a positive integer"
-    ACCEPT n
-    PERFORM VARYING i FROM 1 BY 1 UNTIL i > n
-        ADD i TO sum
-    END-PERFORM
-    DISPLAY "The sum is " sum.
-My familiarity with COBOL may be prejudicing my opinion, but it doesn’t appear to me that the Java code is any simpler than the COBOL code. In case you’re interested in character counts, the Java code comes in at 278 (not counting indentation characters). The COBOL code is 298 (274 without the IDENTIFICATION DIVISION. header).
+  Let’s look at a different problem. 
+  Surely a program that asks a user to input a positive integer, 
+  generates the sum of all positive integers from 1 to that number 
+  and then prints the result will be MUCH shorter and MUCH easier to understand when coded in Java than in COBOL, right?
 
-Despite what you’ve seen here, the more complex the programming logic being implemented, the more concise the Java code will appear to be, even compared to 2002-standard COBOL. That conciseness comes with a price though — program code readability. Java (or C or C++ or C#) programs are generally intelligible only to trained programmers. COBOL programs can, however, be quite understandable by non-programmers. This is actually a side-effect of the “wordiness” of the language, where COBOL statements use natural English words to describe their actions. This inherent readability has come in handy many times throughout my career when I’ve had to learn obscure business (or legal) processes by reading the COBOL program code that supports them.
+  You can be the judge. First, the Java version:
 
-The “modern” languages, like Java, also have their own “boilerplate” infrastructure overhead that must be coded in order to write the logic that is necessary in the program. Take for example the public static void main(String[] arg) and import java.util.Scanner; statements. The critics tend to forget about this when they criticize COBOL for its structural “overhead”.
+      import java.util.Scanner;
+      public class sumofintegers {
+          public static void main(String[] arg) {
+              System.out.println("Enter a positive integer");
+              Scanner scan=new Scanner(System.in);
+              int n=scan.nextInt();
+              int sum=0;
+              for (int i=1;i<=n;i++) {
+                  sum+=i;
+              }
+              System.out.println("The sum is "+sum);
+          }
+      }
+  And now for the COBOL version:
 
-When it first was developed, COBOL’s easily-readable syntax made it profoundly different from anything that had been seen before. For the first time, it was possible to specify logic in a manner that was — at least to some extent — comprehensible even to non-programmers. Take for example, the following code written in FORTRAN — a language developed only a year before COBOL:
+      IDENTIFICATION DIVISION.
+      PROGRAM-ID. SumOfIntegers.
+      DATA DIVISION.
+      WORKING-STORAGE SECTION.
+      01 n   BINARY-LONG.
+      01 i   BINARY-LONG.
+      01 sum BINARY-LONG VALUE 0.
+      PROCEDURE DIVISION.
+      DISPLAY "Enter a positive integer"
+      ACCEPT n
+      PERFORM VARYING i FROM 1 BY 1 UNTIL i > n
+          ADD i TO sum
+      END-PERFORM
+      DISPLAY "The sum is " sum.
 
-    EXT = PRICE * IQTY
-    INVTOT = INVTOT + EXT
-With its original limitation on the length of variable names (one- to six-character names comprised of a letter followed by up to five letters and/or digits), its implicit rule that variables were automatically created as real (floating-point) unless their name started with a letter in the range I-N, and its use of algebraic notation to express actions being taken, FORTRAN wasn’t a particularly readable language, even for programmers. Compare this with the equivalent COBOL code:
+  My familiarity with COBOL may be prejudicing my opinion, but it doesn’t appear to me that the Java code is any simpler than the COBOL code. 
+  In case you’re interested in character counts, the Java code comes in at 278 (not counting indentation characters). 
+  The COBOL code is 298 (274 without the IDENTIFICATION DIVISION. header).
 
-    MULTIPLY price BY quantity GIVING extended-amount
-    ADD extended-amount TO invoice-total
-Clearly, even a non-programmer could at least conceptually understand what was going on! Over time, languages like FORTRAN evolved more robust variable names, and COBOL introduced a more formula-based syntactical capability for arithmetic operations, but FORTRAN was never as readable as COBOL.
+  Despite what you’ve seen here, the more complex the programming logic being implemented, 
+  the more concise the Java code will appear to be, even compared to 2002-standard COBOL. 
+  That conciseness comes with a price though — program code readability. 
+  Java (or C or C++ or C#) programs are generally intelligible only to trained programmers. 
+  COBOL programs can, however, be quite understandable by non-programmers. 
+  This is actually a side-effect of the “wordiness” of the language, 
+  where COBOL statements use natural English words to describe their actions. 
+  This inherent readability has come in handy many times throughout my career 
+  when I’ve had to learn obscure business (or legal) processes by reading the COBOL program code that supports them.
 
-Because of its inherent readability, I would MUCH rather be handed an assignment to make significant changes to a COBOL program about which I know nothing than to be asked to do the same with a C, C++, C# or Java program.
+  The “modern” languages, like Java, also have their own “boilerplate” infrastructure overhead 
+  that must be coded in order to write the logic that is necessary in the program. Take for example the public static void main(String[] arg) and import java.util.Scanner; statements. The critics tend to forget about this when they criticize COBOL for its structural “overhead”.
 
-Those that argue that it is too boring / wasteful / time-consuming / insulting (pick one) to have to code a COBOL program “from scratch” are clearly ignorant of the following facts:
+  When it first was developed, COBOL’s easily-readable syntax made it profoundly different from anything that had been seen before. For the first time, it was possible to specify logic in a manner that was — at least to some extent — comprehensible even to non-programmers. Take for example, the following code written in FORTRAN — a language developed only a year before COBOL:
 
-Many systems have program-development tools available to ease the task of coding programs; those tools that concentrate on COBOL are capable of providing templates for much of the “overhead” verbiage of any program…
-Good programmers have — for decades — maintained their own skeleton “template” programs for a variety of program types; simply load a template into a text editor and you’ve got a good start to the program…
-Legend has it that there’s actually only been ONE program ever written in COBOL, and all programs ever “written” thereafter were simply derivatives of that one. Although this is clearly intended as a (probably) bad joke, it is nevertheless close to the very simple truth that many programmers“reuse” existing COBOL programs when creating new ones. There’s certainly nothing preventing this from happening with programs written in other languages, but it does seem to happen more in COBOL shops. It’s ironic that “code re-usability” is one of the arguments used to justify the existence of the “modern” languages.
-2.1.5. Divisions Organize Programs
+      EXT = PRICE * IQTY
+      INVTOT = INVTOT + EXT
+
+  With its original limitation on the length of variable names (one- to six-character names comprised of a letter followed by up to five letters and/or digits), its implicit rule that variables were automatically created as real (floating-point) unless their name started with a letter in the range I-N, and its use of algebraic notation to express actions being taken, FORTRAN wasn’t a particularly readable language, even for programmers. Compare this with the equivalent COBOL code:
+
+      MULTIPLY price BY quantity GIVING extended-amount
+      ADD extended-amount TO invoice-total
+
+  Clearly, even a non-programmer could at least conceptually understand what was going on! 
+  Over time, languages like FORTRAN evolved more robust variable names, and COBOL introduced a more formula-based syntactical capability for arithmetic operations, 
+  but FORTRAN was never as readable as COBOL.
+
+  Because of its inherent readability, 
+  I would MUCH rather be handed an assignment to make significant changes to a COBOL program about 
+  which I know nothing than to be asked to do the same with a C, C++, C# or Java program.
+
+  Those that argue that it is too boring / wasteful / time-consuming / insulting (pick one) 
+  to have to code a COBOL program “from scratch” are clearly ignorant of the following facts:
+
+  Many systems have program-development tools available to ease the task of coding programs; 
+  those tools that concentrate on COBOL are capable of providing templates for much of the “overhead” verbiage of any program…
+  Good programmers have — for decades — maintained their own skeleton “template” programs for a variety of program types; 
+  simply load a template into a text editor and you’ve got a good start to the program…
+
+  Legend has it that there’s actually only been ONE program ever written in COBOL
+  , and all programs ever “written” thereafter were simply derivatives of that one. 
+  Although this is clearly intended as a (probably) bad joke, 
+  it is nevertheless close to the very simple truth that many programmers“reuse” existing COBOL programs when creating new ones. 
+  There’s certainly nothing preventing this from happening with programs written in other languages, 
+  but it does seem to happen more in COBOL shops. 
+
+  It’s ironic that “code re-usability” is one of the arguments used to justify the existence of the “modern” languages.
+
+2.1.5. Divisions Organize Programs(COBOL程式的組成 , 4個主要區塊 divisions)
 COBOL programs are structured into four major areas of coding, each with its own purpose. These four areas are known as divisions.
 
 Each division may consist of a variety of sections and each section consists of one or more paragraphs. A paragraph consists of sentences, each of which consists of one or more statements.

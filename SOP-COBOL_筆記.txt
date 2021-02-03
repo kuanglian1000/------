@@ -23,8 +23,8 @@
           > Rech COBOL Debugger => 偵錯用
           > Rech Batch => 開發BATCH(Shell Script)用
   0.5. 如何執行COBOL程式
-        > cobo -x -free hello.cob => 編譯COBOL程式
-        > ./hello => 執行編譯後的COBOL程式
+        > cobc -x -free hello.cob => 編譯COBOL程式(生出EXE檔)
+        > ./hello => 執行編譯後的COBOL程式(EXE)
 ===============================================================================
 資料來源：https://www.tutorialspoint.com/cobol
 1.Program Structure
