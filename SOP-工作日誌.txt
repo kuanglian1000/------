@@ -1,7 +1,5 @@
-W5:2021/01/31-2021/02/06
+W6:2021/02/07-2021/02/14
   [TODO]
-    1.新公司報到-(慈濟)(OK)
-    2.
     2.Read Book:完整學會Git,GitHub,Git Server的24堂課
     3.Read Book:Django Web Framework (Python) 
       https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django
@@ -9,24 +7,44 @@ W5:2021/01/31-2021/02/06
       1.1.Django Tutorial Part 7: Sessions framework
       1.2.Django Tutorial Part 8: User authentication and permissions
       1.3.Django Tutorial Part 9: Working with forms
-  
+
+W5:2021/01/31-2021/02/06
+  [TODO]
+    1.新公司報到-(慈濟)(OK)
+    2.Android APP開發
+    3.Java Spring Boot WebApi開發
+    
   02/06(六)
-  
+    1.回五結
+
   02/05(五)
-    1.Andy確認本週進度
-  
+    0.0830:雙週會-去副主任辦公室簡報
+    1.Andy確認本週進度 & 分配下週工作項目
+      1.1 回報進度
+
   02/04(四)
+    1.Android APP開發 - 擴展存取功能(infoService) => 
+      1.1 send request , 
+      1.2 receive response , 
+      1.3 show on info on APP
   
   02/03(三)
-    1.Android APP(查詢當季水果 + Retrieve WebApi Service)
+    1.Java Spring Boot WebApi開發(infoService) - 完成基本查詢並回傳結果功能
+      例1:[input]fruit=>[output]apple,banana,orange ; 
+      例2:[input]car=>[output]toyota,skoda,audi ; 
   
   02/02(二)
-    1.Android APP(查詢當季水果 + Retrieve WebApi Service)
+    1.Android APP開發 - 完成基本架構(OK)
+    2.Android APP開發 - 新增讀取WebApi功能-ConsumeAPI(OK)
 
   02/01(一)
     (OK)0.新公司報到-(慈濟)
       0.1 Notes 密碼:pass1234
       0.2 電腦密腦:hp
+      0.3 座位分機:13760(類別\空間碼(桌機); 類別\隨身碼(手機))
+          > 如何查詢：http://10.2.0.145/telqry/index.aspx
+          > [*4#] 代接他人分機
+          > 轉接 13763(漢) , 13761(蓁) , 13762(空) , 13760(光) + 13760(Andy)
       0.3 每兩個月要上兩次早會(0650要進隔壁3樓協力講堂)
       0.4 準備開發環境
         (OK)0.4.1 VSCode-開發WebApi使用環境
@@ -49,7 +67,7 @@ W5:2021/01/31-2021/02/06
         (OK)0.4.3 Spring Boot Framework 
         (OK)0.4.4 JDK 15.0.2
         (OK)0.4.5 Gradle 6.8.1
-    (OK)1.Java Spring Framework(WebApi + JSON)，完成一個簡單的測試RESTFUL Service
+    (OK)1.Java Spring Boot WebApi開發 - 完成基本WebApi
 
   01/31(日)
     1.(上午)回五結
