@@ -1,0 +1,27 @@
+Q1.CommonAttribute找不到textAlignment(文字定位按鈕)怎麼辦？
+  A1.調整 build.gradle(Module: XXX)內容 , 
+    defaultConfig {
+        applicationId "android.com.myfirstappadvanced"
+        minSdkVersion 17 //16->17,Open textAlignment in Common Attribute
+
+Q2.Layout
+  1.所有的VIEWS都必須有 layout_width & layout_height 兩個屬性
+  2.match_parent or match_constraint or wrap_content
+  ConstraintLayout 它是這個Fragment的 root View 
+    layout_width = match_parent 
+    layout_height = match_parent
+    =>  表示會依裝置自動調整大小
+
+  match_constraint => 塞滿 ConstraintLayout
+  wrap_content => 長的跟內容一樣大(+padding)
+
+Q3.Task:Add Views and constraints
+  Top == '上'
+  Bottom == '下'
+  Start == '左'
+  End == '右'
+  
+  app:layout_constraintBottom_toBottomOf="parent"
+  app:layout_constraintEnd_toEndOf="parent"
+  app:layout_constraintStart_toStartOf="parent"
+  app:layout_constraintTop_toTopOf="parent" />
