@@ -1,5 +1,32 @@
-資料學習來源：https://www.tutorialspoint.com/cobol
 
+0.Windows OS上執行COBOL的方法(gnu_cobol)
+  0.1. 學習資料來源
+    > GnuCOBOL Programmer’s Guide(開發人員手冊-PDF版) https://gnucobol.sourceforge.io/guides/GnuCOBOL%202.2%20NOV2017%20Programmers%20Guide%20(US%20Letter).pdf
+    > GnuCOBOL Programmer’s Guide(開發人員手冊-Web版) https://devdocs.io/gnu_cobol/
+    > GnuCOBOL FAQ(有參考價值) http://opencobol.add1tocobol.com/gnucobol/
+    > GnuCOBOL環境說明 https://gnucobol.sourceforge.io/doc/gnucobol.pdf
+    
+  0.2. 模擬環境下載 & 詳細文件 https://arnoldtrembley.com/GnuCOBOL.htm
+  0.3. 在Windows上安裝GNUCobol https://medium.com/@sousandrosilveira/installing-gnucobol-3-1-on-windows-1bf27c9b2280
+        解壓縮至COBOL資料夾(例:D:\GnuCOBOL)後，設定下列系統參數：
+          > COB_MAIN_DIR=<COBOL安裝資料夾> ex. D:\GnuCOBOL
+          > COB_CONFIG_DIR=%COB_MAIN_DIR%\config
+          > COB_COPY_DIR=%COB_MAIN_DIR%\copy
+          > COB_CFLAGS=-I”%COB_MAIN_DIR%\include”
+          > COB_LDFLAGS=-L”%COB_MAIN_DIR%\lib”
+          > COB_LIBRARY_PATH=%COB_MAIN_DIR%\extras
+          > PATH=;<COBOL安裝資料夾>\bin
+
+  0.4. 利用VSCode進行COBOL開發 https://medium.com/@sousandrosilveira/programando-em-cobol-no-visual-studio-code-55a3b50fdb3c
+        建議安裝VSCode的Rech相關套件
+          > Rech COBOL => 開發COBOL用
+          > Rech COBOL Debugger => 偵錯用
+          > Rech Batch => 開發BATCH(Shell Script)用
+  0.5. 如何執行COBOL程式
+        > cobo -x -free hello.cob => 編譯COBOL程式
+        > ./hello => 執行編譯後的COBOL程式
+===============================================================================
+資料來源：https://www.tutorialspoint.com/cobol
 1.Program Structure
   Program -> 
     Division -> 
@@ -416,6 +443,3 @@
             COMPUTE WS-NUMC = (WS-NUM1 * WS-NUM2) - (WS-NUMA / WS-NUMB) + WS-NUM3. <-- WS-NUMC = 100 - 5 + 10 = 000000105
 
           STOP RUN.
-
-
-
