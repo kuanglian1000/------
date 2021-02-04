@@ -25,3 +25,66 @@ Q3.Task:Add Views and constraints
   app:layout_constraintEnd_toEndOf="parent"
   app:layout_constraintStart_toStartOf="parent"
   app:layout_constraintTop_toTopOf="parent" />
+
+Q4.✱開發 JAVA or Android 程式如何偵錯呢？
+  A4.★一定要會用LOG進行偵錯，請使用 Log.d("countMe", intCount.toString()); 寫出LOG資訊。
+    再用 6:LogCat 視窗觀察 Log 資訊。
+    AndroidStudio 確實也有 DEBUG功能(Shift + F9)，可以逐步看物件內容及參數值，但是太仔細了，會看到昏倒...都還沒看到你要的結果。
+
+Q5.使用 Nav_graph.xml 在Fragment間傳遞參數的重點。
+  A5.> 如果是 FragmentA -> FragmentB , 參數必須定義 FragmentB 裡面 , 不是放在 FragmentA
+     > 設定變更(nav_graph.xml) , 記得重新執行 [Build > Make Project] 指令, 才會自動產生相關類別
+        <?xml version="1.0" encoding="utf-8"?>
+          <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/FirstFragment">
+
+            <fragment
+                android:id="@+id/FirstFragment"
+                android:name="android.com.myfirstappadvanced.FirstFragment"
+                android:label="@string/first_fragment_label"
+                tools:layout="@layout/fragment_first">
+                <action
+                    android:id="@+id/action_FirstFragment_to_SecondFragment"
+                    app:destination="@id/SecondFragment"/>
+            </fragment>
+            <fragment
+                android:id="@+id/SecondFragment"
+                android:name="android.com.myfirstappadvanced.SecondFragment"
+                android:label="@string/second_fragment_label"
+                tools:layout="@layout/fragment_second">
+                <!--重點在這裡-->
+                <argument
+                    android:name="myVar"
+                    app:argType="integer" />
+                <action
+                    android:id="@+id/action_SecondFragment_to_FirstFragment"
+                    app:destination="@id/FirstFragment" />
+            </fragment>
+        </navigation>
+     > 塞資料(FirstFragment.java)
+        public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+          super.onViewCreated(view, savedInstanceState);
+
+          view.findViewById(R.id.random_button).setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  int currentCount = Integer.parseInt(showCountTextView.getText().toString());
+                  FirstFragmentDirections.ActionFirstFragmentToSecondFragment action
+                          = FirstFragmentDirections.actionFirstFragmentToSecondFragment(currentCount); //塞資料
+                  NavHostFragment.findNavController(FirstFragment.this).navigate(action);
+              }
+          });
+        }
+     > 接資料(SecondFragment.java)
+        public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            Integer count = SecondFragmentArgs.fromBundle(getArguments()).getMyVar(); //接資料
+            String countText = getString(R.string.random_heading,count);
+            Log.d("test1",String.valueOf(count));
+            Log.d("test2",countText);
+            showHeaderTextView.setText(countText);
+        }
+

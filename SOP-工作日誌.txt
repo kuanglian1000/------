@@ -11,21 +11,53 @@ W6:2021/02/07-2021/02/14
 W5:2021/01/31-2021/02/06
   [TODO]
     1.新公司報到-(慈濟)(OK)
-    2.Android APP開發
-    3.Java Spring Boot WebApi開發
+    2.Android APP開發(OK)
+    3.Java Spring Boot WebApi開發(OK)
+    4.Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
+      Lesson 1: Build your first app
+      Lesson 2: Activities and intents
+      Lesson 3: Testing, debugging, and using support libraries
     
   02/06(六)
     1.回五結
 
   02/05(五)
-    0.0830:雙週會-去副主任辦公室簡報
-    1.Andy確認本週進度 & 分配下週工作項目
-      1.1 回報進度
+    0.中心雙週會 : 0830:-去副主任辦公室簡報
+    1.部門週會 : Andy確認本週進度 & 分配下週工作項目
+    2.Android APP開發
+      Android fundamentals 01.3:Text and scrolling views
+      Android fundamentals 01.4: Learn to help yourself
 
   02/04(四)
     1.Android APP開發 - Build Your First Android App in Java(探索進階功能)
       今天進度 https://developer.android.com/codelabs/build-your-first-android-app#7
-  
+      8.Task: Make your app interactive(OK)
+        What you'll learn
+          V How to find a view by its ID.
+          V How to add click listeners for a view.
+          V How to set and get property values of a view from your code.
+        Step1:Enable auto imports(開啟自動匯入套件功能)
+          Setting > auto import > check "Add Unambiguous Imports on the fly"
+        Step2:Show a toast(顯示簡短訊息後消失)
+          onCreateView() => 產生View後回傳 , 設定共用物件的地方 
+            ex.showCountTextView = (TextView) fragmentFirstLayout.findViewById(R.id.textview_first);
+          onViewCreated() => View產生完畢 , 設定物件方法的地方 
+            ex.view.findViewById(R.id.toast_button).setOnClickListener(
+                  new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                          Toast myToast = Toast.makeText(getActivity()
+                                  , R.string.toast_button_message
+                                  ,Toast.LENGTH_LONG);
+                          myToast.show();
+                      }
+                  }
+                );
+      9.Task: Implement the second fragment(OK)
+        What you'll learn
+          V How to pass information to a second fragment.
+        Step1:Add a TextView for the random number
+
   02/03(三)
     1.Android APP開發 - Build Your First Android App in Java(探索進階功能)(OK)
       Task 1-7(OK)
