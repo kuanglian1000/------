@@ -1,13 +1,20 @@
 W6:2021/02/07-2021/02/14
   [TODO]
-    2.Read Book:完整學會Git,GitHub,Git Server的24堂課
-    3.Read Book:Django Web Framework (Python) 
-      https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django
-      1.Mozilla > Django教學(回家功課)
-      1.1.Django Tutorial Part 7: Sessions framework
-      1.2.Django Tutorial Part 8: User authentication and permissions
-      1.3.Django Tutorial Part 9: Working with forms
-
+    1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
+      Lesson 2: Activities and intents
+        2.1: Activities and intents
+        2.2: Activity lifecycle and state
+        2.3: Implicit intents
+      Lesson 3: Testing, debugging, and using support libraries
+        3.1: The debugger
+        3.2: Unit tests
+        3.3: Support libraries
+    2.(Book)Android程式設計入門、應用到精通
+    2.(Web)Deep Link技術
+    2.(Web)
+    3.(Book)學會Swift3程式設計的21堂課
+    4.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
+    
 W5:2021/01/31-2021/02/06
   [TODO]
     1.新公司報到-(慈濟)(OK)
@@ -15,21 +22,32 @@ W5:2021/01/31-2021/02/06
     3.Java Spring Boot WebApi開發(OK)
     4.Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
       Lesson 1: Build your first app
-      Lesson 2: Activities and intents
-      Lesson 3: Testing, debugging, and using support libraries
-    
-  02/06(六)
-    1.回五結
-
+        1.1: Android Studio and Hello World
+        1.2: Part A: Your first interactive UI
+        1.2: Part B: The layout editor
+        1.3: Text and scrolling views
+        1.4: Learn to help yourself
+      
   02/05(五)
-    0.中心雙週會 : 0830:-去副主任辦公室簡報
-    1.部門週會 : Andy確認本週進度 & 分配下週工作項目
-    2.Android APP開發
-      Android fundamentals 01.3:Text and scrolling views
-      Android fundamentals 01.4: Learn to help yourself
-
+    (OK)0.中心雙週會 : 0830:-去副主任辦公室簡報(OK)
+    (OK)1.部門週會 : Andy確認本週進度(OK) & 分配下週工作項目(OK)
+      1.1.心蓮病房APP串接專案
+        (前)-全家寶APP : 收集病人生理量測資訊,儲存於資料庫. ; 閱讀資料規格 <= 工作項目1
+          Interface:<Deep Link>深度鏈結技術，提供資料介面
+          Frequency:<Real Time>，資料立即回傳
+        (中)-介接APP   : 和<全家寶APP>安裝在同一台載具上,讀取<廠商APP資料庫>,回傳至資料接收服務 <= 工作項目2
+        (後)-管理系統  : 現有統一管理病人生理量測資訊平台；開發資料接收服務<Spring Boot>,寫入現有管理系統 <= 工作項目3
+    (OK)2.Android APP開發
+      (OK)Android fundamentals 1.3:Text and scrolling views
+      (50%)Android fundamentals 1.4:Learn to help yourself
+    (OK)3.心蓮病房APP串接專案會議(下午)
+        成員：Andy , KL , 護理長
+        內容：原則上 , 護理長同意以APP取代GATEWAY. 
+             不過 ,目前GATEWAY是運作中的, 可吃3G訊號
+        後續：年後請英華達廠商DEMO產品
+    
   02/04(四)
-    1.Android APP開發 - Build Your First Android App in Java(探索進階功能)
+    (OK)1.Android APP開發 - Build Your First Android App in Java(探索進階功能)
       今天進度 https://developer.android.com/codelabs/build-your-first-android-app#7
       8.Task: Make your app interactive(OK)
         What you'll learn
@@ -59,12 +77,12 @@ W5:2021/01/31-2021/02/06
         Step1:Add a TextView for the random number
 
   02/03(三)
-    1.Android APP開發 - Build Your First Android App in Java(探索進階功能)(OK)
-      Task 1-7(OK)
+    (OK)1.Android APP開發 - Build Your First Android App in Java(探索進階功能)
+      (OK)Task 1-7
     
   02/02(二)
-    1.Android APP開發 - 完成基本架構(OK)
-    2.Android APP開發 - 讀取WebApi功能-ConsumeAPI(OK)
+    (OK)1.Android APP開發 - 完成基本架構
+    (OK)2.Android APP開發 - 讀取WebApi功能-ConsumeAPI(D:\KL_Data\Projects\AndroidProjects\ConsumeAPI)
 
   02/01(一)
     (OK)0.新公司報到-(慈濟)
@@ -96,7 +114,7 @@ W5:2021/01/31-2021/02/06
         (OK)0.4.3 Spring Boot Framework 
         (OK)0.4.4 JDK 15.0.2
         (OK)0.4.5 Gradle 6.8.1
-    (OK)1.Java Spring Boot WebApi開發 - 完成WebApi-testapi_gradle
+    (OK)1.Java Spring Boot WebApi開發 - 完成WebApi-testapi_gradle(D:\KL_Data\Projects\SpringBootProjects\testapi_gradle)
 
   01/31(日)
     1.(上午)回五結

@@ -88,3 +88,60 @@ Q5.使用 Nav_graph.xml 在Fragment間傳遞參數的重點。
             showHeaderTextView.setText(countText);
         }
 
+Q6. 1.3:Text and scrolling views (ProjectName:ScrollingText)
+  (OK)基本觀念
+    View
+      TextView => 文字方塊
+    FrameLayout
+      ScrollView => 可上下左右移動的畫布(十分耗資源,很吃memory,影響其他APP的效能)
+        LinearLayout
+      RecyclerView => 常用於顯示使用者可CRUD長資料串
+  What you'll learn(本章可以學到的內容)
+    V How to use XML code to add multiple TextView elements.
+    V How to use XML code to define a scrolling View.
+    V How to display free-form text with some HTML formatting tags.
+    V How to style the TextView background color and text color.
+    V How to include a web link in the text.
+
+  (OK)Task 1:Add and edit TextView elements
+    > string.xml內字串規則
+      >> As you enter or paste text in the strings.xml file, 
+          the text lines don't wrap around to the next line—they extend beyond the right margin. This is the correct behavior—each new line of text starting at the left margin represents an entire paragraph. If you want the text in strings.xml to be wrapped, you can press Return to enter hard line endings, or format the text first in a text editor with hard line endings.
+      >> Enter \n to represent the end of a line
+          , and another \n to represent a blank line. You need to add end-of-line characters to keep paragraphs from running into each other.
+      >> If you have an apostrophe (') in your text
+          , you must escape it by preceding it with a backslash ('). 
+          If you have a double-quote in your text
+          , you must also escape it ("). 
+          You must also escape any other non-ASCII characters. 
+          See the Formatting and styling section of String resources for more details.
+      >> Enter the HTML <b> and </b> tags around words that should be in bold.
+      >> Enter the HTML <i> and </i> tags around words that should be in italics. If you use curled apostrophes within an italic phrase, replace them with straight apostrophes.
+      >> You can combine bold and italics by combining the tags, as in <b><i>... words...</i></b>. Other HTML tags are ignored.
+      >> Enclose The entire text within <string name="article_text"> </string> in the strings.xml file.
+      Include a web link to test, such as www.google.com. (The example below uses www.rockument.com.) Don't use an HTML tag, because any HTML tags except the bold and italic tags are ignored and presented as text, which is not what you want.
+  (OK)Task 2:Add a ScrollView and an active web link
+  (OK)Task 3:Scroll multiple elements
+    > <ScrollView>裡面只能有一個child View,
+    > 如果<多個elements>要一起捲動,外面要再包一層<LinearLayout>
+    > <TextView> 裡面可用的HTML標記只有兩個 <b>粗體 & <i>斜體
+    > <TextView> 裡面可用 <\n> 換行符號
+    > <TextView> 加上 <android:autoLink="web"> 屬性,自動將Text內的連結轉為可點選
+    例：<ScrollView>
+          <LinearLayout>
+            <TextView1>
+            <TextView1>
+            <TextView1>
+
+Q7. 1.4:Learn to help yourself
+  What you'll learn(本章可以學到的內容)
+    1.去哪找Android開發資訊和資源
+    2.如何新增APP的啟動按鈕ICON
+    3.如何尋求協助,開發Android App時
+  (OK)Task 1:Change the launcher icon
+    1.要把舊的刪除,才會套用新的 Icon Type = 'Launcher Icons',路徑:res/drawable/ic_launcher_foreground.xml & ic_launcher_background.xml
+  Task 2:Use project templates
+    
+
+
+
