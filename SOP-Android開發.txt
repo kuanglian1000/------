@@ -138,10 +138,140 @@ Q7. 1.4:Learn to help yourself
     1.去哪找Android開發資訊和資源
     2.如何新增APP的啟動按鈕ICON
     3.如何尋求協助,開發Android App時
-  (OK)Task 1:Change the launcher icon
+  Task 1:Change the launcher icon(OK)
     1.要把舊的刪除,才會套用新的 Icon Type = 'Launcher Icons',路徑:res/drawable/ic_launcher_foreground.xml & ic_launcher_background.xml
-  Task 2:Use project templates
+  Task 2:Use project templates(OK)
+    2.1 探索Basic Activity架構
+      1.Status bar(由Android系統提供並控制) : 最上面那一條顯示時間、訊息提示、電量、網路訊號
+      2.app bar(又稱為action bar) : 常作為導覽列
+      3.app name(預設為套件名稱,可變更) : AndroidMainfest.xml => android:label="@string/app_name" ; string.xml => app_name = "XXX"
+      4.options-menu overflow button(選單鍵) : MainActivity.java / onOptionsItemSelected()方法內會實作選單邏輯 ; res/menu/menu_main.xml , 只有Setting menu會在此指定
+      5.CoordinatorLayout ViewGroup(主畫面/畫布) : activity_main.xml | content_main.xml => 畫面設計設定都在這裡面
+      6.app's UI elements(顯示項目) : activity_main.xml | content_main.xml => 畫面設計設定都在這裡面
+      7.Floating action button(浮動按鈕) : activity_main.xml 內的 FloatingActionButton指定它的外觀 ; MainActivity.java 內同樣會指定 onCreate() & onClick()事件
+    2.2 App Template 內容客製化
+    2.3 探索如何使用Template新增Activity
+      1.Project > Android , right-click <java> Folder
+      2.Select <New > Activity > Gallery>
+  Task 3:Learn from sample code(OK)
+    3.1 Android code samples(探索現有範例來加速學習進程)
+      1.File > New > Import Sample
+      2.瀏覽你要的範例(範例從初階到進階都有)
+    3.2 Use the SDK Manager to install offline documentation(安裝離線文件)
+      1.Tools > Android > SDK Manager
+      2.click <Android SDK>
+  Task 4:Many more resources(OK)
+    4.1 Search on <Stack Overflow> using tags(使用標籤在Stack Overflow網站上面找答案)
+      1.[android] and [layout] => 用兩個標籤去找
+      2.[android] "hello world" => 用一個標籤 & 指定找 "hello world" 相關問題
+    4.2 Android code samples(探索現有範例來加速學習進程)上面有很多範例，可以好好利用，並加入你的專案中。
+
+Q8. 2.1:Activities and intends
+  前言：
+    1.基本觀念:Activity 可視為一個單一畫面(full screen window),每個畫面都是一個activity
+    2.當1個新activity啟動,前1個activity就會停止.但系統會保留<前1個activity>在stack裡面(又稱為Back Stack)
+    3.(Back Stack)中遵循1個基本邏輯,就是"last in , first out",最晚進的最早送出.
+      例:使用者完成<目前activity>並按下Back Button,則<目前activity>被丟棄,<前1個activity>抓出來繼續
     
+    4.基本觀念:Intent 可視為activity開始或啟動的觸媒,也可以作為activity間資料傳遞的媒介
+    5.Intent種類
+      5.1 顯性Intent:明確地知道特定activity的完整類別名稱(知道對象是誰)
+      5.2 隱性Intent:不清楚對象是誰,但對動作執行有基本概念
+
+    6.Activity間的關聯性及基本設定,須在 <AndroidMainfest.xml> 檔案內定義, 例:子從關係...
+      6.1 startActivity():此方法啟動另一個Activity時,通常不會期待收到回饋
+      6.2 startActivityForResult():如果你期待收到回饋,必須使用這個方法
+
+    7.Intent物件可以兩種方式傳遞資料給目標Activity:
+      (1)in the data field => 以URI指向特定資料來源
+      (2)in the intent <extras>(Bundle) => 資料來源超過1個,可用intent <extras> == Bundle傳遞,它是key/value(DIC)的資料型態
+      
+  What you'll learn(本章可以學到的內容)
+    1.如何新增 Activity
+    2.如何定義 父 及 子 Activity for Up navigation.
+    3.如何啟動 Activity, 以顯性Intent方式
+    4.如何在 Activity 間傳遞資料, 以顯性Intent方式
+
+  Task 1:Create the TwoActivities project(OK)
+  Task 2:Create and launch the second Activity(OK)
+  Task 3:Send data from the main Activity to second Activity(OK)
+  Task 4:Return data back to the main Activity(OK)
+
+  課後問題：
+    Q1.What changes are made when you add a second Activity to your app by choosing File > New > Activity and an Activity template?
+        新增Activity後,專案會發生什麼改變？
+      A1.新增1個Java Class ,1個XML Layout file, AndroidMainfest.xml內加入新Activity設定
+    Q2.What happens if you remove the android:parentActivityName and the <meta-data> elements from the second Activity declaration in the AndroidManifest.xml file?
+        移除 AndroidMainfest.xml 內SecondActivity的設定值(the android:parentActivityName and the <meta-data>),會發生什麼改變？
+      A2.App bar裡面的回上一頁按鈕會消失,因為MainActivity & SecondActivity間的關聯性被移除了
+    Q3.Which constructor method do you use to create a new explicit Intent?
+        新增一個全新的顯式Intent要用什麼方法呢？
+      A3.Intent intent = new Intent(this , SecondActivity.class); // new Intent(Context context , Class<?> class);
+    Q4.In the HelloToast app homework, how do you add the current value of the count to the Intent?
+        如何利用Intent傳遞多個值呢？(MainActivity)
+      A4.使用Intent的Extra方法
+          , 建立 Intent intent = new Intent(this, SecondActivity.class); //這裡不要忘了..
+          , 塞值 intent.putExtra(key,value);
+          , 啟動另一個Activity startActivityForResult(intent,TEXT_REQUEST);
+      S4.完整程式碼
+        //啟動另一個Activity(1)
+        public void launchSecondActivity(View view) {
+          Intent intent = new Intent(this, SecondActivity.class);
+          String message = mMessageEditText.getText().toString();
+          intent.putExtra(EXTRA_MESSAGE,message);
+          startActivityForResult(intent,TEXT_REQUEST);
+        }
+
+        //接收回傳值(4)
+        @Override
+        protected void onActivityResult(int requestCode
+                , int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if(requestCode == TEXT_REQUEST){
+                if(resultCode == RESULT_OK){
+                    String reply = data.getStringExtra(SecondActivity.EXTRA_REPLY);
+                    String reply2 = data.getStringExtra(SecondActivity.EXTRA_REPLY2);
+                    mReplyHeadTextView.setVisibility(View.VISIBLE);
+                    mReplyTextView.setText(reply + "|" + reply2);
+                    mReplyTextView.setVisibility(View.VISIBLE);
+
+                }
+            }
+        }
+    Q5.In the HelloToast app homework, how do you display the current count in the second "Hello" Activity?
+        如何接收另一個Activity傳來的Intent？(SecondActivity)
+      A5.使用Intent的Extra方法
+          , 建立1 Intent intent = getIntent();
+          , 取值 intent.getStringExtra(key);
+          , 建立2 Intent replyIntent = new Intent();
+          , 塞值 replyIntent.putExtra(key,value);
+          , 設定Activity狀態 setResult(RESULT_OK,replyIntent);
+          , 結束Activity後返回呼叫端 finish();
+      S5.完整程式碼
+        //接收傳入值(2)
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_second);
+            mReply = findViewById(R.id.editText_second);
+
+            Intent intent = getIntent();
+            String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+            TextView textView = findViewById(R.id.text_message);
+            textView.setText(message);
+        }
+
+        //回傳呼叫端(3)
+        public void returnReply(View view) {
+            String reply = mReply.getText().toString();
+            Intent replyIntent = new Intent();
+            replyIntent.putExtra(EXTRA_REPLY,reply);
+            replyIntent.putExtra(EXTRA_REPLY2,"Second Value");
+
+            setResult(RESULT_OK,replyIntent);
+            finish();
+        }
 
 
 

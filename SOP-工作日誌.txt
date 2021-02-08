@@ -1,26 +1,96 @@
-W6:2021/02/07-2021/02/14
+W8:2021/02/21-2021/02/27
   [TODO]
     1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
-      Lesson 2: Activities and intents
-        2.1: Activities and intents
-        2.2: Activity lifecycle and state
-        2.3: Implicit intents
-      Lesson 3: Testing, debugging, and using support libraries
-        3.1: The debugger
-        3.2: Unit tests
-        3.3: Support libraries
+      Unit 2: User experience
+        Lesson 4: User interaction
+          4.1: Clickable images
+          4.2: Input controls
+          4.3: Menus and pickers
+          4.4: User navigation
+          4.5: RecyclerView
+        Lesson 5: Delightful user experience
+          5.1: Drawables, styles, and themes
+          5.2: Cards and colors
+          5.3: Adaptive layouts
+        Lesson 6:Testing your UI
+          6.1: Espresso for UI testing
+
     2.(Book)Android程式設計入門、應用到精通
-    2.(Web)Deep Link技術
-    2.(Web)
+    2.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面
+    2.(Web)COBOL技術 , https://devdocs.io/gnu_cobol/
+    2.(Web)Spring Boot教材 - https://code.visualstudio.com/docs/java/java-spring-boot
     3.(Book)學會Swift3程式設計的21堂課
     4.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
+
+W7:2021/02/14-2021/02/20
+  [TODO]
+    1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2      
+      Unit 3: Working in the background
+        Lesson 8: Alarms and schedulers
+          8.1: Notifications
+          8.2: The alarm manager
+          8.3: JobScheduler
+        Lesson 9: Preferences and settings
+          9.1: Shared preferences
+          9.2: App settings
+        Lesson 10: Storing data with Room
+          10.1 Part A: Room, LiveData, and ViewModel
+          10.1 Part B: Deleting data from a Room database
     
+W6:2021/02/07-2021/02/13
+  [TODO]
+    1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
+      Unit 1: Get started
+        Lesson 2: Activities and intents
+          2.1: Activities and intents
+          2.2: Activity lifecycle and state
+          2.3: Implicit intents
+        Lesson 3: Testing, debugging, and using support libraries
+          3.1: The debugger
+          3.2: Unit tests
+          3.3: Support libraries
+      Unit 3: Working in the background
+        Lesson 7: Background tasks
+          7.1: AsyncTask
+          7.2: AsyncTask and AsyncTaskLoader
+          7.3: Broadcast receivers
+      
+    
+  
+  02/12(五)
+    1.大年初一(OK)
+
+  02/11(四)
+    1.除夕放假(OK)
+
+  02/10(三)
+    1.Android APP開發 : Android fundamentals
+      4.1: Clickable images
+      4.2: Input controls
+      4.3: Menus and pickers
+      4.4: User navigation
+      4.5: RecyclerView
+
+  02/09(二)
+    1.Android APP開發 : Android fundamentals
+      3.1: The debugger
+      3.2: Unit tests
+      3.3: Support libraries
+
+  02/08(一)
+    0.注意:0730以後再刷上班卡,不然長官會一直簽出勤異常
+    1.Android APP開發 : Android fundamentals 
+      1.4: Learn to help yourself(OK)
+      2.1: Activities and intends(OK)
+      2.2: Activity lifecycle and state
+      2.3: Implicit intents
+
 W5:2021/01/31-2021/02/06
   [TODO]
     1.新公司報到-(慈濟)(OK)
     2.Android APP開發(OK)
     3.Java Spring Boot WebApi開發(OK)
-    4.Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
+    4.Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2(OK)
       Lesson 1: Build your first app
         1.1: Android Studio and Hello World
         1.2: Part A: Your first interactive UI
@@ -92,6 +162,7 @@ W5:2021/01/31-2021/02/06
           > 如何查詢：http://10.2.0.145/telqry/index.aspx
           > [*4#] 代接他人分機
           > 轉接 13763(漢) , 13761(蓁) , 13762(空) , 13760(光) + 13760(Andy)
+      0.3 信箱空間不足(幫忙撈回超過300MB的信件內容)，請找13546(資訊室-硬體組-潘小姐)
       0.3 每兩個月要上兩次早會(0650要進隔壁3樓協力講堂)
       0.4 準備開發環境
         (OK)0.4.1 VSCode-開發WebApi使用環境
