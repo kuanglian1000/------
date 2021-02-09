@@ -54,8 +54,6 @@ W6:2021/02/07-2021/02/13
           7.1: AsyncTask
           7.2: AsyncTask and AsyncTaskLoader
           7.3: Broadcast receivers
-      
-    
   
   02/12(五)
     1.大年初一(OK)
@@ -72,7 +70,11 @@ W6:2021/02/07-2021/02/13
       4.5: RecyclerView
 
   02/09(二)
+    0.注意:0730以後再刷上班卡,不然長官會一直簽出勤異常(OK,今天刷0730的卡)
     1.Android APP開發 : Android fundamentals
+      2.2: Activity lifecycle and state(OK)
+      2.3: Implicit intents
+      =======================
       3.1: The debugger
       3.2: Unit tests
       3.3: Support libraries
@@ -82,8 +84,7 @@ W6:2021/02/07-2021/02/13
     1.Android APP開發 : Android fundamentals 
       1.4: Learn to help yourself(OK)
       2.1: Activities and intends(OK)
-      2.2: Activity lifecycle and state
-      2.3: Implicit intents
+      
 
 W5:2021/01/31-2021/02/06
   [TODO]

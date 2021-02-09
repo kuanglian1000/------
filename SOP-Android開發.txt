@@ -1,3 +1,16 @@
+Q0.如何變更專案名稱？(在複製原有專案後,Rename package)
+  https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/appendix/appendix-utilities/appendix-utilities.html#copy_project
+
+  # 這裡要一起改,不然專案開起來,Android Studio最上方標題還是顯示舊名稱
+  Android
+    Gradle Scripts
+      settings.gradle (Project Settings) # file
+        rootProject.name = "P22LifecycleAndState" 
+        # OldName = "P21TwoActivities" , NewName="P22LifecycleAndState"
+        
+  # Grandle File要更新
+  File > Sync Project with Gradle Files.
+
 Q1.CommonAttribute找不到textAlignment(文字定位按鈕)怎麼辦？
   A1.調整 build.gradle(Module: XXX)內容 , 
     defaultConfig {
@@ -166,8 +179,8 @@ Q7. 1.4:Learn to help yourself
       2.[android] "hello world" => 用一個標籤 & 指定找 "hello world" 相關問題
     4.2 Android code samples(探索現有範例來加速學習進程)上面有很多範例，可以好好利用，並加入你的專案中。
 
-Q8. 2.1:Activities and intends
-  前言：
+Q8. 2.1:Activities and intents
+  重點：
     1.基本觀念:Activity 可視為一個單一畫面(full screen window),每個畫面都是一個activity
     2.當1個新activity啟動,前1個activity就會停止.但系統會保留<前1個activity>在stack裡面(又稱為Back Stack)
     3.(Back Stack)中遵循1個基本邏輯,就是"last in , first out",最晚進的最早送出.
@@ -273,5 +286,118 @@ Q8. 2.1:Activities and intends
             finish();
         }
 
+Q9. 2.2:Activity lifecycle and state
+  重點：
+    0.在Activity生命週期中,每個階段都有對應方法,例:onCreate(),onStart(),onPause()...
+    1.To avoid confusing your users, 
+      it's important that you develop your app to prevent unexpected data loss.
+    2.妥善保存Activity狀態 is very important.
+    3.利用logging statements記錄App狀態的變化
+
+  What you'll learn(本章可以學到的內容)
+    1.Activity lifecycle如何運作？
+    2.Activity 何時 starts, pauses, stops, destroyed？
+    3.Activity狀態變更時, 各對應哪些方法？
+    4.動作影響(例:設定改變), 導致Activity lifecycle進入特定事件
+    5.在lifecycle事件之間, 如何保留 Activity 狀態？
+
+  Task 1:Add lifecycle callbacks to TwoActivities
+    事件:Activity啟動
+      onCreate
+      onStart
+      onResume
+    事件:物件點選之類的
+      Button Clicked
+      onPause
+    事件:Activity失去焦點
+      onStop
+    事件:Activity結束
+      onDestroy
+    事件:Activity再次取得焦點
+      onRestart
+      onStart
+      onResume
+  Task 2:Save and restore the Activity instance state
+    1.儘管是旋轉畫面這種小動作,也會導致目前Activity being destroyed.
+      如果未考量周全,畫面可能會返回初始畫面及初始值,<使用者狀態>會全數遺失.
+    2.保留<使用者狀態>,實作 onSaveInstanceState() 方法.
+      系統呼叫上述方法的時點在 onPause() & onStop() 之間
+    3.Bundle物件是用來儲存<使用者狀態>,Bundle物件存續期間為目前App Session.
+      若要在多個App Session間共用<使用者狀態>,須使用<shared preferences> or <database>
+  
+    4.回存<使用者狀態>,實作 onRestoreInstanceState() 方法. <==方便作法==>
+      系統呼叫上述方法的時點在 onCreate() => onStart() 之後
+    5.但是最佳回存<使用者狀態>位置,在 onCreate() 方法內,確保 <UI完成後> 立刻擁有<使用者狀態>
+
+  課後總結：
+    1.The Activity lifecycle is a set of states an Activity migrates through, 
+      beginning when it is first created and ending when the Android system reclaims the resources for that Activity.
+    2.As the user navigates from one Activity to another
+      , and inside and outside of your app
+      , each Activity moves between states in the Activity lifecycle.
+    3.Each state in the Activity lifecycle has a corresponding callback method you can override in your Activity class.
+      => <Activity內每個狀態的變化都有相對應的方法>
+    4.The lifecycle methods are 
+      onCreate()
+      , onStart()
+      , onPause()
+      , onRestart()
+      , onResume()
+      , onStop()
+      , onDestroy().
+    5.Overriding a lifecycle callback method allows you to add behavior 
+      that occurs when your Activity transitions into that state.
+      => <經由覆寫上述方法,加入程式邏輯>
+    6.You can add skeleton override methods to your classes in Android Studio 
+      with Code > Override.
+      => <列出所有你能覆寫的方法>
+    7.Device configuration changes 
+      such as rotation results in the Activity being destroyed 
+      and recreated as if it were new.
+      => <當裝置設定改變時,例:旋轉畫面,會造成目前Activity消失並重新建立>
+    8.A portion of the Activity state is preserved on a configuration change
+      , including the current values of EditText elements. 
+      For all other data, you must explicitly save that data yourself.
+      => <某些物件會自動保留狀態,例:EditText.
+          但其他資料還是必須自行儲存保留>
+    9.Save Activity instance state in the onSaveInstanceState() method.
+      => <時點：在 onSaveInstanceState()方法內 , 保留狀態值>
+    10.Instance state data is stored as simple key/value pairs in a Bundle. 
+       Use the Bundle methods to put data into and get data back out of the Bundle.
+      => outState.putBundle(key,value); //保留狀態值
+      => savedInstanceState.getBoolean(key); //取出狀態值
+    11.Restore the instance state in onCreate()
+       , which is the preferred way, or onRestoreInstanceState().
+      => <時點：在 onCreate() | onRestoreInstanceState()方法內 , 取出狀態值>
+
+  課後問題：
+    Q1.If you run the homework app before implementing onSaveInstanceState()
+       , what happens if you rotate the device? Choose one:
+       A1.<EditText>會自動保留狀態,所以<TextView>內容值會消失,但<EditText>不會
+    Q2.What Activity lifecycle methods are called 
+       when a device-configuration change (such as rotation) occurs? Choose one:
+       A2.當裝置設定變更時(例:旋轉畫面),Android會先刪除現有Activity,再新增一個新的Activity
+    Q3.When in the Activity lifecycle is onSaveInstanceState() called? Choose one:
+       A3.onStop()之前會呼叫 onSaveInstanceState()方法,也就是在 onPause() & onStop()之間
+          onSaveInstanceState() is called before the onStop() method.
+    Q4.Which Activity lifecycle methods are best to use for saving data 
+       before the Activity is finished or destroyed? Choose one:
+       A4.儲存Activity狀態的最佳時機點：onSaveInstanceState() , onPause() & onStop()
+
+(Template)Q10. 2.3:Activities and intents
+  重點：
+
+  What you'll learn(本章可以學到的內容)
+    1.
+    2.
+    3.
+    4.
+
+  Task 1:
+  Task 2:
+  Task 3:
+  Task 4:
+
+  課後問題：
 
 
