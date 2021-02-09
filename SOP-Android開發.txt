@@ -384,6 +384,34 @@ Q9. 2.2:Activity lifecycle and state
        before the Activity is finished or destroyed? Choose one:
        A4.儲存Activity狀態的最佳時機點：onSaveInstanceState() , onPause() & onStop()
 
+Q10. 2.3:Implicit intents
+  重點：
+    1.Implicit intents用於,Activity啟動時並不知道會由哪個app或activity提供協助(例:照相,寄信或顯示地圖位置)
+      但是Activity須清楚它要哪些服務,並允許其他app或activity提供服務內容.
+      這時,它會在 <AndroidMainfest.xml> 內,
+      宣告 <intent filters> 說明它可以接受哪些 <Implicit intents> 及 <the types of intents>
+    2.Sharing(Sending a piece of information to other people through email or social media) 
+      是App目前熱門功能.
+      Sharing Action 可利用 <ShareCompat.IntentBuilder> 類別,讓程式員可建立<implicit intent>分享資料
+
+  目標：
+    1.Open a URL in a web browser.
+    2.Open a location on a map.
+    3.Share text.
+  
+  What you'll learn(本章可以學到的內容)
+    1.如何建立一個 implicit intent, 並使用它的 actions and categories.
+    2.如何使用 ShareCompat.IntentBuilder 類別, 建立一個 implicit intent 來分享資料.
+    3.如何宣傳App可以接收 implicit intent, 藉由在 AndroidMainfest.xml 宣告 Intent filters來完成.
+
+  Task 1:Create the project and layout
+  Task 2:Implement the Open Website button
+  Task 3:Implement the Open Location button
+  Task 4:Implement the Share This Text button
+  Task 5:Receive an implicit Intent
+
+  課後問題：
+
 (Template)Q10. 2.3:Activities and intents
   重點：
 

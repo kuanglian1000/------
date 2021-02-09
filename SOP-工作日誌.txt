@@ -26,6 +26,10 @@ W7:2021/02/14-2021/02/20
   [TODO]
     1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2      
       Unit 3: Working in the background
+        Lesson 7: Background tasks
+          7.1: AsyncTask
+          7.2: AsyncTask and AsyncTaskLoader
+          7.3: Broadcast receivers
         Lesson 8: Alarms and schedulers
           8.1: Notifications
           8.2: The alarm manager
@@ -49,12 +53,7 @@ W6:2021/02/07-2021/02/13
           3.1: The debugger
           3.2: Unit tests
           3.3: Support libraries
-      Unit 3: Working in the background
-        Lesson 7: Background tasks
-          7.1: AsyncTask
-          7.2: AsyncTask and AsyncTaskLoader
-          7.3: Broadcast receivers
-  
+      
   02/12(五)
     1.大年初一(OK)
 
@@ -63,22 +62,16 @@ W6:2021/02/07-2021/02/13
 
   02/10(三)
     1.Android APP開發 : Android fundamentals
-      4.1: Clickable images
-      4.2: Input controls
-      4.3: Menus and pickers
-      4.4: User navigation
-      4.5: RecyclerView
+      3.1: The debugger
+      3.2: Unit tests
+      3.3: Support libraries
 
   02/09(二)
     0.注意:0730以後再刷上班卡,不然長官會一直簽出勤異常(OK,今天刷0730的卡)
     1.Android APP開發 : Android fundamentals
       2.2: Activity lifecycle and state(OK)
-      2.3: Implicit intents
-      =======================
-      3.1: The debugger
-      3.2: Unit tests
-      3.3: Support libraries
-
+      2.3: Implicit intents(OK)
+      
   02/08(一)
     0.注意:0730以後再刷上班卡,不然長官會一直簽出勤異常
     1.Android APP開發 : Android fundamentals 
@@ -106,8 +99,8 @@ W5:2021/01/31-2021/02/06
         (前)-全家寶APP : 收集病人生理量測資訊,儲存於資料庫. ; 閱讀資料規格 <= 工作項目1
           Interface:<Deep Link>深度鏈結技術，提供資料介面
           Frequency:<Real Time>，資料立即回傳
-        (中)-介接APP   : 和<全家寶APP>安裝在同一台載具上,讀取<廠商APP資料庫>,回傳至資料接收服務 <= 工作項目2
-        (後)-管理系統  : 現有統一管理病人生理量測資訊平台；開發資料接收服務<Spring Boot>,寫入現有管理系統 <= 工作項目3
+        (中)-介接APP : 和<全家寶APP>安裝在同一台載具上,讀取<廠商APP資料庫>,回傳至資料接收服務 <= 工作項目2
+        (後)-管理系統 : 現有統一管理病人生理量測資訊平台；開發資料接收服務<Spring Boot>,寫入現有管理系統 <= 工作項目3
     (OK)2.Android APP開發
       (OK)Android fundamentals 1.3:Text and scrolling views
       (50%)Android fundamentals 1.4:Learn to help yourself

@@ -212,52 +212,86 @@
 
   It’s ironic that “code re-usability” is one of the arguments used to justify the existence of the “modern” languages.
 
-2.1.5. Divisions Organize Programs(COBOL程式的組成 , 4個主要區塊 divisions)
-COBOL programs are structured into four major areas of coding, each with its own purpose. These four areas are known as divisions.
+2.1.5. Divisions Organize Programs(COBOL程式的組成 , 4個主要區塊 divisions / sections / paragraphs / statements)(OK)
+  COBOL programs are structured into four major areas of coding, each with its own purpose. These four areas are known as divisions.
+  Each division may consist of a variety of sections and each section consists of one or more paragraphs. 
+  A paragraph consists of sentences, each of which consists of one or more statements.
 
-Each division may consist of a variety of sections and each section consists of one or more paragraphs. A paragraph consists of sentences, each of which consists of one or more statements.
+  This hierarchical structure of program components standardizes the composition of all COBOL programs. 
+  Much of this manual describes the various divisions, sections, paragraphs and statements that may comprise any COBOL program. COPY statement (see COPY)
 
-This hierarchical structure of program components standardizes the composition of all COBOL programs. Much of this manual describes the various divisions, sections, paragraphs and statements that may comprise any COBOL program. COPY statement (see COPY)
+2.1.6. Copybooks(COPY and REPLACE 功能,如同新一代語言的 "import" , "include")(OK)
+  A Copybook is a segment of program code that may be utilized by multiple programs simply by having those programs use the COPY statement to import that code. 
+  This code may define files, data structures or procedural code.
 
-2.1.6. Copybooks
-A Copybook is a segment of program code that may be utilized by multiple programs simply by having those programs use the COPY statement to import that code. This code may define files, data structures or procedural code.
+  Today’s current programming languages have a statement (usually, this statement is named “import”, “include” or “#include”) that performs this same function. 
+  What makes the COBOL copybook feature different than the “include” facility in newer languages, 
+  however, is the fact that the COPY statement can edit the imported source code as it is being copied. 
+  This capability makes copybook libraries extremely valuable to making code reusable. 
+  Also see section 3. Compiler Directing Facility commands COPY and REPLACE.
 
-Today’s current programming languages have a statement (usually, this statement is named “import”, “include” or “#include”) that performs this same function. What makes the COBOL copybook feature different than the “include” facility in newer languages, however, is the fact that the COPY statement can edit the imported source code as it is being copied. This capability makes copybook libraries extremely valuable to making code reusable. Also see section 3. Compiler Directing Facility commands COPY and REPLACE.
+2.1.7. Structured Data(像是變數宣告,對於COBOL而言,它可由多個資料區塊所組成. 例: 'Employee-Name' = 'Last-Name' + '-' + 'First-Name')(OK)
+  A contiguous area of storage within the memory space of a program that may be referenced, by name, in a COBOL program is referred to as a Data Item. 
+  Other programming languages use the term variable, property or attribute to describe the same thing.
 
-2.1.7. Structured Data
-A contiguous area of storage within the memory space of a program that may be referenced, by name, in a COBOL program is referred to as a Data Item. Other programming languages use the term variable, property or attribute to describe the same thing.
+  COBOL introduced the concept of structured data. 
+  The principle of structured data in COBOL is based on the idea of being able to group related and contiguously-allocated data items together into a single aggregate data item, 
+  called a Group Item. 
+  For example, a 35-character ’Employee-Name’ group item might consist of a 20-character ’Last-Name’ followed by a 14-character ’First-Name’ and a 1-character ’Middle-Initial’.
 
-COBOL introduced the concept of structured data. The principle of structured data in COBOL is based on the idea of being able to group related and contiguously-allocated data items together into a single aggregate data item, called a Group Item. For example, a 35-character ’Employee-Name’ group item might consist of a 20-character ’Last-Name’ followed by a 14-character ’First-Name’ and a 1-character ’Middle-Initial’.
-
-A data item that isn’t itself formed from other data items is referred to in COBOL as an Elementary Item. In the previous example, ’Last-Name’, ’First-Name’ and ’Middle-Initial’ are all elementary items.
+  A data item that isn’t itself formed from other data items is referred to in COBOL as an Elementary Item. 
+  In the previous example, ’Last-Name’, ’First-Name’ and ’Middle-Initial’ are all elementary items.
 
 2.1.8. Files
-One of COBOL’s strengths is the wide variety of data files it is capable of accessing. GnuCOBOL programs, like those created with other COBOL implementations, need to have the structure of any files they will be reading and/or writing described to them. The highest-level characteristic of a file’s structure is defined by specifying the organization of the file, as follows:
+One of COBOL’s strengths is the wide variety of data files it is capable of accessing. 
+GnuCOBOL programs, like those created with other COBOL implementations, need to have the structure of any files they will be reading and/or writing described to them. 
+The highest-level characteristic of a file’s structure is defined by specifying the organization of the file, as follows:
 
-ORGANIZATION LINE SEQUENTIAL
-These are files with the simplest of all internal structures. Their contents are structured simply as a series of identically- or differently-sized data records, each terminated by a special end-of-record delimiter character. An ASCII line-feed character (hexadecimal 0A) is the end-of-record delimiter character used by any UNIX or pseudo-UNIX (MinGW, Cygwin, OSX) GnuCOBOL build. A truly native Windows build would use a carriage-return, line-feed (hexadecimal 0D0A) sequence.
+ORGANIZATION LINE SEQUENTIAL(必須從頭讀到尾,每行結尾有固定符號 ; WRITE <BEFORE ADVANCING 1 LINE>)(OK)
+  These are files with the simplest of all internal structures. Their contents are structured simply as a series of identically- or differently-sized data records, 
+  each terminated by a special end-of-record delimiter character. 
+  An ASCII line-feed character (hexadecimal 0A) is the end-of-record delimiter character used by any UNIX or pseudo-UNIX (MinGW, Cygwin, OSX) GnuCOBOL build. 
+  A truly native Windows build would use a carriage-return, line-feed (hexadecimal 0D0A) sequence.
 
-Records must be read from or written to these files in a purely sequential manner. The only way to read (or write) record number 100 would be to have read (or written) records number 1 through 99 first.
+  Records must be read from or written to these files in a purely sequential manner. 
+  The only way to read (or write) record number 100 would be to have read (or written) records number 1 through 99 first.
 
-When the file is written to by a GnuCOBOL program, the delimiter sequence will be automatically appended to each data record as it is written to the file. A WRITE (see WRITE) to this type of file will be done as if a BEFORE ADVANCING 1 LINE clause were specified on the WRITE, if no ADVANCING clause is coded.
+  When the file is written to by a GnuCOBOL program, the delimiter sequence will be automatically appended to each data record as it is written to the file. 
+  A WRITE (see WRITE) to this type of file will be done as if a <BEFORE ADVANCING 1 LINE> clause were specified on the WRITE, if no ADVANCING clause is coded.
 
-When the file is read, the GnuCOBOL runtime system will strip the trailing delimiter sequence from each record. The data will be padded (on the right) with spaces if the data just read is shorter than the area described for data records in the program. If the data is too long, it will be truncated and the excess will be lost.
+  When the file is read, the GnuCOBOL runtime system will strip the trailing delimiter sequence from each record. 
+  The data will be padded (on the right) with spaces if the data just read is shorter than the area described for data records in the program. 
+  If the data is too long, it will be truncated and the excess will be lost.
 
-These files should not be defined to contain any exact binary data fields because the contents of those fields could inadvertently have the end-of-record sequence as part of their values — this would confuse the runtime system when reading the file, and it would interpret that value as an actual end-of-record sequence.
+  These files should not be defined to contain any exact binary data fields (只能包含binary data fields)
+  because the contents of those fields could inadvertently have the end-of-record sequence as part of their values — this would confuse the runtime system when reading the file, 
+  and it would interpret that value as an actual end-of-record sequence.
 
-LINE ADVANCING
-These are files with an internal structure similar to that of a line sequential file. These files are defined (without an explicit ORGANIZATION specification) using the LINE ADVANCING clause on their SELECT statement (see SELECT).
+LINE ADVANCING(和ORGANIZATION LINE SEQUENTIAL唯一的差異在於 不用明確指定 ORGANIZATION ; WRITE <AFTER ADVANCING 1 LINE> )(OK)
+  These are files with an internal structure similar to that of a line sequential file. 
+  These files are defined (without an explicit ORGANIZATION specification) using the LINE ADVANCING clause on their SELECT statement (see SELECT).
 
-When this kind of file is written to by a GnuCOBOL program, an end-of-record delimiter sequence will be automatically added to each data record as it is written to the file. A WRITE to this type of file will be done as if an AFTER ADVANCING 1 LINE clause were specified on the WRITE, if no ADVANCING clause is coded.
+  When this kind of file is written to by a GnuCOBOL program, an end-of-record delimiter sequence will be automatically added to each data record as it is written to the file. 
+  A WRITE to this type of file will be done as if an <AFTER ADVANCING 1 LINE> clause were specified on the WRITE, if no ADVANCING clause is coded.
 
-Like line sequential files, these files should not be defined to contain any exact binary data fields because the contents of those fields could inadvertently have the end-of-record sequence as part of their values — this would confuse the runtime system when reading the file, and it would interpret that value as an actual end-of-record sequence.
+  Like line sequential files, these files should not be defined to contain any exact binary data fields because the contents of those fields could inadvertently have the end-of-record sequence as part of their values — this would confuse the runtime system when reading the file, and it would interpret that value as an actual end-of-record sequence.
 
-ORGANIZATION SEQUENTIAL
-These files also have a simple internal structure. Their contents are structured simply as an arbitrarily-long sequence of data characters. This sequence of characters will be treated as a series of fixed-length records simply by logically splitting the sequence of characters up into fixed-length segments, each as long as the maximum record size defined in the program. There are no special end-of-record delimiter characters in the file and when the file is written to by a GnuCOBOL program, no delimiter sequence is appended to the data.
+ORGANIZATION SEQUENTIAL(固定每行長度,每行沒有結尾符號)
+(例:定義每行長度為 100 characters,有1個檔案資料內容有 1275 characters, 則這個檔案會被拆成 12行 + 最後1行 75 characters)
 
-Records in this type of file are all the same physical length, except possibly for the very last record in the file, which may be shorter than the others. If variable-length logical records are defined to the program, the space occupied by each physical record in the file will occupy the space described by the longest record description in the program.
+These files also have a simple internal structure. 
+Their contents are structured simply as an arbitrarily-long sequence of data characters. 
+This sequence of characters will be treated as a series of fixed-length records simply by logically splitting the sequence of characters up into fixed-length segments, 
+each as long as the maximum record size defined in the program. 
 
-So, if a file contains 1275 characters of data, and a program defines the structure of that file as containing 100-character records, then the file contents will consist of twelve (12) 100-character records with a final record containing only 75 characters.
+There are no special end-of-record delimiter characters in the file and when the file is written to by a GnuCOBOL program, no delimiter sequence is appended to the data.
+Records in this type of file are all the same physical length, except possibly for the very last record in the file, which may be shorter than the others. 
+If variable-length logical records are defined to the program, 
+the space occupied by each physical record in the file will occupy the space described by the longest record description in the program.
+
+So, if a file contains 1275 characters of data, and a program defines the structure of that file as containing 100-character records, 
+then the file contents will consist of twelve (12) 100-character records with a final record containing only 75 characters.
+(例:定義每行長度為 100 characters,有1個檔案資料內容有 1275 characters, 則這個檔案會被拆成 12行 + 最後1行 75 characters)
 
 It would appear that it should be possible to locate and process any record in the file directly simply by calculating its starting character position based upon the program-defined record size. Even so, however, records must be still be read or written to these files in a purely sequential manner. The only way to read (or write) record number 100 would be to have read (or written) records number 1 through 99 first.
 
