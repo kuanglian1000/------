@@ -11,13 +11,43 @@ Q0.如何變更專案名稱？(在複製原有專案後,Rename package)
   # Grandle File要更新
   File > Sync Project with Gradle Files.
 
+Q0.✱✱VIP✱✱(設定有錯,功能一定出不來,...會陷入無助,開始懷疑人生...)
+   引用套件新舊切換步驟，所有的android.support.v4 & android.support.v7的套件
+   都被整合到androidx.XXX裡面了。如果升級步驟有漏, 功能就不會動。
+   [例]：
+      舊：
+        import android.support.design.widget.NavigationView;
+        import android.support.v4.view.GravityCompat;
+        import android.support.v4.widget.DrawerLayout;
+        import android.support.v7.app.ActionBarDrawerToggle;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.Toolbar;
+      新：
+        import com.google.android.material.navigation.NavigationView;
+        import androidx.core.view.GravityCompat;
+        import androidx.drawerlayout.widget.DrawerLayout;
+        import androidx.appcompat.app.ActionBarDrawerToggle;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.appcompat.widget.Toolbar;
+    [升級步驟]：
+      1.程式碼內調整引用套件名稱, 詳上例
+      2.調整build.grandle(Module: xxx.app)
+          dependencies {
+              api 'androidx.appcompat:appcompat:1.3.0-beta01'
+              api 'com.google.android.material:material:1.3.0'
+              implementation 'com.android.support:design:28.0.0'
+          }
+      3.調整gradle.properties(Project Properties)
+          android.useAndroidX=true
+          android.enableJetifier=true
+
 Q1.CommonAttribute找不到textAlignment(文字定位按鈕)怎麼辦？
   A1.調整 build.gradle(Module: XXX)內容 , 
     defaultConfig {
         applicationId "android.com.myfirstappadvanced"
         minSdkVersion 17 //16->17,Open textAlignment in Common Attribute
 
-Q2.Layout
+Q2.Layout 觀念
   1.所有的VIEWS都必須有 layout_width & layout_height 兩個屬性
   2.match_parent or match_constraint or wrap_content
   ConstraintLayout 它是這個Fragment的 root View 
@@ -39,7 +69,7 @@ Q3.Task:Add Views and constraints
   app:layout_constraintStart_toStartOf="parent"
   app:layout_constraintTop_toTopOf="parent" />
 
-Q4.✱開發 JAVA or Android 程式如何偵錯呢？
+Q4.✱開發✱ JAVA or Android 程式如何偵錯呢？
   A4.★一定要會用LOG進行偵錯，請使用 Log.d("countMe", intCount.toString()); 寫出LOG資訊。
     再用 6:LogCat 視窗觀察 Log 資訊。
     AndroidStudio 確實也有 DEBUG功能(Shift + F9)，可以逐步看物件內容及參數值，但是太仔細了，會看到昏倒...都還沒看到你要的結果。
@@ -384,7 +414,7 @@ Q9. 2.2:Activity lifecycle and state
        before the Activity is finished or destroyed? Choose one:
        A4.儲存Activity狀態的最佳時機點：onSaveInstanceState() , onPause() & onStop()
 
-Q10. 2.3:Implicit intents
+Q10. 2.3:Implicit intents (Deep Link or App Link == 開 intent filters接收外部的intent資料)
   重點：
     1.Implicit intents用於,Activity啟動時並不知道會由哪個app或activity提供協助(例:照相,寄信或顯示地圖位置)
       但是Activity須清楚它要哪些服務,並允許其他app或activity提供服務內容.
@@ -393,6 +423,80 @@ Q10. 2.3:Implicit intents
     2.Sharing(Sending a piece of information to other people through email or social media) 
       是App目前熱門功能.
       Sharing Action 可利用 <ShareCompat.IntentBuilder> 類別,讓程式員可建立<implicit intent>分享資料
+    
+    3.<作到快翻臉了...>
+      Q:為什麼原始範例作的出來,但是根據網頁步驟卻作不出來呢？
+      A:因為<原始範例>使用支援套件
+        (import android.support.v4.app.ShareCompat;
+         import android.support.v7.app.AppCompatActivity;)
+        ,但Android Studios已全部提升至(import androidx.xxx)
+        ,如果沒有跟著切換,功能會作不出來
+    
+    4.使用 explicit intent(顯式intent) 
+        總是能夠啟動 <同APP 或 外部APP> 的 Activity , 透過指定<完整套件名稱>的方式.
+      接收 implicit intent(隱式intent) 
+        必須在<AndroidManifest.xml>內定義<intent filters> , 指定你的activity能接收的intent 種類.
+    5.當裝置上的App送出 implicit intent, 
+        Android系統會拿intent的action & data與可取得的Activity(includes the right Intent filters)比對
+        5.1. 如果只有1個Activity吻合, 則此Activity會接手Intent
+        5.2. 如果有多個Activity吻合, 則會跳出App chooser讓使用者自行選擇由哪個App來執行
+    
+    6.實作implicit Intent 的重點摘要
+      Activity1 : 送出 implicit Intent
+      
+        <MainActivity.java>
+          public void openWebsite(View view) {
+              // Get the URL text.
+              String url = mWebsiteEditText.getText().toString();
+
+              // Parse the URI and create the intent.
+              Uri webpage = Uri.parse(url);
+              Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+
+              // Find an activity to hand the intent and start that activity.
+              if (intent.resolveActivity(getPackageManager()) != null) {
+                  startActivity(intent);
+              } else {
+                  Log.d("ImplicitIntents", "Can't handle this!");
+              }
+          }
+      Activity2 : 接收 implicit Intent
+        <AndroidMainfest.xml> 設定
+          <activity android:name=".MainActivity">
+              <intent-filter>
+                  <action android:name="android.intent.action.MAIN" />
+                  <category android:name="android.intent.category.LAUNCHER" />
+              </intent-filter>
+              
+              <!--新增設定在此 action==View,category==可瀏覽,
+                  data限定為http://developer.android.com ,
+                  如果 http://abc.apple.com 的話,Android就不會丟給這個App處理..-->
+
+              <intent-filter>
+                  <action android:name="android.intent.action.VIEW"/>
+                  <category android:name="android.intent.category.DEFAULT"/>
+                  <category android:name="android.intent.category.BROWSABLE" />
+                  <data
+                      android:scheme="http"
+                      android:host="developer.android.com" />
+              </intent-filter>
+          </activity>
+        <MainActivity.java> 程式邏輯
+          protected void onCreate(Bundle savedInstanceState) {
+              super.onCreate(savedInstanceState);
+              setContentView(R.layout.activity_main);
+
+              Intent intent = getIntent(); //Get implicit intent
+              Uri uri = intent.getData(); //intent data 一定是 URI 物件.
+              if(uri != null){
+                  String strUri = getString(R.string.uri_label)
+                          + uri.toString();
+                  TextView textView = findViewById(R.id.text_uri_message);
+                  textView.setText(strUri);
+              }
+          }
+
+    7.<ShareCompat.IntentBuilder> 類別讓建立 <implicit intent> 分享資料給 社群軟體或EMAIL更為方便
 
   目標：
     1.Open a URL in a web browser.
@@ -408,11 +512,61 @@ Q10. 2.3:Implicit intents
   Task 2:Implement the Open Website button
   Task 3:Implement the Open Location button
   Task 4:Implement the Share This Text button
-  Task 5:Receive an implicit Intent
+  Task 5:Receive an implicit Intent(接收外部APP傳來的implicit intent)
 
+  課後挑戰：
+    1.新增拍照按鈕,開啟相機功能,回傳呼叫端 by intent
+    2.顯示回傳照片檔案 by ImageView
+      設定範例：Sample Setting @ AndroidMainfest.xml
+        <manifest...>
+          <uses-feature android:name="android.hardware.camera2"
+          android:required="true"/>
+        </manifest>
+      程式碼範例：
+        public void takePicture(View view) {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if(takePictureIntent.resolveActivity(getPackageManager())!= null){
+                try{
+                    //使用會回傳結果的startActivity
+                    startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+                }catch (ActivityNotFoundException e){
+                    Log.d("ImplicitIntents", "takePicture Error..");
+                }
+            }
+        }
+        
+        //覆寫onActivityResult事件,接收回傳值
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap bitmap = (Bitmap) extras.get("data");
+                mShowPicImageView.setImageBitmap(bitmap);
+            }else{
+                Log.d("ImplicitIntents", "Not in..");
+            }
+        }
+  
   課後問題：
+    Q1.Which constructor method do you use to create an implicit Intent 
+      to launch a camera app?
+      A1.new Intent(String action) 
+         ex. Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    Q2.<✱✱VIP✱✱> When you create an implicit Intent object, which of the following is true?
+      當你要新增 implicit Intent 物件時,你要注意的點有哪些？
+      A2. (1)不要指定特定Activity或其他元件來啟動
+          (2)增加一個Intent Action or Intent categories
+          (3)在呼叫 startActivity or startActivityForResult前,
+             先解析Intent有沒有對應的Activity可以負責
+             ex.takePictureIntent.resolveActivity(getPackageManager())!= null
+    Q3.Which Intent action do you use to take a picture with a camera app?
+      哪個 Intent action 可用來以Camera App進行拍照呢？
+      A3. Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-(Template)Q10. 2.3:Activities and intents
+
+
+(Template)QXX. 2.3:Activities and intents
   重點：
 
   What you'll learn(本章可以學到的內容)
