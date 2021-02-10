@@ -1,7 +1,23 @@
-W8:2021/02/21-2021/02/27
-  [TODO]
-    1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
-      Unit 2: User experience
+[TODO]
+  教育訓練
+    1.(2021-05-01前完成，2小時-實體、4小時-線上)提醒您_新進同仁報到後三個月內需取得感控時數達 6 小時!!! 為配合醫院感控查核規定，新進員工到職請於三個月內完成感控 6 小時教育訓練時數，請至教學部網站進行e-Learning學習(其中2小時必需為實體課程)，並完成考試!!!
+    2.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
+      Unit 1: Get started(75%)
+        Lesson 1: Build your first app(OK,第一週完成)
+          1.1: Android Studio and Hello World
+          1.2 Part A: Your first interactive UI
+          1.2 Part B: The layout editor
+          1.3: Text and scrolling views
+          1.4: Learn to help yourself
+        Lesson 2: Activities and intents(OK,第二週完成)
+          2.1: Activities and intents
+          2.2: Activity lifecycle and state
+          2.3: Implicit intents
+        Lesson 3: Testing, debugging, and using support libraries(第三週-工作重點)
+          3.1: The debugger
+          3.2: Unit tests
+          3.3: Support libraries
+      Unit 2: User experience(第三週-工作重點)
         Lesson 4: User interaction
           4.1: Clickable images
           4.2: Input controls
@@ -14,18 +30,7 @@ W8:2021/02/21-2021/02/27
           5.3: Adaptive layouts
         Lesson 6:Testing your UI
           6.1: Espresso for UI testing
-
-    2.(Book)Android程式設計入門、應用到精通
-    2.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面
-    2.(Web)COBOL技術 , https://devdocs.io/gnu_cobol/
-    2.(Web)Spring Boot教材 - https://code.visualstudio.com/docs/java/java-spring-boot
-    3.(Book)學會Swift3程式設計的21堂課
-    4.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
-
-W7:2021/02/14-2021/02/20
-  [TODO]
-    1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2      
-      Unit 3: Working in the background
+      Unit 3: Working in the background(第四週-工作重點)
         Lesson 7: Background tasks
           7.1: AsyncTask
           7.2: AsyncTask and AsyncTaskLoader
@@ -40,19 +45,51 @@ W7:2021/02/14-2021/02/20
         Lesson 10: Storing data with Room
           10.1 Part A: Room, LiveData, and ViewModel
           10.1 Part B: Deleting data from a Room database
+
+W8:2021/02/21-2021/02/27
+  [TODO]
+    1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
+    2.(Book)Android程式設計入門、應用到精通
+    2.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面
+    2.(Web)COBOL技術 , https://devdocs.io/gnu_cobol/
+    2.(Web)Spring Boot教材 - https://code.visualstudio.com/docs/java/java-spring-boot
+    3.(Book)學會Swift3程式設計的21堂課
+    4.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
+
+  02/26(五)
+    1.排休假(OK)
+
+  02/25(四)
+
+  02/24(三)
     
+  02/23(二)
+
+  02/22(一)
+    
+W7:2021/02/14-2021/02/20
+  [TODO]
+    1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2      
+  
+  02/19(五)
+    1.排休假(OK)
+
+  02/18(四)
+
+  02/17(三)
+    
+  02/16(二)
+
+  02/15(一)
+    0.開工日(OK)
+    1.Android APP開發 : Android fundamentals
+      3.1: The debugger
+      3.2: Unit tests
+      3.3: Support libraries
+
 W6:2021/02/07-2021/02/13
   [TODO]
     1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
-      Unit 1: Get started
-        Lesson 2: Activities and intents
-          2.1: Activities and intents
-          2.2: Activity lifecycle and state
-          2.3: Implicit intents
-        Lesson 3: Testing, debugging, and using support libraries
-          3.1: The debugger
-          3.2: Unit tests
-          3.3: Support libraries
       
   02/12(五)
     1.大年初一(OK)
@@ -62,15 +99,13 @@ W6:2021/02/07-2021/02/13
 
   02/10(三)
     1.Android APP開發 : Android fundamentals
-      3.1: The debugger
-      3.2: Unit tests
-      3.3: Support libraries
-
+      2.3: Implicit intents(OK)
+      
   02/09(二)
     0.注意:0730以後再刷上班卡,不然長官會一直簽出勤異常(OK,今天刷0730的卡)
     1.Android APP開發 : Android fundamentals
       2.2: Activity lifecycle and state(OK)
-      2.3: Implicit intents(OK)
+      2.3: Implicit intents(50%)
       
   02/08(一)
     0.注意:0730以後再刷上班卡,不然長官會一直簽出勤異常
@@ -96,10 +131,10 @@ W5:2021/01/31-2021/02/06
     (OK)0.中心雙週會 : 0830:-去副主任辦公室簡報(OK)
     (OK)1.部門週會 : Andy確認本週進度(OK) & 分配下週工作項目(OK)
       1.1.心蓮病房APP串接專案
-        (前)-全家寶APP : 收集病人生理量測資訊,儲存於資料庫. ; 閱讀資料規格 <= 工作項目1
-          Interface:<Deep Link>深度鏈結技術，提供資料介面
+        (前)-心蓮病房APP : 和<全家寶APP>安裝在同一台載具上,提供UI供病患使用,讀取<廠商APP>提供的APP LINK,回傳至後端管理系統 <= 工作項目1
           Frequency:<Real Time>，資料立即回傳
-        (中)-介接APP : 和<全家寶APP>安裝在同一台載具上,讀取<廠商APP資料庫>,回傳至資料接收服務 <= 工作項目2
+        (中)-全家寶APP : 收集病人生理量測資訊,儲存於資料庫. ; 閱讀資料規格 <= 工作項目2
+          Interface:<Deep Link>深度鏈結技術，提供資料介面
         (後)-管理系統 : 現有統一管理病人生理量測資訊平台；開發資料接收服務<Spring Boot>,寫入現有管理系統 <= 工作項目3
     (OK)2.Android APP開發
       (OK)Android fundamentals 1.3:Text and scrolling views
