@@ -8,7 +8,7 @@
            01 WS-NUM2 PIC 9(5).
            01 WS-RESULT pic 9(5).
            01 ABC pic x(1).
-          
+      
        PROCEDURE DIVISION.
            DISPLAY "INPUT NUM1 : ".
            ACCEPT WS-NUM1. 

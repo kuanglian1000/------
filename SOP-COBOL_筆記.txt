@@ -9,6 +9,7 @@
     > GnuCOBOL環境說明 https://gnucobol.sourceforge.io/doc/gnucobol.pdf
     
   0.2. 模擬環境下載 & 詳細文件 https://arnoldtrembley.com/GnuCOBOL.htm
+    更名：RENAME 
   0.3. 在Windows上安裝GNUCobol https://medium.com/@sousandrosilveira/installing-gnucobol-3-1-on-windows-1bf27c9b2280
         解壓縮至COBOL資料夾(例:D:\GnuCOBOL)後，設定下列系統參數：
           > COB_MAIN_DIR=<COBOL安裝資料夾> ex. D:\GnuCOBOL
@@ -30,61 +31,114 @@
 ===============================================================================
 資料來源：COBOL Programming Course(初階版) http://www.csis.ul.ie/cobol/
 1.Introduction to COBOL
-  1.1.COBOL is self-documenting(最大特點,它不用另外寫註解,但有比較冗長的問題)
-  1.2.COBOL is non-proprietary (portable)
-  1.3.COBOL is Maintainable
-  1.4.程式範例：兩數相加,並顯示結果
-    IDENTIFICATION DIVISION.
-    PROGRAM-ID. HELLO.
+  1.1.The structure of COBOL programs
+    a. COBOL is self-documenting(最大特點,它不用另外寫註解,但有比較冗長的問題)
+    b. COBOL is non-proprietary (portable)
+    c. COBOL is Maintainable
+    d. 程式範例：兩數相加,並顯示結果
+      IDENTIFICATION DIVISION.
+      PROGRAM-ID. HELLO.
 
-    DATA DIVISION.
-        WORKING-STORAGE SECTION.
-        01 WS-NUM1 PIC 9(5).
-        01 WS-NUM2 PIC 9(5).
-        01 WS-RESULT pic 9(5).
-      
-    PROCEDURE DIVISION.
-        DISPLAY "INPUT NUM1 : ".
-        ACCEPT WS-NUM1. 
-        DISPLAY "INPUT NUM2 : ".
-        ACCEPT WS-NUM2.
-        MULTIPLY WS-NUM1 BY WS-NUM2 giving WS-RESULT.
-        DISPLAY "RESULT IS : " , WS-RESULT.
+      DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01 WS-NUM1 PIC 9(5).
+          01 WS-NUM2 PIC 9(5).
+          01 WS-RESULT pic 9(5).
         
-    STOP RUN.
-  1.5.撰寫規則：
-    |1-6|7|8-11|12-72|73-80|
-    |行號區(1-6),很多編譯器可忽略
-    |指示區(7) / * 表示註解 , - 表示接續 , / 表示form feed
-    |Area A(8-11) => 所有的段落標示 , 都在這個區域開始 , FD AND 01 Level 數值要寫在這個區域
-    |Area B(12-72) => 所有的程式碼 , 都在這個區域
-  1.6.命名原則：
-    1.至少1個字元,最多30個字元
-    2.至少1個英文字
-    3.開頭及結尾不能用連字號(-)
-    4.命名必須由(A-Z) , (0-9) 及 (-) 組成
-    5.不能包含空白字元
-    6.命名不分大小寫, total == Total = tOtAl = TOTAL
-  1.7.程式結構：
-    Program > Division > SECTION > PARAGRAPH > Sentences > Statements
-  1.8.四個Divisions
-    IDENTIFICATION DIVISION.
-      [程式資訊]:裡面內容主要是寫給程式員看的,會被編譯器視為註解.
-      唯一例外,每個COBOL PROGRAM都要有 <PROGRAM-ID.> , 而且要緊接在 <IDENTIFICATION DIVISION.> 後面.
-      
-    ENVIRONMENT DIVISION.
-      [環境設定]:外部裝置會給定一個別名
+      PROCEDURE DIVISION.
+          DISPLAY "INPUT NUM1 : ".
+          ACCEPT WS-NUM1. 
+          DISPLAY "INPUT NUM2 : ".
+          ACCEPT WS-NUM2.
+          MULTIPLY WS-NUM1 BY WS-NUM2 giving WS-RESULT.
+          DISPLAY "RESULT IS : " , WS-RESULT.
+          
+      STOP RUN.
+    e. 撰寫規則：
+      |1-6|7|8-11|12-72|73-80|
+      |行號區(1-6),很多編譯器可忽略
+      |指示區(7) / * 表示註解 , - 表示接續 , / 表示form feed
+      |Area A(8-11) => 所有的段落標示 , 都在這個區域開始 , FD AND 01 Level 數值要寫在這個區域
+      |Area B(12-72) => 所有的程式碼 , 都在這個區域
+    f. 命名原則：
+      1.至少1個字元,最多30個字元
+      2.至少1個英文字
+      3.開頭及結尾不能用連字號(-)
+      4.命名必須由(A-Z) , (0-9) 及 (-) 組成
+      5.不能包含空白字元
+      6.命名不分大小寫, total == Total = tOtAl = TOTAL
+    g. 程式結構：
+      Program > Division > SECTION > PARAGRAPH > Sentences > Statements
+    h. 四個Divisions
+      IDENTIFICATION DIVISION.
+        [程式資訊]:裡面內容主要是寫給程式員看的,會被編譯器視為註解.
+        唯一例外,每個COBOL PROGRAM都要有 <PROGRAM-ID.> , 而且要緊接在 <IDENTIFICATION DIVISION.> 後面.
+        
+      ENVIRONMENT DIVISION.
+        [環境設定]:外部裝置會給定一個別名
 
-    DATA DIVISION.
-      [資料描述]:有兩個主要的Sections, 
-        分別是: <FILE SECTION.> & <WORKING-STORAGE SECTION.>
-        另外還有: <LINKAGE SECTION.> 在子程式(subprograms)內使用
-        還有: <REPORT SECTION.> 在Report Writer based programs內使用
+      DATA DIVISION.
+        [資料描述]:有兩個主要的Sections, 
+          分別是: <FILE SECTION.> & <WORKING-STORAGE SECTION.>
+          另外還有: <LINKAGE SECTION.> 在子程式(subprograms)內使用
+          還有: <REPORT SECTION.> 在Report Writer based programs內使用
 
-        程式範例(宣告)：
+      PROCEDURE DIVISION.
+        [程式邏輯及演算法]:是由 <SECTIONS> , <PARAGRAPHS> , <SENTENCES> , <STATEMENTS> 所組成
+          1. <SECTIONS> 非必要選項,
+          2. 至少要有1個<PARAGRAPHS> , <SENTENCES> , <STATEMENTS>
+          3. <SECTIONS> & <PARAGRAPHS> 須符合命名規則.
 
-    PROCEDURE DIVISION.
-      程式邏輯及演算法
+          程式範例(最短):
+            IDENTIFICATION DIVISION.
+            PROGRAM-ID. SmallProgram.
+            AUTHOR. kl.cheng
+
+            PROCEDURE DIVISION.
+            DISPLAY "hello world".
+            STOP RUN.
+          
+          程式範例:
+            IDENTIFICATION DIVISION.
+            PROGRAM-ID. TEST-PROGRAM.
+            AUTHOR. KL CHENG.
+
+            DATA DIVISION.
+            WORKING-STORAGE SECTION.
+            01 NUM1 PIC 9 VALUE ZEROS.
+            01 NUM2 PIC 9 VALUE ZEROS.
+            01 RESULT PIC 99 VALUE ZEROS.
+
+            PROCEDURE DIVISION.
+            CalculateResult.
+              ACCEPT NUM1.
+              ACCEPT NUM2.
+              MULTIPLY NUM1 BY NUM2 GIVING RESULT.
+              DISPLAY "RESULT IS = " , RESULT.
+              STOP RUN.
+  1.2.Declaring data in COBOL
+    1.2.1.Introduction => Unit aims, objectives, prerequisites and further reading.
+
+  	1.2.2.Categories of COBOL data => Variables , Literals , Figurative Constants.
+      1.Variable 資料型態只有三種：numeric (數字) , alphanumeric (text/string 英數字) , alphabetic (字母無數字)
+      2.Variable 用錯 data type , 執行運算會讓程式直接掛掉.
+      3.Literals 指的常數(固定值) , 無法指定一個Name.
+      4.Literals 有兩種型態: 
+        > String/Alphanumeric Literals (ex.  "Michael Ryan", "-123", "123.45" )
+        > Numeric Literals (ex. 123, 123.45, -256, +2987 )
+      5.Figurative Constants 指的是具象常數.
+      6.Figurative Constants 類別有:
+        > SPACE or SPACES 	        1個或多個" "空白字元
+        > ZERO or ZEROS or ZEROES   1個或多個0
+        > QUOTE or QUOTES 	        "" Used instead of a quotation mark
+        > HIGH-VALUE or HIGH-VALUES 最大值,ex.99
+        > LOW-VALUE or LOW-VALUES 	最小值,ex.00
+        > ALL literal 	            ex. ALL "a" , ALL 1. Allows a ordinary literal to act as Figurative Constant
+
+  	1.2.3.Declaring Data-Items in COBOL => 使用 PIC 宣告變數
+      In this section we show how variables are declared in COBOL using the PICTURE clause.
+    1.2.4.Group and Elementary Data-Items => 如何指定合適的資料階層
+      This section demonstrates how record structures can be specified using an appropriate arrangement of level numbers.
 
 
 ===============================================================================
