@@ -1,8 +1,10 @@
 
 0.Windows OS上執行COBOL的方法(gnu_cobol)
   0.1. 學習資料來源
+    >(先看這一份,還有作業可以寫) COBOL Programming Course(初階版) http://www.csis.ul.ie/cobol/
+    
+    >(超完整,但份量太多) GnuCOBOL Programmer’s Guide(開發人員手冊-Web版) https://devdocs.io/gnu_cobol/
     > GnuCOBOL Programmer’s Guide(開發人員手冊-PDF版) https://gnucobol.sourceforge.io/guides/GnuCOBOL%202.2%20NOV2017%20Programmers%20Guide%20(US%20Letter).pdf
-    > GnuCOBOL Programmer’s Guide(開發人員手冊-Web版) https://devdocs.io/gnu_cobol/
     > GnuCOBOL FAQ(有參考價值) http://opencobol.add1tocobol.com/gnucobol/
     > GnuCOBOL環境說明 https://gnucobol.sourceforge.io/doc/gnucobol.pdf
     
@@ -25,6 +27,66 @@
   0.5. 如何執行COBOL程式
         > cobc -x -free hello.cob => 編譯COBOL程式(生出EXE檔)
         > ./hello => 執行編譯後的COBOL程式(EXE)
+===============================================================================
+資料來源：COBOL Programming Course(初階版) http://www.csis.ul.ie/cobol/
+1.Introduction to COBOL
+  1.1.COBOL is self-documenting(最大特點,它不用另外寫註解,但有比較冗長的問題)
+  1.2.COBOL is non-proprietary (portable)
+  1.3.COBOL is Maintainable
+  1.4.程式範例：兩數相加,並顯示結果
+    IDENTIFICATION DIVISION.
+    PROGRAM-ID. HELLO.
+
+    DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01 WS-NUM1 PIC 9(5).
+        01 WS-NUM2 PIC 9(5).
+        01 WS-RESULT pic 9(5).
+      
+    PROCEDURE DIVISION.
+        DISPLAY "INPUT NUM1 : ".
+        ACCEPT WS-NUM1. 
+        DISPLAY "INPUT NUM2 : ".
+        ACCEPT WS-NUM2.
+        MULTIPLY WS-NUM1 BY WS-NUM2 giving WS-RESULT.
+        DISPLAY "RESULT IS : " , WS-RESULT.
+        
+    STOP RUN.
+  1.5.撰寫規則：
+    |1-6|7|8-11|12-72|73-80|
+    |行號區(1-6),很多編譯器可忽略
+    |指示區(7) / * 表示註解 , - 表示接續 , / 表示form feed
+    |Area A(8-11) => 所有的段落標示 , 都在這個區域開始 , FD AND 01 Level 數值要寫在這個區域
+    |Area B(12-72) => 所有的程式碼 , 都在這個區域
+  1.6.命名原則：
+    1.至少1個字元,最多30個字元
+    2.至少1個英文字
+    3.開頭及結尾不能用連字號(-)
+    4.命名必須由(A-Z) , (0-9) 及 (-) 組成
+    5.不能包含空白字元
+    6.命名不分大小寫, total == Total = tOtAl = TOTAL
+  1.7.程式結構：
+    Program > Division > SECTION > PARAGRAPH > Sentences > Statements
+  1.8.四個Divisions
+    IDENTIFICATION DIVISION.
+      [程式資訊]:裡面內容主要是寫給程式員看的,會被編譯器視為註解.
+      唯一例外,每個COBOL PROGRAM都要有 <PROGRAM-ID.> , 而且要緊接在 <IDENTIFICATION DIVISION.> 後面.
+      
+    ENVIRONMENT DIVISION.
+      [環境設定]:外部裝置會給定一個別名
+
+    DATA DIVISION.
+      [資料描述]:有兩個主要的Sections, 
+        分別是: <FILE SECTION.> & <WORKING-STORAGE SECTION.>
+        另外還有: <LINKAGE SECTION.> 在子程式(subprograms)內使用
+        還有: <REPORT SECTION.> 在Report Writer based programs內使用
+
+        程式範例(宣告)：
+
+    PROCEDURE DIVISION.
+      程式邏輯及演算法
+
+
 ===============================================================================
 資料來源：https://www.tutorialspoint.com/cobol
 1.Program Structure
@@ -160,19 +222,19 @@
     位置  /欄位名稱 /功能
     1-6   / 行號   / 保留給行號使用
     7     / 指示   / * 表示註解 , - 表示接續 , / 表示form feed
-    8-11  / A區域  / 所有的段落標示 , 都在這個區域開始
+    8-11  / A區域  / 所有的段落標示 , 都在這個區域開始 , FD AND 01 Level 數值要寫在這個區域
     12-72 / B區域  / 所有的程式碼 , 都在這個區域
     73-80 / 識別區 / Programmer有需要時 , 可使用
 
     example:
-1-----78---12-----------------------------------------------------------73------
-000100 IDENTIFICATION DIVISION.                                         000100
-000200 PROGRAM-ID. HELLO.                                               000101
-000250* THIS IS A COMMIT LINE.                                          000102
-000300 PROCEDURE DIVISION.                                              000103
-000350 A000-FIRST-PARA.                                                 000104
-000400     DISPLAY "CODEING SHEET".                                     000105
-000500 STOP RUN.
+    1-----78---12-----------------------------------------------------------73------
+    000100 IDENTIFICATION DIVISION.                                         000100
+    000200 PROGRAM-ID. HELLO.                                               000101
+    000250* THIS IS A COMMIT LINE.                                          000102
+    000300 PROCEDURE DIVISION.                                              000103
+    000350 A000-FIRST-PARA.                                                 000104
+    000400     DISPLAY "CODEING SHEET".                                     000105
+    000500 STOP RUN.
 
 4.COBOL - Data Types
   Data NAME

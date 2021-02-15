@@ -47,10 +47,58 @@
           10.1 Part B: Deleting data from a Room database
   
   自主學習
+    0.(Web)COBOL技術 , http://www.csis.ul.ie/cobol/course/Default.htm & https://devdocs.io/gnu_cobol/
+      1.Introduction to COBOL	
+        The structure of COBOL programs (new may 2002)
+        Declaring data in COBOL
+        Basic Procedure Division commands
+        Getting Started
+        These will be self assessment questions
+      2.COBOL Control structures	
+        Selection in COBOL
+        Iteration in COBOL
+        The Calculator and Countdown exercise
+        These will be self assessment questions
+      3.Simple Sequential Files	
+        Introduction to Sequential files
+        Processing Sequential files
+        Reading Sequential Files
+        Counting records in a Sequential File
+      4.Advanced data declaration	
+        Edited Pictures
+        The USAGE clause (new may 2002)
+        Writing records to a Sequential File
+        Inserting records in a Sequential File
+      5.Advanced Sequential Files	
+        COBOL print files and variable-length records
+        Sorting and Merging
+        Basic Procedure Division commands
+        Updating a Sequential File
+        Sorting a Sequential File
+      6.Direct access files	
+        Introduction to direct access files
+        Relative Files
+        Indexed Files
+      7.COBOL tables	
+        Using tables
+        Creating tables - syntax and semantics
+        Searching tables
+        Using Tables
+      8.Constructing large systems	
+        Contained and external sub-programs (new may 2002)
+        The COPY verb (new may 2002)
+      9.COBOL string handling	
+        Inspect
+        String
+        Unstring
+        Reference modification and Intrinsic Functions
+      10.The COBOL Report Writer	
+        Report Writer by example
+        Report Writer syntax and semantics
+
     1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
     2.(Book)Android程式設計入門、應用到精通
     2.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面
-    2.(Web)COBOL技術 , https://devdocs.io/gnu_cobol/
     2.(Web)Spring Boot教材 - https://code.visualstudio.com/docs/java/java-spring-boot
     3.(Book)學會Swift3程式設計的21堂課
     4.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
@@ -108,6 +156,7 @@ W7:2021/02/14-2021/02/20
       3.1: The debugger(OK)
       3.2: Unit tests(SKIPPED，先跳過)
       3.3: Support libraries(SKIPPED，先跳過)
+    2.COBOL學習 => 1.Introduction to COBOL	
 
 W6:2021/02/07-2021/02/13
   [TODO]
