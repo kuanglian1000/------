@@ -78,7 +78,7 @@ ORDER BY name;
   END
 
   WAITFOR DELAY '00:00:15'
-  GO 500
+  --GO 500 --上一個GO之後指令會重覆500次
 
 /*
   1.3 DMV example
@@ -133,10 +133,10 @@ ORDER BY name;
     另外,上述權限建議指派給特定login , EX. DMV_Viewer , 而非整個群組或使用者
     ALTER SERVER STATE --如果要有清除DMV功能 , 還要另外給這項權限
   1.4.2 Clearing DMVs (清除DMV)
+    DBCC FREEPROCCACHE --清掉SQLServer內所有DB的cached plans
+    DBCC FREEPROCCACHE sql_handle | plan_handle | pool_name --清除特定範圍的cached plans
 */
-  DBCC FREEPROCCACHE --清掉SQLServer內所有DB的cached plans
-  DBCC FREEPROCCACHE sql_handle | plan_handle | pool_name --清除特定範圍的cached plans
-
+  
   DECLARE @DB_ID INT --清掉特定DB的cached plans
   SET @DB_ID = DB_ID('NameOfDatabaseToClear') --改為你要清cached plans的DB名稱
   DBCC FLUSHPROCINDB(@DB_ID)
@@ -162,5 +162,8 @@ ORDER BY name;
     
 */
 
+/*
 備份：完整、差異、大量紀錄
 差異備份的前提是，必須要有完整備份。
+*/
+
