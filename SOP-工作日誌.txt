@@ -14,8 +14,8 @@
           2.2: Activity lifecycle and state
           2.3: Implicit intents
         Lesson 3: Testing, debugging, and using support libraries(第三週-工作重點)
-          3.1: The debugger
-          3.2: Unit tests
+          3.1: The debugger(OK)
+          3.2: Unit tests(SKIPPED，先跳過)，https://developer.android.com/training/testing/fundamentals，須從最基本的設定學起
           3.3: Support libraries
       Unit 2: User experience(第三週-工作重點)
         Lesson 4: User interaction
@@ -45,9 +45,8 @@
         Lesson 10: Storing data with Room
           10.1 Part A: Room, LiveData, and ViewModel
           10.1 Part B: Deleting data from a Room database
-
-W8:2021/02/21-2021/02/27
-  [TODO]
+  
+  自主學習
     1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
     2.(Book)Android程式設計入門、應用到精通
     2.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面
@@ -56,6 +55,9 @@ W8:2021/02/21-2021/02/27
     3.(Book)學會Swift3程式設計的21堂課
     4.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
 
+W8:2021/02/21-2021/02/27
+  [TODO]
+    
   02/26(五)
     1.排休假(OK)
 
@@ -75,17 +77,37 @@ W7:2021/02/14-2021/02/20
     1.排休假(OK)
 
   02/18(四)
+    1.Android APP開發 : Android fundamentals
+      Lesson 6:Testing your UI
+        6.1: Espresso for UI testing
 
   02/17(三)
-    
+    1.Android APP開發 : Android fundamentals
+      Lesson 5: Delightful user experience
+        5.1: Drawables, styles, and themes
+        5.2: Cards and colors
+        5.3: Adaptive layouts
+      
   02/16(二)
+    1.Android APP開發 : Android fundamentals
+      Lesson 4: User interaction
+        4.1: Clickable images
+        4.2: Input controls
+        4.3: Menus and pickers
+        4.4: User navigation
+        4.5: RecyclerView
 
   02/15(一)
     0.開工日(OK)
+    0.新進人員教育訓練(OK)
+      0.1.【110年-新進同仁】110年度新進同仁職前訓練-【護理、醫技、行政】	通過	2021年02月15日
+      0.2.【110年-新進同仁】110年度新進同仁職業安全衛生教育訓練	通過	2021年02月15日
+      0.3.【110年-新進同仁】基礎感染管制	通過	2021年02月15日
+      0.4.【110年-新進同仁】110年-防制就業歧視宣導	通過	2021年02月15日
     1.Android APP開發 : Android fundamentals
-      3.1: The debugger
-      3.2: Unit tests
-      3.3: Support libraries
+      3.1: The debugger(OK)
+      3.2: Unit tests(SKIPPED，先跳過)
+      3.3: Support libraries(SKIPPED，先跳過)
 
 W6:2021/02/07-2021/02/13
   [TODO]
@@ -112,7 +134,6 @@ W6:2021/02/07-2021/02/13
     1.Android APP開發 : Android fundamentals 
       1.4: Learn to help yourself(OK)
       2.1: Activities and intends(OK)
-      
 
 W5:2021/01/31-2021/02/06
   [TODO]

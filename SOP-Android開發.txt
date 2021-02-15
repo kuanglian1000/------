@@ -564,8 +564,60 @@ Q10. 2.3:Implicit intents (Deep Link or App Link == 開 intent filters接收外�
       哪個 Intent action 可用來以Camera App進行拍照呢？
       A3. Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+Q11. 3.1: The debugger
+  Task. 1 Step through your app's execution
+    1. Step Over (F8) , 逐步執行
+    2. Step In (F7) , 跳進去引用的方式|函式內
+    3. Step Out (Shift+F8) , 跳進去後看完,直接回到跳進入的點(返回) 
 
+  Task. 2 Work with Breakpoints
+    1. 在Breakpoints上面 , 加上 Condition , 條件吻合才會停在偵錯點 , 不吻合則一直往下跑
+    2. Resume (F9) , 繼續執行程式(跳離偵錯模式)
+    3. View Breakpoints (Ctrl+Shift+F8) , 查看所有偵錯點及相關設定
+    4. Mute Breakpoints , 一次關閉所有偵錯點
 
+  Task. 3 Examine and modify variables
+    1. Variable頁籤 , 可動態調整變數值(Set Value F2) , 但保留原輸入參數(原本輸入值不變)
+    2. Evaluate Expressions(Alt+F8) , 動態查看變數當下狀態值或方法 , 例:getText() , getHint()..
+
+  課後問題：
+    Q1. 輸入欄位留空白,會出現什麼錯誤呢？
+      A1. java.lang.NumberFormatException: empty String
+    
+    Q2. Which function do you perform in the Debug pane in order to execute the current line 
+        where the breakpoint is, and then stop at the next line in the code? Choose one:
+      A2. Step Out(Shift+F8) , 跳回偵錯點位置
+    
+    Q3. Which function do you perform in the Debug pane 
+        in order to jump to the execution of a method call from the current line where the breakpoint is? Choose one:
+      A3. Step Into (F7) , 跳進去看呼叫函式
+
+Q12. 3.2: Unit tests(先跳過)，https://developer.android.com/training/testing/fundamentals)
+  重點：
+    1. Local Unit Test
+
+  What you'll learn(本章可以學到的內容)
+    1.如何組織和執行測試
+    2.了解什麼是單元測試(Unit Test)
+    3.為你的程式碼撰寫單元測試(Unit Test)
+  
+  Task 1:Explore and run calculateTest
+    1.
+
+  Task 2:Add more unit tests to calculateTest
+
+Q13. 3.3: Support libraries(直接跳過, Android 11 使用 AndroidX 套件組, 官方建議全新專案用這個)
+  
+  What you'll learn(本章可以學到的內容)
+    1.如何識別 Android Studio 安裝的 Android Support Library版本
+    2.如何指出 Support Library 在APP內的類別
+    3.如何分辨 compileSdkVersion , targetSdkVerion , minSdkVersion 之間的差異
+    4.如何看出 deprecated(不推薦) or unavailable(無法取得) APIs
+
+  Task 1:Set up your project to use support libraries
+  Task 2:Implement the layout and MainActivity
+  Task 3:Implement Button behavior
+  
 (Template)QXX. 2.3:Activities and intents
   重點：
 
