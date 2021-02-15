@@ -134,6 +134,7 @@
         > HIGH-VALUE or HIGH-VALUES 最大值,ex.99
         > LOW-VALUE or LOW-VALUES 	最小值,ex.00
         > ALL literal 	            ex. ALL "a" , ALL 1. Allows a ordinary literal to act as Figurative Constant
+==2021-02-15 看到這裡==
 
   	1.2.3.Declaring Data-Items in COBOL => 使用 PIC 宣告變數
       In this section we show how variables are declared in COBOL using the PICTURE clause.
