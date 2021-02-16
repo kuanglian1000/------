@@ -128,22 +128,26 @@ W7:2021/02/14-2021/02/20
     1.Android APP開發 : Android fundamentals
       Lesson 6:Testing your UI
         6.1: Espresso for UI testing
+    2.COBOL學習 => 1.Introduction to COBOL
 
   02/17(三)
     1.Android APP開發 : Android fundamentals
+      Lesson 4: User interaction
+        4.3: Menus and pickers
+        4.4: User navigation
+        4.5: RecyclerView
       Lesson 5: Delightful user experience
         5.1: Drawables, styles, and themes
         5.2: Cards and colors
         5.3: Adaptive layouts
-      
+    2.COBOL學習 => 1.Introduction to COBOL
+    
   02/16(二)
     1.Android APP開發 : Android fundamentals
       Lesson 4: User interaction
-        4.1: Clickable images
-        4.2: Input controls
-        4.3: Menus and pickers
-        4.4: User navigation
-        4.5: RecyclerView
+        4.1: Clickable images(OK)
+        4.2: Input controls(OK)
+    2.COBOL學習 => 1.Introduction to COBOL => 1.2.Declaring data in COBOL
 
   02/15(一)
     0.開工日(OK)
@@ -152,11 +156,11 @@ W7:2021/02/14-2021/02/20
       0.2.【110年-新進同仁】110年度新進同仁職業安全衛生教育訓練	通過	2021年02月15日
       0.3.【110年-新進同仁】基礎感染管制	通過	2021年02月15日
       0.4.【110年-新進同仁】110年-防制就業歧視宣導	通過	2021年02月15日
-    1.Android APP開發 : Android fundamentals
+    1.Android APP開發 : Android fundamentals(Unit tests & Support libraries先跳過)
       3.1: The debugger(OK)
       3.2: Unit tests(SKIPPED，先跳過)
       3.3: Support libraries(SKIPPED，先跳過)
-    2.COBOL學習 => 1.Introduction to COBOL	
+    2.COBOL學習 => 1.Introduction to COBOL => 1.1.The structure of COBOL programs(OK)	
 
 W6:2021/02/07-2021/02/13
   [TODO]

@@ -617,6 +617,107 @@ Q13. 3.3: Support libraries(直接跳過, Android 11 使用 AndroidX 套件組, 
   Task 1:Set up your project to use support libraries
   Task 2:Implement the layout and MainActivity
   Task 3:Implement Button behavior
+
+Q14. 4.1: Clickable images
+  重點：
+    1.UI使用介面都是由 View物件所組成.
+    2.Android專案內的圖檔都放在 drawable 資料夾內.
+    3.imageAsset 在Android Project內 , 圖片檔的稱呼.
+    4.Snackbar 新學到的另一個使用者回饋方式(從畫面最底下冒出來,再縮回去).
+    5.Toast 則是短訊息,再複習1次用法
+      Toast.makeText(getApplicationContext(), "要顯示的訊息",
+            Toast.LENGTH_LONG).show();
+    
+  What you'll learn(本章可以學到的內容)
+    1.如何使用圖片作為互動媒介，執行一個動作
+    2.如何設定 ImageView 的屬性
+    3.如何在 Toast 訊息上加上 onClick() 方法
+
+  Task 1:Add Images to the layout(OK)
+    1.使用 ImageView 元件 , src 指向圖片檔
+    2.圖片檔統一放在 res/drawable 資料夾內
+  
+  Task 2:Add onClick methods for images
+    1.最佳作法：共同函式放在 MainActivity.java 預設方法的最下面(例:displayToast,顯示訊息)
+    2.只要在同一套件下,public方法可以被呼叫到哦.(例:first_fragment.xml可引用 MainActivity.java 內的 public method)
+  
+  Task 3:Change the Floating action button
+    1.<Snackbar> , 從螢幕下方跳出來的訊息 , 常用在提供動作後的回饋
+    2.<FloatingActionButton> , 浮在畫面上的按鈕 , 例:寄信,購物車..
+
+  Task 4:Coding challenges
+    0.Intent intent = new Intent(MainActivity.this , OrderActivity.class); //指定要去哪
+    1.intent.putExtra(key,value); //打包帶過去的行李
+    2.startActivity(intent); //出發
+    ---------------------------------
+    3.Intent intent = getIntent(); //抵達後,取行李
+    4.String strMessage = intent.getStringExtra(key); //拿出行李內容
+
+  程式挑戰：如何作出 <横放版面 Landscape> , 在同一個 Activity上面(預設-垂直版面 Portrait)
+    1. 步驟 => 開啟Layout的 Design畫面 / 點選旋轉圖示(Orientation for Preview(O)) / 點選<Create Landscape Variation>功能一定出不來
+    2. 結果 => 自動產生一個新的 land\xxx.xml (land) 的 Layout檔案 , 原始Layout檔案則會更名為 layout\xxx.xml
+    3. 後續 => 接下來就重新調整<畫面元件>為<横放版面 Landscape>的樣子.
+
+  課後問題：
+    Q1.如何將圖片加入Android Project內？
+      A1.使用新增 ImageAsset 的方式.
+    
+    Q2.如何讓 ImageView 可點選呢？
+      A2.加入 onClick 屬性,利用呼叫 click handler.
+    
+    Q3.click handler 如何在 layout 的屬性內被呼叫呢？
+      A3.這個 click handler 方法必須是 public , return void , 且把 View 作為唯一參數值
+
+Q15. 額外補充: Activity & Fragment 間的差異為何？
+  A15:
+    Activity 是應用程式的元件,提供畫面與使用者產生互動,而執行特定任務.
+    Fragment 則是在1個Acitivy內,表示UI的1種行為.
+    換言之,Fragment是屬於某個Activity,
+           Activity是各自獨立的個體 , 須利用 intent 啟動另一個 Activity 並取得回應(如有必要)
+
+Q16. 4.2: Input controls
+  重點：
+    1.EditText可以指定鍵盤出現的類別,例:輸入文字時,出現英數鍵盤;輸入電話時,出現純數字鍵盤
+    2.android:inputType = "phone"
+  
+  What you'll learn(本章可以學到的內容)
+    1.如何改變輸入模式,如啟用建議,自動大寫,密碼隱藏
+    2.如何改變輸入鍵盤,如純數字,英數字混合..
+    3.如何新增僅供單選的 RadioButton
+    4.如何新增僅供單選的 DropDownlist(Drop-down menu)
+
+  Task 1:測試Text Entry屬性(OK)
+    1.android:inputType 可以挑選多種型態,以 | 作分隔,常用於非特定用途欄位 , 例:說明欄
+      android:inputType = "textMultiLine|textCapSentences" //多欄,首字大寫
+    2.android:nextFocusForward 可以決定按下TAB後自動跳往哪個項目
+
+  Task 2:使用 RadioButton(單選)(OK)
+    1.RadioButton要放在RadioGroup裡面
+    2.RadioButton被點選的程式寫法:
+      public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton)view).isChecked(); //這裡很奇怪,竟然可以這麼寫
+        switch (view.getId()){
+            case R.id.sameday:
+                if(checked)
+                    displayToast(getString(R.string.sameday_rdb_text));
+                break;
+            case R.id.nextday:
+                if(checked)
+                    displayToast(getString(R.string.nextday_rdb_text));
+                break;
+            case R.id.pickup:
+                if(checked)
+                    displayToast(getString(R.string.pick_up_rdb_text));
+                break;
+            default:
+                displayToast("Nothing Selected..");
+                break;
+        }
+      }
+  
+==2021/02/16進度==
+
+  Task 3:使用 Spinner for user choices(DropDownlist-單選)
   
 (Template)QXX. 2.3:Activities and intents
   重點：
