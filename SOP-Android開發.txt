@@ -895,12 +895,133 @@ Q17. 4.3: Menus and pickers(指的是 App Bar | Action Bar , 在畫面上方)
       //最重要的是,要SHOW出來.
       myAlertBuilder.show();
     
-  Task 5:Use a picker for user input(OK, Date Picker)
+  Task 5:Use a Date picker for user input(OK) => 
+    程式碼範例：
+    <DatePickerFragment.java> => 我是放 DatePickerDialog 的 Fragment
+
+      // 這裡要調整 extends Fragment 改為 extends DialogFragment
+      // 多實作 implements DatePickerDialog.OnDateSetListener 這個項目
+      public class DatePickerFragment extends DialogFragment
+              implements DatePickerDialog.OnDateSetListener {
+
+      ... //工具自動產生的程式碼(先不理它)//
+
+      // 這段要註解起來,因為這個Fragment不顯示它自己的畫面,只用來顯示DataPicker
+      //    @Override
+      //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      //                             Bundle savedInstanceState) {
+      //        // Inflate the layout for this fragment
+      //        return inflater.inflate(R.layout.fragment_date_picker, container, false);
+      //    }
+
+      // 實作 DatePickerDialog.OnDateSetListener 後, 新增事件(1):長出一個 DatePickerDialog, 並設定預設值(當天).
+          @NonNull
+          @Override
+          public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+              final Calendar c = Calendar.getInstance();
+              int year = c.get(Calendar.YEAR);
+              int month = c.get(Calendar.MONTH);
+              int day = c.get(Calendar.DAY_OF_MONTH);
+
+              return new DatePickerDialog(getActivity(),this,year,month,day);
+
+      //        return super.onCreateDialog(savedInstanceState);
+          }
+
+      // 實作 DatePickerDialog.OnDateSetListener 後, 新增事件(2):當 DatePickerDialog 設定後, 把值回傳給哪個 Activity.
+          @Override
+          public void onDateSet(DatePicker datePicker, int year , int month, int day) {
+              OrderActivity orderActivity = (OrderActivity)getActivity();
+              orderActivity.processDatePickerResult(year,month,day);
+          }
+      }
+
+    <OrderActivity.java> => 我是召喚 DatePickerFragment 出來幫忙的 Activity
+      ... 僅節錄重點部分 ...
+      //呼叫 DatePicker(記得要綁在前端元件上面)
+      public void showDatePicker(View view) {
+          DatePickerFragment datePickerFragment = new DatePickerFragment();
+          datePickerFragment.show(getSupportFragmentManager(),"datePicker");
+      }
+
+      //接收 DatePicker 回傳值(注意:此法會被 DatePickerFragment 直接使用哦~~)
+      public void processDatePickerResult(int year, int month, int day) {
+          String strYear = String.valueOf(year);
+          String strMonth = String.valueOf(month);
+          String strDay = String.valueOf(day);
+          displayToast(String.format("You Choose Date : %s/%s/%s",strYear,strMonth,strDay));
+      }
 
   Task 額外挑戰 : Time picker
 
-  課後問題：
+  課後總結：
+    1.Provide an options menu and app bar:(加入右上角...options menu 及畫面最上方功能選單)
+      Start your app or Activity with the Basic Activity template to automatically set up the app bar, the options menu, and a floating action button.
+      The template sets up a CoordinatorLayout layout with an embedded AppBarLayout layout. AppBarLayout is like a vertical LinearLayout. It uses the Toolbar class in the support library, instead of the native ActionBar, to implement an app bar.
+      The template modifies the AndroidManifest.xml file so that the .MainActivity Activity is set to use the NoActionBar theme. This theme is defined in the styles.xml file.
+      The template sets MainActivity to extend AppCompatActivity and starts with the onCreate() method, which sets the content view and Toolbar. It then calls setSupportActionBar() and passes toolbar to it, setting the toolbar as the app bar for the Activity.
+      Define menu items in the menu_main.xml file. The android:orderInCategory attribute specifies the order in which the menu items appear in the menu, with the lowest number appearing higher in the menu.
+      Use the onOptionsItemSelected``() method to determine which menu item was tapped.
 
+    2.Add an icon for an options menu item:(加入圖示供功能選單內選項使用)
+      Expand res in the Project > Android pane, and right-click (or Control-click) the drawable folder. Choose New > Image Asset.
+      Choose Action Bar and Tab Items in the drop-down menu, and change the name of the image file.
+      Click the clip art image to select a clip art image as the icon. Choose an icon.
+      Choose HOLO_DARK from the Theme drop-down menu.
+
+    3.Show menu items as icons in the app bar:(選項以圖示顯示在AppBar or 隱藏在 options menu 裡的設定)
+      Use the app:showAsAction attribute in menu_main.xml with the following values.
+      "always": Always appears in the app bar. (If there isn't enough room it may overlap with other menu icons.)
+      "ifRoom": Appears in the app bar if there is room.
+      "never": Never appears in the app bar; its text appears in the overflow menu.
+
+    4.Use an alert dialog:(Alert Dialog使用方式)
+      Use a dialog to request a user's choice, such as an alert that requires users to tap OK or Cancel. Use dialogs sparingly as they interrupt the user's workflow.
+      Use the AlertDialog subclass of the Dialog class to show a standard dialog for an alert.
+      Use AlertDialog.Builder to build a standard alert dialog
+        , with setTitle() to set its title
+        , setMessage() to set its message
+        , and setPositiveButton() and setNegativeButton() to set its buttons.
+
+    5.Use a picker for user input:(Picker使用方式 , 常與 Fragment合併使用 , 程序稍微複雜一點)
+      Use DialogFragment, a subclass of Fragment, to build a picker such as the date picker or time picker.
+      Create a DialogFragment, and implement DatePickerDialog.OnDateSetListener to create a standard date picker with a listener. 
+      Include onDateSet() in this Fragment.
+      Replace the onCreateView() method with onCreateDialog() that returns Dialog. 
+      Initialize the date for the date picker from Calendar, and return the dialog and these values to the Activity.
+      Create an instance of FragmentManager using getSupportFragmentManager() to manage the Fragment and show the date picker.
+  
+  課後問題：
+    Q1.What is the name of the file in which you create options menu items? Choose one:
+      A1.menu_main.xml , 是 options menu items 新增
+    Q2.Which method is called when an options menu item is clicked? Choose one:
+      A2.onOptionsItemSelected(MenuItem item)
+    Q3.Which of the following statements sets the title for an alert dialog? Choose one:
+      A3.myAlertBuilder.setTitle("Alert");
+    Q4.Where do you create a DialogFragment for a date picker? Choose one:
+      A4.In the onCreateDialog() method in the extension of DialogFragment.
+
+Q18. 4.4: User navigation(使用者導航 , 決定操作程序/步驟 , 在 AppBar 左上角的 <- 回上層圖示(Up Button) , 雖然系統的 ▼ 回前頁鈕(Back Button) 也能作到)
+  重點：
+    1.AppBar(<-)回上層圖示(Up Button) 不等於 系統(▼)回前頁鈕(Back Button)
+    2.AppBar(<-)回上層圖示(Up Button) 是回到階層中的上層畫面(parent screen)
+    3.系統(▼)回前頁鈕(Back Button) 則是回到使用者前次瀏覽畫面(whatever screen the user last viewed)
+    4.Tab navigation 提供在同一畫面切換頁面的功能
+    5.Tab navigation 使用上建議不要超過 {4個頁面} , <= 4個頁面 是最合適數量
+    6.TabLayout > ViewPager(Layout Manager) 連接 Fragment > PagerAdapter
+      常用的 FragmentPagerAdapter 有下列兩種:
+      > FragmentPagerAdapter , 提供給少量且固定頁數的畫面用.
+      > FragmentStatePagerAdapter , 提供未定頁數的畫面用.
+        當切換至另一畫面後, 前一畫面會被丟棄以節省記憶體.
+  
+  What you'll learn(本章可以學到的內容)
+    1.如何在 AppBar 內新增 AppBar(<-)回上層圖示(Up Button)
+    2.如何設定 Tab navigation and Swipe views.
+
+  Task 1:Add an Up button for ancestral navigation(OK)
+  Task 2:Use tab navigation with swipe views(教學使用的方法已過時 , 在SDK30上面不適用)
+    新作法請參考：https://developer.android.com/guide/navigation/navigation-swipe-view-2
+    
 (Template)QXX. 2.3:Activities and intents
   重點：
 

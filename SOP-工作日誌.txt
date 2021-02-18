@@ -22,7 +22,7 @@
           4.1: Clickable images
           4.2: Input controls
           4.3: Menus and pickers
-          4.4: User navigation
+          4.4: User navigation 新作法請參考：https://developer.android.com/guide/navigation/navigation-swipe-view-2
           4.5: RecyclerView
         Lesson 5: Delightful user experience
           5.1: Drawables, styles, and themes
@@ -116,6 +116,18 @@ W8:2021/02/21-2021/02/27
   02/23(二)
 
   02/22(一)
+    1.Android APP開發 : Android fundamentals
+      Lesson 4: User interaction
+        4.4: User navigation(50%)
+          用這個範例,再作1次(網頁範例 ViewPager是舊的 , 改用 ViewPager2)
+          https://androidwave.com/viewpager2-with-tablayout-android-example/
+        4.5: RecyclerView
+      Lesson 5: Delightful user experience
+        5.1: Drawables, styles, and themes
+        5.2: Cards and colors
+        5.3: Adaptive layouts
+      Lesson 6:Testing your UI
+        6.1: Espresso for UI testing
     
 W7:2021/02/14-2021/02/20
   [TODO]
@@ -126,21 +138,17 @@ W7:2021/02/14-2021/02/20
 
   02/18(四)
     1.Android APP開發 : Android fundamentals
-      Lesson 6:Testing your UI
-        6.1: Espresso for UI testing
-    2.COBOL學習 => 1.Introduction to COBOL
+      Lesson 4: User interaction
+        4.4: User navigation(50%)
+          用這個範例,再作1次(網頁範例 ViewPager是舊的 , 改用 ViewPager2)
+          https://androidwave.com/viewpager2-with-tablayout-android-example/
+    2.COBOL學習 => 1.Introduction to COBOL => 1.2.Declaring data in COBOL
 
   02/17(三)
     1.Android APP開發 : Android fundamentals
       Lesson 4: User interaction
         4.3: Menus and pickers(OK)
-        4.4: User navigation
-        4.5: RecyclerView
-      Lesson 5: Delightful user experience
-        5.1: Drawables, styles, and themes
-        5.2: Cards and colors
-        5.3: Adaptive layouts
-    2.COBOL學習 => 1.Introduction to COBOL => 1.2.Declaring data in COBOL
+    2.COBOL學習 => 1.Introduction to COBOL (今天沒進度)
     
   02/16(二)
     1.Android APP開發 : Android fundamentals
