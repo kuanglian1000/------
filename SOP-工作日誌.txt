@@ -133,21 +133,21 @@ W7:2021/02/14-2021/02/20
   02/17(三)
     1.Android APP開發 : Android fundamentals
       Lesson 4: User interaction
-        4.3: Menus and pickers
+        4.3: Menus and pickers(OK)
         4.4: User navigation
         4.5: RecyclerView
       Lesson 5: Delightful user experience
         5.1: Drawables, styles, and themes
         5.2: Cards and colors
         5.3: Adaptive layouts
-    2.COBOL學習 => 1.Introduction to COBOL
+    2.COBOL學習 => 1.Introduction to COBOL => 1.2.Declaring data in COBOL
     
   02/16(二)
     1.Android APP開發 : Android fundamentals
       Lesson 4: User interaction
         4.1: Clickable images(OK)
         4.2: Input controls(OK)
-    2.COBOL學習 => 1.Introduction to COBOL => 1.2.Declaring data in COBOL
+    2.COBOL學習 => 1.Introduction to COBOL (今天沒進度)
 
   02/15(一)
     0.開工日(OK)
