@@ -95,13 +95,26 @@
       10.The COBOL Report Writer	
         Report Writer by example
         Report Writer syntax and semantics
-
     1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
     2.(Book)Android程式設計入門、應用到精通
     2.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面
     2.(Web)Spring Boot教材 - https://code.visualstudio.com/docs/java/java-spring-boot
     3.(Book)學會Swift3程式設計的21堂課
     4.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
+
+W9:2021/03/01-2021/03/05
+  [TODO]
+  
+  03/05(五)
+
+  03/04(四)
+
+  03/03(三)
+
+  03/02(二)
+
+  03/01(一)
+    1.排休假(OK)
 
 W8:2021/02/21-2021/02/27
   [TODO]
@@ -114,21 +127,22 @@ W8:2021/02/21-2021/02/27
   02/24(三)
     
   02/23(二)
-
-  02/22(一)
     1.Android APP開發 : Android fundamentals
-      Lesson 4: User interaction
-        4.4: User navigation(50%)
-          用這個範例,再作1次(網頁範例 ViewPager是舊的 , 改用 ViewPager2)
-          https://androidwave.com/viewpager2-with-tablayout-android-example/
-        4.5: RecyclerView
       Lesson 5: Delightful user experience
         5.1: Drawables, styles, and themes
         5.2: Cards and colors
         5.3: Adaptive layouts
       Lesson 6:Testing your UI
         6.1: Espresso for UI testing
-    
+
+  02/22(一)
+    1.Android APP開發 : Android fundamentals
+      Lesson 4: User interaction
+        4.4: User navigation(OK)
+          用這個範例,再作1次(網頁範例 ViewPager是舊的 , 改用 ViewPager2)
+          https://androidwave.com/viewpager2-with-tablayout-android-example/
+        4.5: RecyclerView(OK,但作的不好..)
+      
 W7:2021/02/14-2021/02/20
   [TODO]
     1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2      

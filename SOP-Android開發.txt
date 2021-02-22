@@ -1008,20 +1008,72 @@ Q18. 4.4: User navigation(使用者導航 , 決定操作程序/步驟 , 在 AppB
     3.系統(▼)回前頁鈕(Back Button) 則是回到使用者前次瀏覽畫面(whatever screen the user last viewed)
     4.Tab navigation 提供在同一畫面切換頁面的功能
     5.Tab navigation 使用上建議不要超過 {4個頁面} , <= 4個頁面 是最合適數量
-    6.TabLayout > ViewPager(Layout Manager) 連接 Fragment > PagerAdapter
+    ======================================================================
+    6.外層：Activity_Main.xml (TabLayout > ViewPager2(Layout Manager)) 
+      中層：> PagerAdapter (FragmentStateAdapter.java) , 無畫面 , 控制 Fragment 用
+      內層：> Fragment_card.xml (頁籤在這裡)
+      
       常用的 FragmentPagerAdapter 有下列兩種:
       > FragmentPagerAdapter , 提供給少量且固定頁數的畫面用.
       > FragmentStatePagerAdapter , 提供未定頁數的畫面用.
         當切換至另一畫面後, 前一畫面會被丟棄以節省記憶體.
-  
+    
+    7.新增步驟(關聯性) VIP 感覺有點複雜
+      a.新增專案,加入所需套件
+      b.新增Fragment所需資源(例:顏色檔..)
+      c.準備TabLayout & ViewPager2的編排(Layout) @ activity_main.xml
+      d.新增Fragment(有畫面的,並宣告引用相關資源參考)
+      e.新增FragmentStateAdapter(無畫面,決定預設頁數..)
+      f.最後,在ViewPager2上設定FragmentStateAdapter,
+        並利用 TabLayoutMediator 把 TabLayout & ViewPager2 串起來.
+    ======================================================================
+    
   What you'll learn(本章可以學到的內容)
     1.如何在 AppBar 內新增 AppBar(<-)回上層圖示(Up Button)
     2.如何設定 Tab navigation and Swipe views.
 
   Task 1:Add an Up button for ancestral navigation(OK)
   Task 2:Use tab navigation with swipe views(教學使用的方法已過時 , 在SDK30上面不適用)
+    (OK)網路範例(可動態產生Fragment,放進)：https://androidwave.com/viewpager2-with-tablayout-android-example/
     新作法請參考：https://developer.android.com/guide/navigation/navigation-swipe-view-2
+
+Q19. 4.5: RecyclerView(可滑動列表)
+  重點:
+    1.RecyclerView(可滑動列表)元件間的關聯性.
+      Data:data items(資料項目) 
+        => Adapter:WordListAdapter(轉接器:文字清單) 
+          => LayoutManager:RecyclerView(畫面配置:輪播檢視)
+    2.ViewPager2的實作概念和RecyclerView是相同的
+      Data:Fragment(頁面) 
+        => Adapter:FragmentStateAdapter(轉接器:頁面) 
+          => LayoutManager:ViewPager2(畫面配置:頁籤檢視)
     
+Q20. 如何手動新增 FloatingActionButton(浮動按鈕) ? 
+
+  [Layout加入按鈕外觀,ex.activity_main.xml]
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|end"
+      android:layout_margin="@dimen/fab_margin"
+      app:srcCompat="@android:drawable/ic_dialog_email" />
+  
+  [程式碼加入點選事件 @ MainActivity.java]
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      ...
+      FloatingActionButton fab = findViewById(R.id.fab);
+      fab.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                      .setAction("Action", null).show();
+          }
+      });
+      ...
+    }
+  
 (Template)QXX. 2.3:Activities and intents
   重點：
 
