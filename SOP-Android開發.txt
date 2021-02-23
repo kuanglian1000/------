@@ -11,7 +11,7 @@ Q0.如何變更專案名稱？(在複製原有專案後,Rename package)
   # Grandle File要更新
   File > Sync Project with Gradle Files.
 
-Q0.✱✱VIP✱✱(設定有錯,功能一定出不來,...會陷入無助,開始懷疑人生...)
+Q0.✱✱VIP✱✱ (設定有錯,功能一定出不來,...會陷入無助,開始懷疑人生...)
    引用套件新舊切換步驟，所有的android.support.v4 & android.support.v7的套件
    都被整合到androidx.XXX裡面了。如果升級步驟有漏, 功能就不會動。
    [例]：
@@ -74,7 +74,7 @@ Q4.✱開發✱ JAVA or Android 程式如何偵錯呢？
     再用 6:LogCat 視窗觀察 Log 資訊。
     AndroidStudio 確實也有 DEBUG功能(Shift + F9)，可以逐步看物件內容及參數值，但是太仔細了，會看到昏倒...都還沒看到你要的結果。
 
-Q5.使用 Nav_graph.xml 在Fragment間傳遞參數的重點。
+Q5.✱開發✱ 使用 Nav_graph.xml 在Fragment間傳遞參數的重點。
   A5.> 如果是 FragmentA -> FragmentB , 參數必須定義 FragmentB 裡面 , 不是放在 FragmentA
      > 設定變更(nav_graph.xml) , 記得重新執行 [Build > Make Project] 指令, 才會自動產生相關類別
         <?xml version="1.0" encoding="utf-8"?>
@@ -166,7 +166,7 @@ Q6. 1.3:Text and scrolling views (ProjectName:ScrollingText)
   (OK)Task 2:Add a ScrollView and an active web link
   (OK)Task 3:Scroll multiple elements
     > <ScrollView>裡面只能有一個child View,
-    > 如果<多個elements>要一起捲動,外面要再包一層<LinearLayout>
+    > 如果<多個elements>要一起捲動,在<多個elements>外面要再包一層<LinearLayout>
     > <TextView> 裡面可用的HTML標記只有兩個 <b>粗體 & <i>斜體
     > <TextView> 裡面可用 <\n> 換行符號
     > <TextView> 加上 <android:autoLink="web"> 屬性,自動將Text內的連結轉為可點選
@@ -1001,7 +1001,7 @@ Q17. 4.3: Menus and pickers(指的是 App Bar | Action Bar , 在畫面上方)
     Q4.Where do you create a DialogFragment for a date picker? Choose one:
       A4.In the onCreateDialog() method in the extension of DialogFragment.
 
-Q18. 4.4: User navigation(使用者導航 , 決定操作程序/步驟 , 在 AppBar 左上角的 <- 回上層圖示(Up Button) , 雖然系統的 ▼ 回前頁鈕(Back Button) 也能作到)
+Q18. ✱✱VIP,新的✱✱ 4.4: User navigation(使用者導航 , 決定操作程序/步驟 , 在 AppBar 左上角的 <- 回上層圖示(Up Button) , 雖然系統的 ▼ 回前頁鈕(Back Button) 也能作到)
   重點：
     1.AppBar(<-)回上層圖示(Up Button) 不等於 系統(▼)回前頁鈕(Back Button)
     2.AppBar(<-)回上層圖示(Up Button) 是回到階層中的上層畫面(parent screen)
@@ -1037,7 +1037,7 @@ Q18. 4.4: User navigation(使用者導航 , 決定操作程序/步驟 , 在 AppB
     (OK)網路範例(可動態產生Fragment,放進)：https://androidwave.com/viewpager2-with-tablayout-android-example/
     新作法請參考：https://developer.android.com/guide/navigation/navigation-swipe-view-2
 
-Q19. 4.5: RecyclerView(可滑動列表)
+Q19. ✱✱VIP,新的✱✱ 4.5: RecyclerView(可滑動列表)
   重點:
     1.RecyclerView(可滑動列表)元件間的關聯性.
       Data:data items(資料項目) 
@@ -1073,7 +1073,124 @@ Q20. 如何手動新增 FloatingActionButton(浮動按鈕) ?
       });
       ...
     }
+
+Q21. 常用的介面屬性
+  1.Orientation
+  2.layout_margin 元件和外部間隔距離
+  3.layout_padding 元件內部文字與邊的距離
+  4.gravity 元件內部物件對齊方式, 可合併使用. ex. android:gravity=top|left
+  5.layout_gravity 元件與外框間的對齊方式, 可合併使用. 
+  6.layout_weight 元件固定比例寬度
+
+Q22. 介面屬性搭配的長度單位
+  1.px - 螢幕像素
+  2.pt - 傳統印刷用
+  3.dp - 位置大小,距離長度用(*)
+  4.sp - 字體大小用(*)
+  5.mm - 毫米
+  6.in - 英吋
+
+Q23. Spinner用法(DropDownList)
+  [Resource]:準備資料來源
+    <resources>
+        <string name="sex_list_prompt">Please Choose your sex</string>
+        <string-array name="sex_list">
+            <item>Man</item>
+            <item>Woman</item>
+        </string-array>
+    </resources>
+
+  [Layout]:決定Spinner外觀及塞入資料
+    <Spinner
+          android:id="@+id/spSex"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="30dp"
+          android:entries="@array/sex_list" 
+          android:spinnerMode="dialog"
+          android:prompt="@string/sex_list_prompt"
+          app:layout_constraintTop_toBottomOf="@id/tvSex" />
+
+  [Code]:設定Spinner點選事件
+    mSpinnerSex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            String selectedValue = adapterView.getSelectedItem().toString(); //抓選取值
+            Log.d(TAG_KEY, "onItemSelected: OK " + selectedValue );
+            mTvSex.setText(selectedValue);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+        }
+    });
   
+Q24. NumberPicker用法(數字轉輪, minSdkVersion:11以上)
+  1.setMinValue(int value) 最小值
+  2.setMaxValue(int value) 最大值
+  3.setValue(int value) 目前值
+  4.setOnValueChangedListener(OnValueChangedListener onValueChangedListener) 值變更引發事件
+    範例程式:
+      npAge.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+          @Override
+          public void onValueChange(NumberPicker numberPicker, int oldValue, int newValue) {
+              tvAge.setText(String.valueOf(newValue));
+          }
+      });
+  5.getValue() 取得目前值
+
+Q25. ScrollView + LinearLayout( + 多個CheckBoxes + ..)
+  1.LinearLayout 決定 CheckBoxes 的編排(水平或垂直)
+  2.但是如果 CheckBoxes 數量太多 超出手機螢幕範圍, 就需要 ScrollView 的協助, 讓畫面能上下捲動
+
+Q26. 感覺 "Android APP官方教材" 用的概念比較新, 雖然比較複雜, 但長遠來看是比較好的寫法
+  例:檢查某個 CheckBox 有沒有被點選 , 有兩種方式:
+    1.在每個 CheckBox 上綁 onClick 事件函式 , 所有 CheckBox 共用同一個函式即可(較優,即時)
+      程式碼範例：
+      private ArrayList<String> checkedList = new ArrayList<String>();
+      public void onCheckBoxClicked(View view) { //這個函式必須綁在每個 CheckBox 上面
+          boolean checked = ((CheckBox)view).isChecked();
+          if(checked){
+              checkedList.add(((CheckBox) view).getText().toString());
+          }else{
+              checkedList.remove(((CheckBox) view).getText().toString());
+          }
+          //設定已選的值
+          tvSelected.setText(android.text.TextUtils.join(",",checkedList));
+      }
+
+    2.在特定 Button 上綁 onClick 事件函式 , 這個函式必須去找 每個 CheckBox 是否被點選(較差,不即時)
+
+Q27. U17-LinearLayout 介面編排模式
+  1.<LinearLayout> 內可以再加入另一個 <LinearLayout>.
+    例:最外層 <LinearLayout> 決定畫面是 "垂直" 呈現(Orientation=vertical)
+       裡面 <LinearLayout> 再放入個別控制項是 "水平" 呈現(Orientation=horizontal)
+  2.使用多個 <LinearLayout> 時, 只須在第1個 <LinearLayout> 設定 xmlns:android 屬性即可
+
+Q28. U18-TableLayout 介面編排模式
+  1.<TableLayout> & <TableRow> 兩個主要標籤
+  2.失效屬性(元件放入<TableRow>): 
+    2.1. android:layout_width , android:layout_height , 一律使用 match_parent
+  3.可用屬性:
+    3.1. android:background , 設定底色
+    3.2. android:layout_margin , 設定間隔距離
+    3.3. android:gravity , 設定對齊方式
+  4.在 <TableLayout> 標籤內 , 但沒有 <TableRow> 包起來的元件 , 自成一列(row)
+  5.寬度均分: 可在元件內 , 加上 android:layout_weight.
+    例:同一列裡有三元件要均分寬度 , 則每個元件 android:layout_weight="1".
+  6.每列<TableRow>是對齊的 , 無法錯開.
+    例: Row1 有 1|2|3 三個元件 , Row2 也必須有 4|5|6 三個元件.
+  7.產生錯置元件個數作法
+    7.1. 再新增1個 <TableLayout> (X,已過時)
+    7.2. 在同一個 <TableRow> 加入想要的元件數量都行 (O)
+    
+
+Q29. U19-RelativeLayout 介面編排模式
+  1.每個元件都要有 id 名稱, 對應相應位置用
+  2.須同時指定 "相對位置" layout_oXXOf & "如何對齊" layout_alignXXX
+  3."相對位置" : layout_toLeftOf , layout_toRightOf , layout_toStartOf , layout_toEndOf , layout_above , layout_below
+  4."如何對齊" : layout_alignLeft , layout_alignRight , layout_alignStart , layout_alignEnd , layout_alignTop , layout_alignBottom
+
 (Template)QXX. 2.3:Activities and intents
   重點：
 
