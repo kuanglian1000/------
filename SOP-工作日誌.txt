@@ -157,7 +157,31 @@ W8:2021/02/21-2021/02/27
   02/26(五)
     1.開發架構調整：改用IONIC(ANGULAR)架構進行開發, 再用 "Android Studio" & "XCODE" 打包再上架.
     2.安裝 ionic Fragment 開發環境
-    
+      2.1.Install Node.js , 另外裝了這些
+        Upgraded:
+        - chocolatey-dotnetfx.extension v1.0.1
+        - kb3033929 v1.0.5
+        - python3 v3.9.2
+        - visualstudio2017buildtools v15.9.33.0
+        - chocolatey-windowsupdate.extension v1.0.4
+        - vcredist140 v14.28.29325.2
+        - kb2999226 v1.0.20181019
+        - visualstudio-installer v2.0.1
+        - kb2919355 v1.0.20160915
+        - chocolatey-core.extension v1.3.5.1
+        - kb2919442 v1.0.20160915
+        - visualstudio2017-workload-vctools v1.3.2
+        - chocolatey-visualstudio.extension v1.9.0
+        - vcredist2015 v14.0.24215.20170201
+        - dotnetfx v4.8.0.20190930
+        - kb3035131 v1.0.3
+        - python v3.9.2
+      2.2.Install the Ionic CLI
+        npm install -g @ionic/cli
+          C:\Users\hp\AppData\Roaming\npm\ionic -> C:\Users\hp\AppData\Roaming\npm\node_modules\@ionic\cli\bin\ionic
+          + @ionic/cli@6.13.1
+          added 205 packages from 152 contributors in 17.805s
+      2.3.Install Git
   02/25(四)
     1.把網頁畫面預設為(黑畫面)  ,看 https://developer.android.com/courses/fundamentals-training/toc-v2 上的文章時 , 眼睛才不會太痠.
       方法 : "Force Dark Mode for Web Contents" by chrome://flags/
