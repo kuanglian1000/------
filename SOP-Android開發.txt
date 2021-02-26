@@ -1166,6 +1166,15 @@ Q27. U17-LinearLayout 介面編排模式
     例:最外層 <LinearLayout> 決定畫面是 "垂直" 呈現(Orientation=vertical)
        裡面 <LinearLayout> 再放入個別控制項是 "水平" 呈現(Orientation=horizontal)
   2.使用多個 <LinearLayout> 時, 只須在第1個 <LinearLayout> 設定 xmlns:android 屬性即可
+  3.範例專案 : AndroidProjects\AD111_FragmentExample1_challenge
+    <LinearLayout 垂直>
+      <LinearLayout 水平> 
+        <TextView /> <RadioButton />
+      </LinearLayout>
+      <LinearLayout 水平> 
+        <TextView /> <RatingBar />
+      </LinearLayout>
+    </LinearLayout>
 
 Q28. U18-TableLayout 介面編排模式
   1.<TableLayout> & <TableRow> 兩個主要標籤
@@ -1184,12 +1193,154 @@ Q28. U18-TableLayout 介面編排模式
     7.1. 再新增1個 <TableLayout> (X,已過時)
     7.2. 在同一個 <TableRow> 加入想要的元件數量都行 (O)
     
-
 Q29. U19-RelativeLayout 介面編排模式
   1.每個元件都要有 id 名稱, 對應相應位置用
   2.須同時指定 "相對位置" layout_oXXOf & "如何對齊" layout_alignXXX
   3."相對位置" : layout_toLeftOf , layout_toRightOf , layout_toStartOf , layout_toEndOf , layout_above , layout_below
   4."如何對齊" : layout_alignLeft , layout_alignRight , layout_alignStart , layout_alignEnd , layout_alignTop , layout_alignBottom
+
+Q30. U20-ImageButton & ImageView 介面元件
+  1.ImageButton = 圖片按鈕
+  2.ImageView = 圖片顯示
+  3.TextView (後端)設定值用的是 setText
+  4.ImageView (後端)設定圖片用的則是 setImageResource
+  5.ImageView (前端)設定圖片用的則是 src 
+
+Q31. U21-GridView & ImageSwitcher 介面元件
+  1.GridView 可顯示影像縮圖
+    1.1. numColumn 決定幾個欄位
+    1.2. 新增 ImageAdapter 作為管理 GridView 資料來源的類別 extends(繼承) BaseAdapter
+  2.ImageSwitcher 切換影像用, 有轉場效果(淡出淡入)
+    2.1. 主類別要 implements(實作) ViewSwitcher.ViewFactory , ImageSwitcher 才能用 setFactory(this) 掛給主類別
+
+Q32. U26-Fragment 同Activity內的多個畫面
+  1.Fragment型態程式介面特性如下:
+    1.1. 執行畫面可由多個Fragment組成
+    1.2. 每個Fragment有各自獨立的執行狀態, 並接收各自的處理事件
+    1.3. 執行過程中, Fragment可動態加入或移除
+    1.4. 使用 Fragment 的最低SDK版本 , android:minSdkVersion="11"
+  2.Fragment常用方法:
+    2.1. onCreate():Fragment初始化設定用
+    2.2. onCreateView():用於設定Fragment使用的介面佈局檔 == Activity.onCreate()作的事情
+    2.3. onActivityCreated():取得Fragment介面元件, 設定給對應的介面物件. 
+    2.4. onPause():Fragment從螢幕消失執行的方法. 常用於儲存 User 操作狀態 & Input Data, 下次Fragment顯示時, 還原狀態 & Data, 讓使用者繼續工作.
+  3.Fragment標籤-注意事項:
+    3.1. <fragment> 開頭小寫
+    3.2. <fragment> 要有 android:id 屬性
+    3.3. <fragment> android:name 屬性, 指的是對應 Fragment類別, 須填入完整套件名稱(ex. android:name="android.com.u26_fragment.BlankFragment")
+    3.4. <fragment> android:layout_weight 屬性可用, 設定比例控制每個 Fragment 佔的螢幕寬度. (android:layout_width必須設定為 "0dp")
+    3.5. <FragmentLayout> 可以幫內部<fragment>加上外框,大小和位置等外觀屬性
+
+Q33. U27-FragmentManager 動態改變使用的 Fragment
+  1.如何在Activity內, 動態顯示 Fragment 呢?
+      //Activity內某個與前端元件有連接的函式
+      public void showDatePicker(View view) {
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(),"datePicker");
+      }
+
+Q34. ✱✱VIP✱✱ 如何 Activity 加入 固定(statically) Fragment? <= Advanced Android 01.1: Fragments
+  (範例專案 : AndroidProjects\AD111_FragmentExample1_StaticFragment)
+  1.新增 Fragment
+  2.在 Fragment Layout 放入所需元件
+  3.在 Fragment 後端程式的 onCreateView 事件內, 建立元件間的關聯性, 例:RadioBUtton被點選時,TextView會顯示結果.
+    程式碼範例：
+      public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                              Bundle savedInstanceState) {
+          // Inflate the layout for this fragment
+          final View rootView =
+                  inflater.inflate(R.layout.fragment_simple, container,false);
+          final RadioGroup radioGroup = rootView.findViewById(R.id.radio_group);
+          //(改寫放在這裡,程式成功執行)
+          final TextView textView = rootView.findViewById(R.id.fragment_header);
+          
+          radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+              @Override
+              public void onCheckedChanged(RadioGroup group, int checkedId) {
+                  View radioButton = radioGroup.findViewById(checkedId);
+                  int index = radioGroup.indexOfChild(radioButton);
+                  //(這個要寫在外面,因為rootView會消失)TextView textView = rootView.findViewById(R.id.fragment_header);
+                  switch (index){
+                      case YES:
+                          textView.setText(R.string.yes_message);
+                          break;
+                      case NO:
+                          textView.setText(R.string.no_message);
+                          break;
+                      default:
+                          break;
+                  }
+              }
+          });
+          return rootView;
+      }
+  4.#重點在這裡#: 在 activity_main.xml Layout內, 利用 <fragment> 標籤串起 前面新Step1 新增的Fragment.
+    <fragment
+      android:id="@+id/fragment"
+      android:name="com.example.android.fragmentexample.SimpleFragment" 
+        //對應 Fragment類別, 須填入完整套件名稱(ex. android:name="android.com.u26_fragment.BlankFragment")
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:layout="@layout/fragment_simple" /> 
+        //對應 Fragment佈局檔
+
+Q35. ✱✱VIP✱✱ 如何動態(dynamically) 加入 Fragment? <= Advanced Android 01.1: Fragments
+  (範例專案 : AndroidProjects\AD111_FragmentExample2_DynamicAdd) <= 範例寫的不錯,蠻深入的 =>
+  1.要有 FrameLayout 作為 Fragment 的容器(放在佈局檔)
+  2.使用 FragmentManager 管理 Fragment(放在Activity的程式碼)
+  3.利用 FragmentTransaction 執行 Fragment交易(例:新增,移除,取代 Fragment)
+  4.最佳作法：Fragment類別要提供 newInstance() 類別方法(static method), Activity類別再去生1個(實體化)
+    SimpleFragment simpleFragment = SimpleFragment.newInstance();
+  5.操作流程：
+    5.1. 先去 FragmentManager 找所需的 Fragment.
+    5.2. 再用 FragmentTransaction 在 FragmentManager上啟動交易.
+    5.3. 再用 FragmentTransaction 的函式執行 "新增 add() | 移除 remove() | 取代 replace() Fragment" 作業.
+
+
+Q35-1. ✱✱VIP✱✱ Fragment 重點摘要
+  1.To create a blank Fragment, expand app > java in Project: Android view, select the folder containing the Java code for your app, and choose File > New > Fragment > Fragment (Blank).
+  
+  2.The Fragment class uses callback methods that are similar to Activity callbacks, 
+    such as onCreateView(), which provides a LayoutInflater object to inflate the Fragment UI from the layout resource fragment_simple.
+  
+  3.To add a Fragment statically to an Activity so that it is displayed for the entire lifecycle of the Activity, 
+    declare the Fragment inside the layout file for the Activity using the <fragment> tag. 
+    You can specify layout attributes for the Fragment as if it were a View.
+  
+  4.To add a Fragment dynamically to an Activity so that the Activity can add, 
+    replace, or remove it, specify a ViewGroup inside the layout file for the Activity such as a FrameLayout.
+  
+  5.When adding a Fragment dynamically to an Activity, 
+    the best practice for creating the fragment is 
+    to create the instance with a newinstance() method in the Fragment itself. 
+    Call the newinstance() method from the Activity to create a new instance.
+  
+  6.To get an instance of FragmentManager, 
+    use getSupportFragmentManager() in order to instantiate the Fragment class 
+    using the Support Library so your app remains compatible with devices running system versions as low as Android 1.6.
+  
+  7.To start a series of Fragment transactions, 
+    call beginTransaction() onaFragmentTransaction.
+
+  8.With FragmentManager your code can perform the following Fragment transactions while the app runs, 
+    using FragmentTransaction methods:
+      Add a Fragment using add().
+      Remove a Fragment using remove().
+      Replace a Fragment with another Fragment using replace().
+
+
+Q36. UI Component : RatingBar 星星評分
+  (範例專案 : AndroidProjects\AD111_FragmentExample1_challenge_LinearLayout_multiple)
+  1.android:isIndicator="false" 不能修改
+  2.android:rating="3" 預設值
+  3.style="@style/Widget.AppCompat.RatingBar.Indicator" 星星大小
+  4.setOnRatingBarChangeListener 要加這個
+
+Q37. 
+
 
 (Template)QXX. 2.3:Activities and intents
   重點：

@@ -1,7 +1,7 @@
 [TODO]
   教育訓練
     1.(2021-05-01前完成，2小時-實體、4小時-線上)提醒您_新進同仁報到後三個月內需取得感控時數達 6 小時!!! 為配合醫院感控查核規定，新進員工到職請於三個月內完成感控 6 小時教育訓練時數，請至教學部網站進行e-Learning學習(其中2小時必需為實體課程)，並完成考試!!!
-    2.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
+    2.(Web)Android APP官方教材(基礎課程) - https://developer.android.com/courses/fundamentals-training/toc-v2
       Unit 1: Get started(75%)
         Lesson 1: Build your first app(OK,第一週完成)
           1.1: Android Studio and Hello World
@@ -45,12 +45,17 @@
         Lesson 10: Storing data with Room
           10.1 Part A: Room, LiveData, and ViewModel
           10.1 Part B: Deleting data from a Room database
-  
+    3.(Web)Android APP官方教材(進階課程) - https://developer.android.com/courses/advanced-training/overview
+
   自主學習
     2.(Book)Android程式設計 入門、應用到精通(單元01-60 , 單元61-90)
+      => Part 1,2,3 ; Unit 01-25
+      => Part 4,5,6 ; Unit 20-37
+      => Part 7,8,9 ; Unit 38-53
+
     1.(Web)Android APP官方教材(實作課程) - https://developer.android.com/courses/fundamentals-training/toc-v2  
       
-      感覺 "Android APP官方教材" 用的概念比較新, 雖然比較複雜, 但長遠來看是比較好的寫法
+      感覺 "Android APP官方教材" 用的概念比較新, 雖然比較複雜(而且畫面是白的,看起來比較累), 但長遠來看是比較好的寫法
 
     2.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面 , https://developer.android.com/guide/navigation/navigation-deep-link
     ======
@@ -107,16 +112,47 @@
         Report Writer by example
         Report Writer syntax and semantics
 
+W10:2021/03/08-03/12
+  [TODO]
+
+  03/12(五)
+
+  03/11(四)
+
+  03/10(三)
+
+  03/09(二)
+
+  03/08(一)
+    1.排休假(OK)
+
 W9:2021/03/01-2021/03/05
   [TODO]
+    Unit 3: Working in the background
+    Unit 4: Saving user data
+    ==完成基礎課程==
   
   03/05(五)
+    Lesson 10: Storing data with Room
+      10.1 Part A: Room, LiveData, and ViewModel
+      10.1 Part B: Deleting data from a Room database
 
   03/04(四)
+    Lesson 9: Preferences and settings
+      9.1: Shared preferences
+      9.2: App settings
 
   03/03(三)
+    Lesson 8: Alarms and schedulers
+      8.1: Notifications
+      8.2: The alarm manager
+      8.3: JobScheduler
 
   03/02(二)
+    Lesson 7: Background tasks
+      7.1: AsyncTask
+      7.2: AsyncTask and AsyncTaskLoader
+      7.3: Broadcast receivers
 
   03/01(一)
     1.排休假(OK)
@@ -125,13 +161,25 @@ W8:2021/02/21-2021/02/27
   [TODO]
     
   02/26(五)
-    1.排休假(OK)
+    1.Android 官方課程(初階課程)
+      Lesson 5: Delightful user experience
+        5.1: Drawables, styles, and themes
+        5.2: Cards and colors
+        5.3: Adaptive layouts
+      Lesson 6:Testing your UI
+        6.1: Espresso for UI testing
 
   02/25(四)
-    1.(Book)Android程式設計 入門、應用到精通(Part 7,8,9 ; Unit 38-53)
+    1.把網頁畫面預設為(黑畫面)  ,看 https://developer.android.com/courses/fundamentals-training/toc-v2 上的文章時 , 眼睛才不會太痠.
+      方法 : "Force Dark Mode for Web Contents" by chrome://flags/
+    1.Android 官方課程(進階課程)
+      Lesson 1: Fragments
+        1.1: Fragments(OK)
+        1.2: Fragment communication
 
   02/24(三)
-    1.(Book)Android程式設計 入門、應用到精通(Part 4,5,6 ; Unit 20-37)
+    0.離職同仁之工作經驗分享
+    1.(Book)Android程式設計 入門、應用到精通 Part 4:19(OK),20(OK),21(OK)
     
   02/23(二)
     1.(Book)Android程式設計 入門、應用到精通(Part 1,2,3 ; Unit 01-25)
