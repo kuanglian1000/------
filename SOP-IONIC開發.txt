@@ -63,7 +63,7 @@
     4.1. "ionic capacitor copy ios" (將IONIC APP同步至 NATIVE專案中)
     4.2. 在XCODE中, 選擇目標模擬器, 並按下執行鈕(Play Button)
   
-  5.Running with the ionic CLI(此方式會自動載入最新版程式碼)
+  5.Running with the ionic CLI(此方式會自動載入最新版程式碼 Live reload)
     5.1. "ionic capacitor run ios -l --external" (模擬器執行外部程式)
     5.2. 在XCODE中, 選擇目標模擬器, 並按下執行鈕(Play Button)
 
@@ -73,6 +73,45 @@
       => (如果APP沒列出來) Settings » Safari » Advanced » Web Inspector.
     6.2. Viewing Native Logs (檢視本地端紀錄, 查看 XCODE 的 Console)
       => (開啟Console畫面) View » Debug Area » Activate Console.
+
+[Developing for Android] ionic 開發 Android APP初始設定
+  1.Android Studio
+    1.1. 保持 Android 模擬器啟動, 是比較好的方式
+    1.2. 設定 Android Command Line Tools
+      => 新增 %ANDROID_SDK_ROOT% 環境變數 = D:\KL_Data\Projects\AndroidSDK_Documents
+      => 增加環境變數內容
+        # avdmanager, sdkmanager
+          %ANDROID_SDK_ROOT%\tools\bin
+        # adb, logcat
+          %ANDROID_SDK_ROOT%\platform-tools
+        # emulator
+          %ANDROID_SDK_ROOT%\emulator
+          ex.以指令方式啟動模擬器 "emulator -avd Pixel_API_30_"
+        # apksigner and zipalign
+          %ANDROID_SDK_ROOT%\build-tools
+    1.3. 新增AVD
+    1.4. 設定實體 Android裝置
+      => 開啟開發人員權限
+      => 啟用USB debugging
+      "adb devices" 列出所有可偵錯裝置
+
+  2.Project Setup (APP佈署至 android 模擬器前的設定)
+    2.1. "ionic capacitor add android" (產生原生專案)
+    2.2. 開啟 capacitor.config.json 檔, 修改 appId 屬性(Set the Package ID.)
+
+  3.Running with Capacitor
+    3.1. "ionic capacitor copy android" (每次重大變更時,如新增圖片,就必須將檔案複製至原生專案中)
+    3.2. 在 Android Studio 中, 選擇目標模擬器, 並按下執行鈕(Run Button)
+    ====
+    3.3. "ionic capacitor run android -l --host=YOUR_ID_ADDRESS" (啟動 live-reload server 即時載入 Live reload)
+    3.4. 注意事項: 執行裝置 & 開發電腦 , 必須在同網路內.
+
+  4.Debugging Android Apps
+    4.1. 利用 Chrome DevTools 進行偵錯
+      chrome://inspect/#devices , 在開發電腦上輸入
+    4.2. Viewing Native Logs 瀏覽原生紀錄
+      a.在 Android Studio 的 LogCat 頁籤可以看到紀錄
+      b."adb logcat" 也能使用指令工具, 叫出LOGCAT工具
 
 
 
