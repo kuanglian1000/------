@@ -18,7 +18,61 @@
   方法1. http://localhost:8100/?ionic:mode=ios <= 直接模擬IOS畫面
   方法2. <Ctrl+Shift+I> , 開啟Chrome偵錯工具 , 也能切換至特定平台畫面
 
+[Scaffolding] 專案結構
+  1.主要放在 src/app 目錄下
+    src/
+      app/  <=放程式碼, pages , components, services,...
+      assets/  <=放APP用圖檔
+      environment/
+      theme/
+      global.scss
+      index.html
+      main.ts
+      polyfills.ts
+      test.ts
+      zone-flags.ts
 
+[Generating New Features] 
+  0.新增APP物件指令command : "ionic generate" 
+  1.APP物件:
+    page , component , service , module , 
+    guard , class , directive , pipe
+  2.可擴展任何階層, 例: portfolio/intro
+  3.簡捷指令command : 
+      ionic g component "portfolio/intro/AboutMe"
+      ionic g page "User Detail"
+  4.ionic cli 在新增物件後, 會一併更新 <router configuration>
+
+[Developing for iOS] ionic 開發 iOS APP初始設定
+  1.XCODE Setup
+    1.1. "xcode-select --install" 確認command-line工具可使用
+    1.2. 準備 Apple ID(Xcode » Preferences » Accounts), 設定開發團隊資訊
+    1.3. 新增iOS模擬器(Window » Devices and Simulators)
+  2.Cordova Setup(略過,因為對 Capacitor 而言, 不需要)
+  3.Project Setup(APP佈署至iOS模擬器前的設定)
+    3.1. "ionic capacitor add ios" (Generate the native project, if it does not already exist)
+    3.2. 開啟 capacitor.config.json 檔, 修改 appId 屬性(Set the Package ID.)
+    3.3. "ionic capacitor open ios" (Open the project in Xcode.)
+    3.4. In Project navigator, select the project root to open the project editor. 
+         Under the Identity section, verify that the Package ID that was set matches the Bundle Identifier.
+    3.5. In the same project editor, under the Signing section, 
+         ensure Automatically manage signing is enabled.
+         選擇 Development Team , XCODE自動準備 provisioning and signing
+  
+  4.Running with XCODE(XCODE自動修正一般的 compilation and signing 問題)
+    4.1. "ionic capacitor copy ios" (將IONIC APP同步至 NATIVE專案中)
+    4.2. 在XCODE中, 選擇目標模擬器, 並按下執行鈕(Play Button)
+  
+  5.Running with the ionic CLI(此方式會自動載入最新版程式碼)
+    5.1. "ionic capacitor run ios -l --external" (模擬器執行外部程式)
+    5.2. 在XCODE中, 選擇目標模擬器, 並按下執行鈕(Play Button)
+
+  6.Debugging iOS Apps(可用 Safari 瀏覽器偵錯)
+    6.1. 使用 Safari Web Inspector 進行偵錯
+      => (開啟Develop選單) Safari » Preferences » Advanced » Show Develop menu in menu bar.
+      => (如果APP沒列出來) Settings » Safari » Advanced » Web Inspector.
+    6.2. Viewing Native Logs (檢視本地端紀錄, 查看 XCODE 的 Console)
+      => (開啟Console畫面) View » Debug Area » Activate Console.
 
 
 
