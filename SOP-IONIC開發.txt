@@ -113,8 +113,45 @@
       a.在 Android Studio 的 LogCat 頁籤可以看到紀錄
       b."adb logcat" 也能使用指令工具, 叫出LOGCAT工具
 
+[Development Tips] 
+  1.解決權限異常or錯誤(Resolving Permission Errors)
+    1.1. 最佳作法：使用 node version manager 重新安裝 NodeJS and npm
+      a. install nvm
+      b. command -v nvm , 確認nvm是否安裝成功
+      c. nvm install --lst , 下載並重裝最新版 NodeJS
+      d. nvm alias default lts/* , 設定最新版 NodeJS 為預設環境
+      e. node -v , 檢查 NodeJS 版本(OK , 可執行)
+      
+  2.更新套件(Updating dependencies)
+    2.1. npm install <package-name>@<version|latest> --save , 更新套件指令
+    2.2. 例: npm install @ionic/angular@latest --save
+    2.3. 最佳作法：利用 CLI(command line)更新套件, 因為它會先讀取 "package-lock.json" 檔作檢查
+    
+  3.開發編輯器(Code Editors)
+    3.1. Visual Studio Code(OK)
+
+  4.使用偵錯器(Using a Debugger)
+    4.1. 利用多數瀏覽器內的 debugger 指令, 將程式流程暫停
+    例:
+      function myBrokenFunction(){
+        debugger;
+        // do other stuff
+      }
 
 
+  5.改變瀏覽模式(Changing Mode , iOS or Android畫面)
+    5.1. 預設, APP以瀏覽器檢視的話, Ionic 會套用 "md" mode
+    5.2. 注意, IONIC會自動切換至對應版本畫面
+    5.3. 限定, 若要指定以iOS畫面呈現, 網址加上 "?ionic:mode=ios" 即可
+      例: http://localhost:8100/?ionic:mode=ios
+    5.4. 手動切換, 
+      "Ctrl+Shift+I" 開啟 Chrome DevTools, 就能切換至各種系統畫面
+      "Ctrl+Shift+M" 開關 Chrome DevTools內的 上方切換BAR
 
 
+  6.使用 iOS 模擬器(Using the iOS Simulators)
+    6.1. "ionic cordova emulate ios -lc", 利用 Ionic CLI 呼叫 XCODE內建模擬器
+
+  7.使用 Android 模擬器(Using the Genymotion Android Simulators)
+    7.1. 相較於Android Studio 內建模擬器, Genymotion是另一個模擬器替代方案(較快,且擁有存取原生功能權限, 例:GPS or camera)
 
