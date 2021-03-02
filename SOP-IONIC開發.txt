@@ -1,10 +1,12 @@
+==== <Developing> ====
+
 [Start an App] 新增專案
-  ionic start myApp tabs
+  "ionic start myApp tabs"
 
   說明(執行完畢):
     Your Ionic app is ready! Follow these next steps:
     - Go to your new project: cd .\testApp
-    - Run ionic serve within the app directory to see your app in the browser
+    - Run "ionic serve" within the app directory to see your app in the browser
     - Run ionic capacitor add to add a native iOS or Android project using Capacitor
     - Generate your app icon and splash screens using cordova-res --skip-config --copy
     - Explore the Ionic docs for components, tutorials, and more: https://ion.link/docs
@@ -21,8 +23,8 @@
 [Scaffolding] 專案結構
   1.主要放在 src/app 目錄下
     src/
-      app/  <=放程式碼, pages , components, services,...
-      assets/  <=放APP用圖檔
+      app/  <= 放程式碼, pages , components, services,...
+      assets/  <= 放APP用圖檔
       environment/
       theme/
       global.scss
@@ -48,8 +50,10 @@
     1.1. "xcode-select --install" 確認command-line工具可使用
     1.2. 準備 Apple ID(Xcode » Preferences » Accounts), 設定開發團隊資訊
     1.3. 新增iOS模擬器(Window » Devices and Simulators)
+  
   2.Cordova Setup(略過,因為對 Capacitor 而言, 不需要)
-  3.Project Setup(APP佈署至iOS模擬器前的設定)
+  
+  3.Project Setup(APP佈署至iOS模擬器前的設定, @XCODE)
     3.1. "ionic capacitor add ios" (Generate the native project, if it does not already exist)
     3.2. 開啟 capacitor.config.json 檔, 修改 appId 屬性(Set the Package ID.)
     3.3. "ionic capacitor open ios" (Open the project in Xcode.)
@@ -332,7 +336,175 @@
         });
       }
 
+[Layout]
+  1.Structure(主要版面-佈局結構)
+    1.1. Header(ion-header) and Footer(ion-footer) Layout(頁首,內容,頁尾)
+         Content(ion-content)
+         
+         程式碼範例：
+         <ion-app>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Header</ion-title>
+            </ion-toolbar>
+          </ion-header>
 
+          <ion-content>
+            <h1>Main Content</h1>
+          </ion-content>
 
+          <ion-footer>
+            <ion-toolbar>
+              <ion-title>Footer</ion-title>
+            </ion-toolbar>
+          </ion-footer>
+         </ion-app>
+    
+    1.2. Tabs Layout(多頁籤)
 
+         程式碼範例：
+         <ion-app>
+          <ion-tabs>
+            <ion-tab tab="home">
+              <h1>Home Content</h1>
+            </ion-tab>
+            <ion-tab tab="settings">
+              <h1>Settings Content</h1>
+            </ion-tab>
+
+            <ion-tab-bar slot="bottom">
+              <ion-tab-button tab="home">
+                <ion-label>Home</ion-label>
+                <ion-icon name="home"></ion-icon>
+              </ion-tab-button>
+              <ion-tab-button tab="settings">
+                <ion-label>Settings</ion-label>
+                <ion-icon name="settings"></ion-icon>
+              </ion-tab-button>
+            </ion-tab-bar>
+          </ion-tabs>
+        </ion-app>
+
+    1.3. Menu Layout(側邊清單)
+      a. 有收合功能
+      b. 常用於功能導覽用,列出所有功能選項連接
+
+    1.4. Split Pane Layout(內含Menu Layout,自動收合)
+      a. 依螢幕大小自動隱藏/顯示Split Pane側邊欄
+      b. 預設, > 768px or md breakpoint, 會顯示Split Pane側邊欄.
+      c. 客製, when 屬性可取代預設值.
+          例:下列範例 when="sm", 當 > 576px or sm breakpoint, 會顯示Split Pane側邊欄.
+      d. ✱✱VIP✱✱, 注意, 擁有和 <ion-split-pane> 內的 content-id 值相同的id的元素, 將是主要內容, 會一直顯示.
+          
+          例: <ion-split-pane when="sm" content-id="main-content"> content-id 值 = "main-content",
+              其他 id值 = "main-content"的元素有 2 個, 會是主要內容.
+              <ion-menu content-id="main-content">
+              <div class="ion-page" id="main-content">
+
+            程式碼範例(重點在 when="sm")：
+              <ion-app>
+                <ion-split-pane when="sm" content-id="main-content">
+                  <ion-menu content-id="main-content">
+                    <ion-header>
+                      <ion-toolbar color="primary">
+                        <ion-title>Menu</ion-title>
+                      </ion-toolbar>
+                    </ion-header>
+
+                    <ion-content>
+                      <ion-list>
+                        <ion-list-header>
+                          Navigate
+                        </ion-list-header>
+                        <ion-menu-toggle auto-hide="false">
+                          <ion-item button>
+                            <ion-icon slot="start" name='home'></ion-icon>
+                            <ion-label>
+                              Home
+                            </ion-label>
+                          </ion-item>
+                        </ion-menu-toggle>
+                      </ion-list>
+                    </ion-content>
+                  </ion-menu>
+
+                  <div class="ion-page" id="main-content">
+                    <ion-header>
+                      <ion-toolbar>
+                        <ion-buttons slot="start">
+                          <ion-menu-toggle>
+                            <ion-button>
+                              <ion-icon slot="icon-only" name="menu"></ion-icon>
+                            </ion-button>
+                          </ion-menu-toggle>
+                        </ion-buttons>
+                        <ion-title>Header</ion-title>
+                      </ion-toolbar>
+                    </ion-header>
+                    <ion-content class="ion-padding">
+                      <h1>Main Content</h1>
+                    </ion-content>
+                  </div>
+
+                </ion-split-pane>
+              </ion-app>
+
+  2.Responsive Grid(客製化版面設計)
+    2.1. Grid(Container) > Row(行) > Column(列)
+    2.2. 預設, 1 Row 有 12 Columns with different breakpoint.
+    2.3. 客製, Column(列)數量能利用 CSS 作調整.
+    2.4. 運作方式, 
+      a. Grids在最外層
+      b. Rows是水平群組, 將Columns包起來
+      c. Content應該放在Columns內, 只有Columns可以放在Row內的第1層.
+      d. size-{breakpoint}屬性, 可以調整欄位個數(basedOn=12columns), 例:size=4, 會拆為4/12=3列.
+      e. Column未設定 size-{breakpoint}屬性 時, 依Column個數均分.
+      f. Column widths屬性設定比例% 時, 自動縮放.
+      g. Column 間 padding距離 是預設的, 可以在 Grid加上 "ion-no-padding" class 移除間距.
+      h. 有五個 Grid tiers 決定Grid寬度, 
+        分別是: xs(100%)-extra small , sm(540px)-small , md(720px)-medium , lg(960px)-large , xl(1140px)-extra large
+      i. Grid tiers 以最小寬度為分隔, 表示 設定值以上都適用.
+        例: size-sm="4", sm以上(sm,md,lg,xl)的都會拆為 3行.
+    
+    ...(未完)
+
+  3.Global Stylesheets(全域樣式表)
+    3.1.(必備) 
+      core.css <= ionic Components 專用
+    3.2.(建議) 
+      structure.css <= for <html> & scrolling 正常
+      typography.css <= for 字型樣式
+      normalize.css <= for 元件一致性
+    3.3.(選項,無使用可移除,都跟 CSS Utilities 相關)
+      padding.css <= 調整元件 padding , marging使用.
+      float-elements.css <= 浮動
+      text-alignment.css <= 對齊
+      text-transformation.css <= 字型轉換
+      flex-utils.css <= 彈性盒子
+      display.css <= 依 breakpoint, 隱藏元件用.
+
+  4.CSS Utilities(細部樣式設定)
+    4.1. Text Modification
+    4.2. Element Placement
+    4.3. Element Display
+    4.4. Content Space
+    4.5. Flex Properties
+    4.6. Border Display
+    4.7. Ionic Breakpoints
+    ...(有用到再補)
+    
+[Theming]
+  1.Theming
+    1.1.md => 指的是 Android System用或其他無對應平台使用佈景主題
+    1.2.ios => 指的是 Apple iOS專用佈景主題
+  2.Basics
+  3.Platform Styles
+  4.CSS Variables
+  5.CSS Shadow Parts
+  6.Colors
+  7.Themes
+  8.Dark Mode
+  9.Advanced
+  10.Color Generator
+  ...(有用到再補)
 
