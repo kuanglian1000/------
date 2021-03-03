@@ -1,0 +1,30 @@
+1.設定環境
+  1.1. install Node.js, 確認安裝成功, "node -v" (OK)
+  1.2. install npm package manager, 確認安裝成功, "npm -v" (OK)
+  1.3. install Angular CLI, 安裝Angular CLI, "npm install -g @angular/cli" (OK)
+
+2.新增工作區及初始APP專案
+  2.1. 新增工作區及初始APP專案, 加上嚴格註解(開啟TypeScript嚴格模式), 
+    "ng new [project-name] --strict"
+    ex. "ng new my-app --strict" 
+  2.2. 在非嚴格工作區內, 以嚴格模式新增 application, 
+    "ng generate application [project-name] --strict"
+
+3.啟動APP
+  3.1. 啟動APP, 切換至專案目錄, 
+    "ng serve --open" || "ng serve -o"
+    預設, 跑在 http://localhost:4200/ 上面.
+
+4.Angular Components (元件是 Angular application最基礎架構)
+  4.1. AppComponent 實作內容分佈在下列三個檔.
+    a. app.component.ts <= TypeScript程式碼, 程式邏輯.
+    b. app.component.html <= HTML程式碼
+    c. app.component.css <= CSS樣式
+
+  4.2. 功能: 在螢幕上顯示資料, 接收使用者輸入, 依輸入值執行資料處理.
+  4.3. 路徑: src/app
+
+=====================
+5.新增 Components
+  5.1. 新增 AppComponent, "ng generate component heroes".
+  

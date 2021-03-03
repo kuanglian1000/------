@@ -7,61 +7,69 @@
     1.(2021-05-01前完成，2小時-實體、4小時-線上)提醒您_新進同仁報到後三個月內需取得感控時數達 6 小時!!! 為配合醫院感控查核規定，新進員工到職請於三個月內完成感控 6 小時教育訓練時數，請至教學部網站進行e-Learning學習(其中2小時必需為實體課程)，並完成考試!!!
   
   ============
-  教育訓練(中心)
-    1.(Web)Android APP官方教材(觀念整理) - https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/index.html
-    2.(Web)Android APP官方教材(基礎課程) - https://developer.android.com/courses/fundamentals-training/toc-v2
-      Unit 1: Get started(75%)
-        Lesson 1: Build your first app(OK,第一週完成)
-          1.1: Android Studio and Hello World
-          1.2 Part A: Your first interactive UI
-          1.2 Part B: The layout editor
-          1.3: Text and scrolling views
-          1.4: Learn to help yourself
-        Lesson 2: Activities and intents(OK,第二週完成)
-          2.1: Activities and intents
-          2.2: Activity lifecycle and state
-          2.3: Implicit intents
-        Lesson 3: Testing, debugging, and using support libraries(第三週-工作重點)
-          3.1: The debugger(OK)
-          3.2: Unit tests(SKIPPED，先跳過)，https://developer.android.com/training/testing/fundamentals，須從最基本的設定學起
-          3.3: Support libraries
-      Unit 2: User experience(第三週-工作重點)
-        Lesson 4: User interaction(OK)
-          4.1: Clickable images
-          4.2: Input controls
-          4.3: Menus and pickers
-          4.4: User navigation 新作法請參考：https://developer.android.com/guide/navigation/navigation-swipe-view-2
-          4.5: RecyclerView
-        Lesson 5: Delightful user experience(先往後延)
-          5.1: Drawables, styles, and themes
-          5.2: Cards and colors
-          5.3: Adaptive layouts
-        Lesson 6:Testing your UI
-          6.1: Espresso for UI testing
-      Unit 3: Working in the background(第四週-工作重點)
-        Lesson 7: Background tasks
-          7.1: AsyncTask
-          7.2: AsyncTask and AsyncTaskLoader
-          7.3: Broadcast receivers
-        Lesson 8: Alarms and schedulers
-          8.1: Notifications
-          8.2: The alarm manager
-          8.3: JobScheduler
-        Lesson 9: Preferences and settings
-          9.1: Shared preferences
-          9.2: App settings
-        Lesson 10: Storing data with Room
-          10.1 Part A: Room, LiveData, and ViewModel
-          10.1 Part B: Deleting data from a Room database
-    3.(Web)Android APP官方教材(進階課程) - https://developer.android.com/courses/advanced-training/overview
-    4.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面 , https://developer.android.com/guide/navigation/navigation-deep-link
-    4.(Web)Spring Boot教材(如果要寫WebApi的話) - https://code.visualstudio.com/docs/java/java-spring-boot
-    5.(Book)Android程式設計 入門、應用到精通(單元01-60 , 單元61-90)
-    6.(Book)學會Swift3程式設計的21堂課
-      => Part 1,2,3 ; Unit 01-25
-      => Part 4,5,6 ; Unit 20-37
-      => Part 7,8,9 ; Unit 38-53
-    7.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
+  教育訓練(人工智慧創新研發中心)
+    --首要工作(2門)--
+    TODO:1. Angular 程式開發
+    TODO:2. IONIC APP開發
+      # 教育訓練:IONIC程式開發 => Developing(OK)
+      # 教育訓練:IONIC程式開發 => Layout(OK)
+      # 教育訓練:IONIC程式開發 => Theming(OK)
+
+    --有空再看(7門)--
+      1.(Web)Android APP官方教材(觀念整理) - https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/index.html
+      2.(Web)Android APP官方教材(基礎課程) - https://developer.android.com/courses/fundamentals-training/toc-v2
+        Unit 1: Get started(75%)
+          Lesson 1: Build your first app(OK,第一週完成)
+            1.1: Android Studio and Hello World
+            1.2 Part A: Your first interactive UI
+            1.2 Part B: The layout editor
+            1.3: Text and scrolling views
+            1.4: Learn to help yourself
+          Lesson 2: Activities and intents(OK,第二週完成)
+            2.1: Activities and intents
+            2.2: Activity lifecycle and state
+            2.3: Implicit intents
+          Lesson 3: Testing, debugging, and using support libraries(第三週-工作重點)
+            3.1: The debugger(OK)
+            3.2: Unit tests(SKIPPED，先跳過)，https://developer.android.com/training/testing/fundamentals，須從最基本的設定學起
+            3.3: Support libraries
+        Unit 2: User experience(第三週-工作重點)
+          Lesson 4: User interaction(OK)
+            4.1: Clickable images
+            4.2: Input controls
+            4.3: Menus and pickers
+            4.4: User navigation 新作法請參考：https://developer.android.com/guide/navigation/navigation-swipe-view-2
+            4.5: RecyclerView
+          Lesson 5: Delightful user experience(先往後延)
+            5.1: Drawables, styles, and themes
+            5.2: Cards and colors
+            5.3: Adaptive layouts
+          Lesson 6:Testing your UI
+            6.1: Espresso for UI testing
+        Unit 3: Working in the background(第四週-工作重點)
+          Lesson 7: Background tasks
+            7.1: AsyncTask
+            7.2: AsyncTask and AsyncTaskLoader
+            7.3: Broadcast receivers
+          Lesson 8: Alarms and schedulers
+            8.1: Notifications
+            8.2: The alarm manager
+            8.3: JobScheduler
+          Lesson 9: Preferences and settings
+            9.1: Shared preferences
+            9.2: App settings
+          Lesson 10: Storing data with Room
+            10.1 Part A: Room, LiveData, and ViewModel
+            10.1 Part B: Deleting data from a Room database
+      3.(Web)Android APP官方教材(進階課程) - https://developer.android.com/courses/advanced-training/overview
+      4.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面 , https://developer.android.com/guide/navigation/navigation-deep-link
+      4.(Web)Spring Boot教材(如果要寫WebApi的話) - https://code.visualstudio.com/docs/java/java-spring-boot
+      5.(Book)Android程式設計 入門、應用到精通(單元01-60 , 單元61-90)
+      6.(Book)學會Swift3程式設計的21堂課
+        => Part 1,2,3 ; Unit 01-25
+        => Part 4,5,6 ; Unit 20-37
+        => Part 7,8,9 ; Unit 38-53
+      7.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
     
   ============
   教育訓練(個人)
@@ -133,29 +141,51 @@ W10:2021/03/08-03/12
   03/10(三)
 
   03/09(二)
+    1.廠商產品DEMO-第2次
 
   03/08(一)
-    1.排休假(OK) => 改到 03/29
+    
 
 W9:2021/03/01-2021/03/05
   [TODO]
-    1.專案:心蓮病房APP
-    2.教育訓練:IONIC程式開發 => Developing(OK)
+    # 專案:心蓮病房APP
+    # 1.Angular 程式開發
     
   03/05(五)
-    2.需求訪談 => 實地執行(資料收集 & 相關問題)
-    
+    1.行政:A100教育訓練
+      日期: 2020年3月5日 (五)
+      時間: 1400 - 1700
+      地點: 花蓮靜思堂四樓西向會議室
+      預計人數: 25人
+      學員: 攜帶個人電腦，會Python及PyTorch經驗者佳
+
+      上課內容: 
+      14:00 – 14:45 揭密人工智慧與深度學習 (reference: deep learning demystified)
+      14:45 – 16:30 實作課程：使用 MedNIST 資料集完成醫療影像分類 (DLI course)
+      16:30 – 17:00 Q&A 與交流 
+
   03/04(四)
-    1.教育訓練:IONIC程式開發 => Angular(2)
-    2.需求訪談 => 1.1.準備需求訪談資料(資料收集 & 相關問題)
+    1.行政:A100教育訓練 => 行前筆電註冊與驗證
+      感謝報名本次的研討會，本次議程的第二部分為實機操作課程，為了有更好的體驗，請於參加課程前參閱並完成以下步驟：
+      1.	請自行準備筆記型電腦，並於課前確認電腦中安裝最新版本 Chrome 或 Firefox 瀏覽器或 Mac 版 Safari。
+      2.	請於開課前至 websocketstest.courses.nvidia.com 測試您的筆記型電腦/桌上型電腦適用於本次的課程。
+          請確認所有 Test Steps 下的三項測試皆為綠色並打勾。若未通過測試，請嘗試更新您的瀏覽器。
+      3.	請於課前登入或建立 NVIDIA Developer 帳號。
+      4.	於上課時，請確保有至少 1 Mbps 的網路傳輸頻寬。（若使用慈濟網路，請確認網路沒有擋外網。）
     
   03/03(三)
-    1.教育訓練:IONIC程式開發 => Angular(1)
+    1.教育訓練:Angular 程式開發
+    2.教育訓練:
+      09-10 
+    TODO:16-17 慈院教育訓練(BLS)
     
   03/02(二)
-    0.行政:全家寶產品10套送出採購單，放置地點暫定:心蓮病房
-    1.教育訓練:IONIC程式開發 => Layout
-    2.教育訓練:IONIC程式開發 => Theming
+    0.行政:全家寶產品10套送出採購單，放置地點暫定:心蓮病房(OK)
+    0.行政:行動硬碟*3(有財產標籤) + 簡報筆*1(無財產標籤) , 保管組 13055-13057 黃先生 , "聯採單"驗收.(OK)
+
+    1.教育訓練:IONIC程式開發 => Layout(OK)
+    2.教育訓練:IONIC程式開發 => Theming(OK)
+    3.教育訓練:IONIC程式開發 => Angular(1)
     
   03/01(一)
     1.排休假(OK)

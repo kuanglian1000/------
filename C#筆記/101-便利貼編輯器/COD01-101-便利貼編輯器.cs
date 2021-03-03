@@ -21,10 +21,10 @@ namespace COD01
         private void Form1_Load(object sender, EventArgs e)
         {
             // 使用FileStream物件開啟或建立二進位檔案
-            // TODO
+            
             FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
             // 從開啟的二進位檔案使用BinaryReader物件讀取字串至txtOutput
-            // TODO
+            
             BinaryReader br = new BinaryReader(fs, Encoding.UTF8);
             if (fs.CanRead)
             {
@@ -37,7 +37,7 @@ namespace COD01
            br.Close(); // 關閉BinaryReader
            fs.Close(); // 關閉FileStream
            // 取消txtOutput控制項的反白顯示
-           // TODO           
+           
            txtOutput.Select(0,0);
 
         }
@@ -45,10 +45,10 @@ namespace COD01
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             // 使用FileStream物件開啟或建立二進位檔案
-            // TODO
+            
             FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
             // 使用BinaryWriter物件將字串資料寫入二進位檔
-            // TODO
+            
             BinaryWriter bw = new BinaryWriter(fs, Encoding.UTF8, false);
             bw.Write(txtOutput.Text);
 

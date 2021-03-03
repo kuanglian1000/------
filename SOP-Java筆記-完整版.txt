@@ -759,7 +759,7 @@
 	object lock flag的目的在於解決多執行緒同時存取同一物件的問題
 	只有在它取得object lock flag後，執行緒才可能執行一個已標註同步化的物件方法
 	synchronized(this){
-	XXXX ;
+	 ...
 	}
 
 	17.物件導向的多形(Polymorphism)概念會用什麼方法實現？

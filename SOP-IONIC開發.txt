@@ -1,5 +1,4 @@
 ==== <Developing> ====
-
 [Start an App] 新增專案
   "ionic start myApp tabs"
 
@@ -245,7 +244,7 @@
       ) {
         this.platform.backButton.subscribeWithPriority(-1, () => {
           if (!this.routerOutlet.canGoBack()){
-            //TODO:這裡可以放個確認視窗,在結束APP前.
+            //NOTICE:這裡可以放個確認視窗,在結束APP前.
             App.exitApp();
           }
         });
@@ -336,6 +335,7 @@
         });
       }
 
+==== <Layout> ====
 [Layout]
   1.Structure(主要版面-佈局結構)
     1.1. Header(ion-header) and Footer(ion-footer) Layout(頁首,內容,頁尾)
@@ -493,6 +493,7 @@
     4.7. Ionic Breakpoints
     ...(有用到再補)
     
+==== <Theming> ====
 [Theming]
   1.Theming
     1.1.md => 指的是 Android System用或其他無對應平台使用佈景主題
@@ -507,4 +508,46 @@
   9.Advanced
   10.Color Generator
   ...(有用到再補)
+
+==== <Angular> ====
+[Overview]
+  1. "@ionic/angular"
+  2. Angular Version Support, 支援 Angular 6.0.0 and up.
+  3. "@ionic/angular-toolkit", ionic 提供的Angular Tooling, 整合 Angular 官方CLI並針對 "@ionic/angular" 提供的工具箱.
+
+[Build Your First App]
+  1.製作 "相片簿APP".
+  2.前置作業
+    2.1.下載所需工具:Node.js, Code editor, Cmd.
+    2.2.安裝 IONIC Tooling. 
+      
+      cmd: "npm install -g @ionic/cli native-run cordova-res"
+      註: @ionic/cli <= IONIC Tooling
+      註: native-run <= used to run native binaries on devices and simulators/emulators
+      註: cordova-res <= used to generate native app icons and splash screens
+
+    2.3.新增App專案
+      
+      cmd: "ionic start photo-gallary tabs --type=angular --capacitor"
+      註: "ionic start <App名稱> <AppLayot Template> --type=<程式語言別> --<for native functionality>"
+
+      cmd: "npm install @ionic/pwa-elements" <= 安裝網頁版API
+      
+
+
+[Lifecycle]
+
+[Navigation/Routing]
+
+[Config]
+
+[Platform]
+
+[Testing]
+
+[Storage]
+
+[Performance]
+
+[Progressive Web Apps/PWA]
 

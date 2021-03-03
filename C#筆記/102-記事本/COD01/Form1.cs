@@ -22,10 +22,10 @@ namespace COD01
             txtInput.SelectionLength = 0;
             txtInput.Focus();
             // ofdOpen.InitialDirectory = "c:\\";
-            ofdOpen.Filter = "¤å¦rÀÉ®×(*.txt)|*.txt|©Ò¦³ÀÉ®×(*.*)|*.*";
+            ofdOpen.Filter = "ï¿½ï¿½rï¿½É®ï¿½(*.txt)|*.txt|ï¿½Ò¦ï¿½ï¿½É®ï¿½(*.*)|*.*";
             ofdOpen.FilterIndex = 2;
             ofdOpen.RestoreDirectory = true;
-            sfdSave.Filter = "¤å¦rÀÉ®×(*.txt)|*.txt|©Ò¦³ÀÉ®×(*.*)|*.*";
+            sfdSave.Filter = "ï¿½ï¿½rï¿½É®ï¿½(*.txt)|*.txt|ï¿½Ò¦ï¿½ï¿½É®ï¿½(*.*)|*.*";
             sfdSave.FilterIndex = 2;
             sfdSave.RestoreDirectory = true;
         }
@@ -34,17 +34,17 @@ namespace COD01
         {
             if (ofdOpen.ShowDialog() == DialogResult.OK)
             {
-                // «Ø¥ßStreamReader¶}±ÒofdOpen¹ï¸Ü¤è¶ô¨ú±oªºÀÉ®×¦WºÙ
-                // TODO
+                // ï¿½Ø¥ï¿½StreamReaderï¿½}ï¿½ï¿½ofdOpenï¿½ï¿½Ü¤ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½É®×¦Wï¿½ï¿½
+                
                 StreamReader sr = new StreamReader(ofdOpen.FileName);
-                // Åª¨ú¾ã­Ó¤å¦rÀÉ®×
-                // TODO
+                // Åªï¿½ï¿½ï¿½ï¿½Ó¤ï¿½rï¿½É®ï¿½
+                
                 txtInput.Text = sr.ReadToEnd();
-                sr.Close(); // Ãö³¬ÀÉ®×
+                sr.Close(); // ï¿½ï¿½ï¿½ï¿½ï¿½É®ï¿½
                 txtInput.SelectionStart = txtInput.Text.Length;
                 txtInput.SelectionLength = 0;
-                // ¦b¼ÐÃD¦CÅã¥ÜÀÉ®×¦WºÙ
-                // TODO
+                // ï¿½bï¿½ï¿½ï¿½Dï¿½Cï¿½ï¿½ï¿½ï¿½É®×¦Wï¿½ï¿½
+                
                 this.Text = ofdOpen.FileName;
             }
         }
@@ -53,27 +53,27 @@ namespace COD01
         {
             if (sfdSave.ShowDialog() == DialogResult.OK)
             {
-                // ¨Ï¥ÎFileInfo«Ø¥ßofdSave¹ï¸Ü¤è¶ô¨ú±oÀÉ®×¦WºÙªº·sÀÉ®×
-                // TODO
+                // ï¿½Ï¥ï¿½FileInfoï¿½Ø¥ï¿½ofdSaveï¿½ï¿½Ü¤ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½É®×¦Wï¿½Ùªï¿½ï¿½sï¿½É®ï¿½
+                
                 FileInfo newFile = new FileInfo(sfdSave.FileName);
-                // «Ø¥ßStreamWriterª«¥ó
-                // TODO
+                // ï¿½Ø¥ï¿½StreamWriterï¿½ï¿½ï¿½ï¿½
+                
                 StreamWriter sw = new StreamWriter(newFile.FullName);
-                // ¼g¤JÀÉ®×¤º®e
-                // TODO
+                // ï¿½gï¿½Jï¿½É®×¤ï¿½ï¿½e
+                
                 sw.Write(txtInput.Text);
-                sw.Flush(); // ±N½w½Ä°Ï¸ê®Æ¼g¤JÀÉ®×
-                sw.Close(); // Ãö³¬ÀÉ®×
+                sw.Flush(); // ï¿½Nï¿½wï¿½Ä°Ï¸ï¿½Æ¼gï¿½Jï¿½É®ï¿½
+                sw.Close(); // ï¿½ï¿½ï¿½ï¿½ï¿½É®ï¿½
 
-                // ¦b¼ÐÃD¦CÅã¥ÜÀÉ®×¦WºÙ
-                // TODO
+                // ï¿½bï¿½ï¿½ï¿½Dï¿½Cï¿½ï¿½ï¿½ï¿½É®×¦Wï¿½ï¿½
+                
                 this.Text = newFile.FullName;
             }
         }
         
         private void mnuItemFont_Click(object sender, EventArgs e)
         {
-            dlgSetFont.ShowColor = true;  // ¿ï¨ú¦r«¬¦â±m
+            dlgSetFont.ShowColor = true;  // ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½m
             if (dlgSetFont.ShowDialog() == DialogResult.OK)
             {
                 txtInput.Font = dlgSetFont.Font;
@@ -83,18 +83,18 @@ namespace COD01
 
         private void mnuItemForeColor_Click(object sender, EventArgs e)
         {
-            dlgSetColor.AllowFullOpen = false; // ¨ú®ø¦Û­q¦â±m
-            dlgSetColor.ShowHelp = true;       // Åã¥Ü»¡©ú
-            dlgSetColor.Color = txtInput.ForeColor; // ¹w³]­È
+            dlgSetColor.AllowFullOpen = false; // ï¿½ï¿½ï¿½ï¿½ï¿½Û­qï¿½ï¿½m
+            dlgSetColor.ShowHelp = true;       // ï¿½ï¿½Ü»ï¿½ï¿½ï¿½
+            dlgSetColor.Color = txtInput.ForeColor; // ï¿½wï¿½]ï¿½ï¿½
             dlgSetColor.ShowDialog();
             txtInput.ForeColor = dlgSetColor.Color;
         }
 
         private void mnuItemBackColor_Click(object sender, EventArgs e)
         {
-            dlgSetColor.AllowFullOpen = true;  // ¦Û­q¦â±m
-            dlgSetColor.ShowHelp = false;      // ¨ú®ø»¡©ú
-            dlgSetColor.Color = txtInput.BackColor; // ¹w³]­È
+            dlgSetColor.AllowFullOpen = true;  // ï¿½Û­qï¿½ï¿½m
+            dlgSetColor.ShowHelp = false;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            dlgSetColor.Color = txtInput.BackColor; // ï¿½wï¿½]ï¿½ï¿½
             dlgSetColor.ShowDialog();
             txtInput.BackColor = dlgSetColor.Color;
         }

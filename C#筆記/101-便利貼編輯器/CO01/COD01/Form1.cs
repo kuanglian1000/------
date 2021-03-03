@@ -20,41 +20,41 @@ namespace COD01
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // ¨Ï¥ÎFileStreamª«¥ó¶}±Ò©Î«Ø¥ß¤G¶i¦ìÀÉ®×
-            // TODO
+            // ï¿½Ï¥ï¿½FileStreamï¿½ï¿½ï¿½ï¿½}ï¿½Ò©Î«Ø¥ß¤Gï¿½iï¿½ï¿½ï¿½É®ï¿½
+            
             FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
-            // ±q¶}±Òªº¤G¶i¦ìÀÉ®×¨Ï¥ÎBinaryReaderª«¥óÅª¨ú¦r¦ê¦ÜtxtOutput
-            // TODO
+            // ï¿½qï¿½}ï¿½Òªï¿½ï¿½Gï¿½iï¿½ï¿½ï¿½É®×¨Ï¥ï¿½BinaryReaderï¿½ï¿½ï¿½ï¿½Åªï¿½ï¿½ï¿½rï¿½ï¿½ï¿½txtOutput
+            
             BinaryReader br = new BinaryReader(fs, Encoding.UTF8);
             if (fs.CanRead)
             {
                 txtOutput.Text = br.ReadString();
             }
             else {
-                txtOutput.Text = "µLªkÅª¨ú";
+                txtOutput.Text = "ï¿½Lï¿½kÅªï¿½ï¿½";
             }
 
-           br.Close(); // Ãö³¬BinaryReader
-           fs.Close(); // Ãö³¬FileStream
-           // ¨ú®øtxtOutput±±¨î¶µªº¤Ï¥ÕÅã¥Ü
-           // TODO           
+           br.Close(); // ï¿½ï¿½ï¿½ï¿½BinaryReader
+           fs.Close(); // ï¿½ï¿½ï¿½ï¿½FileStream
+           // ï¿½ï¿½ï¿½ï¿½txtOutputï¿½ï¿½ï¿½î¶µï¿½ï¿½ï¿½Ï¥ï¿½ï¿½ï¿½ï¿½
+           
            txtOutput.Select(0,0);
 
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // ¨Ï¥ÎFileStreamª«¥ó¶}±Ò©Î«Ø¥ß¤G¶i¦ìÀÉ®×
-            // TODO
+            // ï¿½Ï¥ï¿½FileStreamï¿½ï¿½ï¿½ï¿½}ï¿½Ò©Î«Ø¥ß¤Gï¿½iï¿½ï¿½ï¿½É®ï¿½
+            
             FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
-            // ¨Ï¥ÎBinaryWriterª«¥ó±N¦r¦ê¸ê®Æ¼g¤J¤G¶i¦ìÀÉ
-            // TODO
+            // ï¿½Ï¥ï¿½BinaryWriterï¿½ï¿½ï¿½ï¿½Nï¿½rï¿½ï¿½ï¿½Æ¼gï¿½Jï¿½Gï¿½iï¿½ï¿½ï¿½ï¿½
+            
             BinaryWriter bw = new BinaryWriter(fs, Encoding.UTF8, false);
             bw.Write(txtOutput.Text);
 
             bw.Flush();
-            bw.Close(); // Ãö³¬BinaryWriter
-            fs.Close(); // Ãö³¬FileStream 
+            bw.Close(); // ï¿½ï¿½ï¿½ï¿½BinaryWriter
+            fs.Close(); // ï¿½ï¿½ï¿½ï¿½FileStream 
             
         }
     }
