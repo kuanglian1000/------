@@ -1,3 +1,5 @@
+0.APP版面瀏覽: 在Chrome網頁下, 按下 "F12", 切換至APP版面
+
 1.設定環境
   1.1. install Node.js, 確認安裝成功, "node -v" (OK)
   1.2. install npm package manager, 確認安裝成功, "npm -v" (OK)
@@ -27,4 +29,3 @@
 =====================
 5.新增 Components
   5.1. 新增 AppComponent, "ng generate component heroes".
-  
