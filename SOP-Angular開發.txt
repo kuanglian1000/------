@@ -1,5 +1,12 @@
 0.APP版面瀏覽: 在Chrome網頁下, 按下 "F12", 切換至APP版面
+0.常用指令:
+  新增 Project   => ng new <project-name> --strict
+  新增 Component => ng generate compoent <compoent-name>
+  新增 Service   => ng generate service <service-name>
+  啟動 App       => ng serve -o
+  
 
+==Create a Project==
 1.設定環境
   1.1. install Node.js, 確認安裝成功, "node -v" (OK)
   1.2. install npm package manager, 確認安裝成功, "npm -v" (OK)
@@ -26,6 +33,242 @@
   4.2. 功能: 在螢幕上顯示資料, 接收使用者輸入, 依輸入值執行資料處理.
   4.3. 路徑: src/app
 
-=====================
+==Hero Editor==
 5.新增 Components
-  5.1. 新增 AppComponent, "ng generate component heroes".
+  5.1. 新增 Component, "ng generate component heroes".
+       在 src/app路徑下, 會新增1個 heroes 的Component
+  
+  5.2. xx.component.ts內的 @Component設定, 決定Component的屬性.
+    @Component({
+      selector: 'app-heroes', //決定主頁HTML內的嵌入標籤(它會放入Component網頁)
+      templateUrl: './heroes.component.html', //指向Component網頁檔
+      styleUrls: ['./heroes.component.css'] //指向Component樣式檔
+    })
+  
+  5.3. xx.component.ts內放入(類別屬性)時, 會先另外新增1個TS檔, 放 Interface.
+    再匯入 xx.component.ts內, 作初始化.
+    
+    //filePath:'../hero'
+    export interface Hero{
+      id: number;
+      name: string;
+    }
+
+    //filePath:x.component.ts
+    import { Hero } from '../hero';
+    hero: Hero = {
+      id: 1,
+      name: 'A英雄'
+    };
+  
+  5.4. xx.component.html內, 固定(單向)顯示 xx.component.ts的值, 使用 {{ ts內的屬性 }}
+    {{ hero.id }}
+
+  5.5. xx.component.html內, 動態(雙向)顯示/儲存 xx.component.ts 的值, 使用 [(ngModel)] = "hero.name",
+    1. app.module.ts 最上方匯入 import { FormsModule } from '@angular/forms';
+    2. app.module.ts 在 @NgModule 區段再匯入1次.
+        
+        import { FormsModule } from '@angular/forms'; //(1)
+        
+        @NgModule({ // @NgModule 整個Application中只會有1個
+          declarations: [
+            AppComponent,
+            HeroesComponent
+          ],
+          imports: [
+            BrowserModule,
+            FormsModule //(2)
+          ],
+          providers: [],
+          bootstrap: [AppComponent]
+        })
+
+  5.6. 每個 Component 都必須在 唯1的 NgModule 內被宣告, 在 app.module.ts 檔內
+    1. app.module.ts 匯入 Component
+    2. app.module.ts 在 @NgModule 區段 進行宣告.
+
+        import { HeroesComponent } from './heroes/heroes.component'; //(1)
+
+        @NgModule({ // @NgModule 整個Application中只會有1個
+          declarations: [
+            AppComponent,
+            HeroesComponent //(2)
+          ],
+          imports: [
+            BrowserModule,
+            FormsModule
+          ],
+          providers: [],
+          bootstrap: [AppComponent]
+        })
+
+==Display a List==
+6.存取資料來源, 以清單(List)顯示.
+  6.1. 新增固定/動態資料來源
+    1. 新增資料來源檔, src/app/heroes-mock.ts
+        import { Hero } from './hero'; //引用Hero資料型態(介面)
+        export const HEROES: Hero[] = [ //使用Hero型態,新增固定陣列
+          { id: 11, name: 'Dr Nice' },
+          { id: 12, name: 'Narco' },
+          { id: 13, name: 'Bombasto' },
+          { id: 14, name: 'Celeritas' },
+          { id: 15, name: 'Magneta' },
+          { id: 16, name: 'RubberMan' },
+          { id: 17, name: 'Dynama' },
+          { id: 18, name: 'Dr IQ' },
+          { id: 19, name: 'Magma' },
+          { id: 20, name: 'Tornado' }
+        ];
+
+  6.2. 顯示清單(*ngFor , *ngIf)
+    1. 匯入 HEROES 資料檔, src/app/heroes/heroes.component.ts
+    2. 公開 HEROES 資料檔給前端存取
+    3. 利用 *ngFor 將資料檔逐筆顯示
+    4. 加入 Component 專屬樣式
+    5. 新增 Component 點選事件
+    6. 利用 *ngIf 判斷變數是否存在(決定是否顯示明細)
+    7. 新增 html 物件動態樣式, 語法: [class.some-css-class]="some-condition"
+        例: <li [class.selected]="hero === selectedHero"> ABC </li>
+        註: 這種寫法真特別. 如果 點選物件==這個物件, 套用 selected 樣式, 否則移除
+        
+        "src/app/heroes/heroes.component.ts"
+
+          @Component({
+            selector: 'app-heroes',                 //引入 Component 使用的標籤 <app-heroes></app-heroes>
+            templateUrl: './heroes.component.html', //Component 專屬樣版
+            styleUrls: ['./heroes.component.css']   //Component 專屬樣式(4)
+          })
+          
+          import { HEROES } from '../heroes-mock'; //(1)
+          export class HeroesComponent implements OnInit{
+            heroes = HEROES; //(2)
+
+            selectedHero?: Hero; //(5)
+            onSelect(hero: Hero): void{
+              this.selectedHero = hero;
+            }
+          }
+
+        "src/app/heroes/heroes.component.html"
+
+          <h2>My Heroes</h2>
+            <ul class="heroes">
+              <li *ngFor="let hero of heroes" //(3)
+                  (click)="onSelect(hero)" //(5)
+                  [class.selected]="hero === selectedHero" //(6)
+                  > 
+                <span class="badge">{{hero.id}}</span> {{hero.name}}
+              </li>
+            </ul>
+          
+          <div *ngIf="selectedHero"> //(6)
+            <h2>{{selectedHero.name | uppercase}} Details</h2>
+            <div><span>id: </span>{{selectedHero.id}}</div>
+            <div>
+              <label for="hero-name">Hero name: </label>
+              <input id="hero-name" [(ngModel)]="selectedHero.name" placeholder="name">
+            </div>
+          </div>
+          
+==Create a feature Component==
+7.再新增一個明細專用Component(把 列表 & 明細 兩個功能作分割)
+  註: 將大Component拆成多個小Component, 使得各個Component功能各自獨立, 也更好維護.
+
+  7.1. 新增Component, "ng generate component hero-detail"
+    1. 新增後, 會產生四個檔(xx.css 樣式 , xx.html 樣版 , xx.spec.ts 測試用 , xx.ts 程式邏輯)
+    2. 新增後, 在app.module.ts內會加入 Component 參考.
+        
+        import { HeroDetailComponent } from './hero-detail/hero-detail.component';
+
+        @NgModule({
+          declarations: [
+            AppComponent,
+            HeroesComponent,
+            HeroDetailComponent //新增的Component.
+          ],
+          ...
+    3. 新增後, 在xx.html 樣版檔加入顯示內容, 注意: hero 在 xx.ts 內必須定義
+
+        <div *ngIf="hero">
+          
+          <h2>{{hero.name | uppercase}} Details</h2>
+          <div><span>id: </span>{{hero.id}}</div>
+          <div>
+            <label for="hero-name">Hero name: </label>
+            <input id="hero-name" [(ngModel)]="hero.name" placeholder="name">
+          </div>
+        </div>
+
+  7.2. 加入 @Input() 屬性功能, 建立與外部 Component 繫結之介面. (@Input decorator)
+    1. 新增後, 在xx.ts 引用Hero資料型態(import Hero)
+    2. 新增後, 在xx.ts 要新增 Input property, 給外部Component傳值用.
+
+        import { Component, OnInit, Input } from '@angular/core';
+        import { Hero } from '../hero'; //(1)
+
+        @Component({
+          selector: 'app-hero-detail',
+          templateUrl: './hero-detail.component.html',
+          styleUrls: ['./hero-detail.component.css']
+        })
+
+        export class HeroDetailComponent implements OnInit {
+          //(2), 因為外部Component傳入值是 selectedHero?, 可能會出現 undefined.
+          @Input() hero: Hero | undefined; //所以必須加上 undefined, 否則會錯.
+          constructor() { }
+
+          ngOnInit(): void {
+          }
+        }
+
+  7.3. 完成 Component 間的物件傳遞. (property binding)
+    1. 新增Component後, 在外部Component 加入 新Component's selector & Input property & Input value.
+
+        <app-hero-detail [hero]="selectedHero" ></app-hero-detail>
+        註: [hero]="selectedHero" 是 Angular 屬性繫結. (property binding)
+
+==Add services==
+8.服務 能讓程式功能更獨立, 需要服務時, 再將服務注入依賴(dependency injection)即可.
+  服務 也是類別間分享資訊的好作法.
+  8.1. 新增 "資料提供用" 服務, ng generate service heroes
+  8.2. 新增 "訊息顯示用" 服務, ng generate service messages
+  8.3. 如何開發非同步化服務(例:資料存取), 使用 Observable & RxJS Observable 套件.
+    1. (服務端)利用 RxJS of() 回傳 Observable 的資料型態.
+        
+        import { Observable, of } from 'rxjs'; // 匯入非同步功能
+        
+        getHeroes(): Observable<Hero[]> { // 非同步版
+          const heroes = of(HEROES);
+          this.messageService.add('HeroService: 抓取資料');
+          return heroes;
+        }
+    
+    2. (注入端)由 "指定" 改為 "向服務訂閱".
+
+        import { HeroService } from '../hero.service'; // 注入服務(1:匯入)
+
+        heroes: Hero[] = [];
+        constructor(private heroService: HeroService) { } // 注入服務(2:實體化)
+        
+        ngOnInit(): void {
+          this.getHeroes(); // 注入服務(4.使用服務, 屬性初始化是最佳時間點 = 在ngOnInit(), 而不是在 constructor內)
+        }
+
+        getHeroes(): void {
+          this.heroService.getHeroes()
+              .subscribe(heroes => this.heroes = heroes); // 注入服務(3.非同步版,向服務訂閱,因為不確定什麼時候來)
+        }
+
+        
+  
+  8.3. 如何注入服務, 
+    1. 匯入參考, import { MessageService } from '../message.service'; // 注入服務(1:匯入)
+    2. 實體化, 在Constructor建構子, 宣告服務為傳入參數, 預設是private內部用 ; 若須供 Template存取, 則用public.
+        
+        // messageService 參數只供內部存取,所以要改為 private
+        constructor(private heroService: HeroService
+             , private messageService: MessageService) { } // 注入服務(2:實體化)
+        
+        // messageService 參數可供外部存取,所以要改為 public
+        constructor(public messageService: MessageService) { }
+  
