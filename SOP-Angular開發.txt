@@ -5,7 +5,6 @@
   新增 Service   => ng generate service <service-name>
   啟動 App       => ng serve -o
   
-
 ==Create a Project==
 1.設定環境
   1.1. install Node.js, 確認安裝成功, "node -v" (OK)
@@ -259,9 +258,7 @@
               .subscribe(heroes => this.heroes = heroes); // 注入服務(3.非同步版,向服務訂閱,因為不確定什麼時候來)
         }
 
-        
-  
-  8.3. 如何注入服務, 
+  8.4. 如何注入服務, 
     1. 匯入參考, import { MessageService } from '../message.service'; // 注入服務(1:匯入)
     2. 實體化, 在Constructor建構子, 宣告服務為傳入參數, 預設是private內部用 ; 若須供 Template存取, 則用public.
         
@@ -271,4 +268,58 @@
         
         // messageService 參數可供外部存取,所以要改為 public
         constructor(public messageService: MessageService) { }
+
+==Add Navigation(加入路徑瀏覽功能)==
+9. Add the AppRoutingModule(路徑套件)
+  
+  "ng generate module app-routing --flat --module=app"
+
+10. Add RouterOutlet(加入瀏覽顯示元件)
+
+  @ app-routing.module.ts 必須先完成
+    1. 匯入參考
+    2. 定義路徑
+    3. 決定路徑階層, 
+    4. 開放使用, 
+
+11. Add a navigation link (加入瀏覽連結 <a routerLink="path"></a> , 點選後 <router-outlet> 內容會跟著切換)
+
+  @ app.component.html 
+    5. 才能使用上面公開的路徑, 利用 router-outlet 元件, 顯示path對應的Compoenent.
+    6. 加入瀏覽連結, 指向公開路徑的path.
+    7. 程式碼範例：      
+      
+      <h1 id="main-content-header">{{title}}</h1>
+      <!-- <app-heroes></app-heroes> -->
+      <nav>
+        <!--導覽連結-->
+        <a routerLink="/dashboard">Dashboard</a>
+        <a routerLink="/heroes">Heroes</a>
+      </nav>
+      <router-outlet></router-outlet> <!--顯示區域-->
+      <app-messages></app-messages>
+
+12. 重整APP畫面流程
+
+  12.1. Add a Dashboard View(Compoent)
+    1. Add the Dashboard route(總覽路徑)
+    2. Add a default route(預設路徑)
+    3. Add Dashboard link to the shell(最外層)
+
+      "ng generate component dashboard"
+
+  12.2. Navigating to hero Details(Component)
+
+      重新定義顯示 HeroDetailComponent 的情境.
+      
+    1. Delete "hero detail" from HeroesComponent
+    2. Add a "hero detail" route
+    3. DashboardComponent hero links
+    4. HeroesComponent hero links
+
+  12.3. Routable HeroDetailComponent
+    1. Extract the id route parameter(增加瀏覽用的參數值)
+    2. Add HeroService.getHero() function(新增函式, 回傳單筆資料)
+    3. Find the way back(返回鍵)
+
   
