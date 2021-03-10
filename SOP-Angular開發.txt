@@ -269,7 +269,7 @@
         // messageService 參數可供外部存取,所以要改為 public
         constructor(public messageService: MessageService) { }
 
-==Add Navigation(加入路徑瀏覽功能)==
+==Add Navigation(加入路徑瀏覽功能, 2021-03-08 進度)==
 9. Add the AppRoutingModule(路徑套件)
   
   "ng generate module app-routing --flat --module=app"
@@ -322,4 +322,151 @@
     2. Add HeroService.getHero() function(新增函式, 回傳單筆資料)
     3. Find the way back(返回鍵)
 
+==Get Data From Server(改由伺服器取得資料,原為Stable Data, 2021-03-09 進度)==
+13. Enable HTTP services(啟用 HTTP 服務, 才能對外存取伺服器資料)
+  在 Angular內, 使用 HTTP 兩步驟:
+    1. import { HttpClientModule } from '@angular/common/http'; // @app.module.ts 加入參考
+    2. imports: [ HttpClientModule ], // @app.module.ts 匯入參考
+    3. 程式碼範例：
+      
+      import { HttpClientModule } from '@angular/common/http';
+      @NgModule({
+        imports: [
+          HttpClientModule,
+        ],
+      })
+
+14. Simulate a data server(模擬資料伺服器,實際上沒有送出去, 常用於測試開發; 改為存取資料伺服器時, 這段碼就無法使用了)
+
+  14.1. 模擬WebApi, 先安裝 angular-in-memory-web-api 套件.
+    
+    "npm install angular-in-memory-web-api --save"
   
+  14.2. @app.module.ts 加入 & 匯入參考
+
+    import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+    import { InMemoryDataService } from './in-memory-data.service'; //這是自行開發的資料提供服務
+  
+    @NgModule({
+      declarations: [
+        AppComponent,
+        HeroesComponent,
+        HeroDetailComponent,
+        MessagesComponent,
+        DashboardComponent,
+        HeroSearchComponent
+      ],
+      imports: [
+        BrowserModule,
+        FormsModule, // 使用 [(ngModel)] 功能, import { FormsModule } from '@angular/forms';
+        AppRoutingModule, // 使用 routing 功能, import { AppRoutingModule } from './app-routing.module';
+        HttpClientModule, // 使用 HTTP 功能, import { HttpClientModule } from '@angular/common/http';
+        
+        //改為存取資料伺服器時, 下列這段就不用匯入了
+        HttpClientInMemoryWebApiModule
+          .forRoot(InMemoryDataService, {dataEncapsulation: false}), // 使用 HTTP WEBAPI 模擬功能;
+      ],
+
+  14.3. 新增資料提供服務(模擬外部資料來源, WebApi) : InMemoryDataService
+    
+    "ng generate service InMemoryData"
+
+    1. 宣告為可注入
+    2. 實作 createDb() & getId() 方法
+    3. 程式碼範例(src/app/in-memory-data.service.ts)：
+    
+      import { Injectable } from '@angular/core';
+      import { InMemoryDbService } from 'angular-in-memory-web-api';
+      import { Hero } from './hero';
+
+      @Injectable({
+        providedIn: 'root',
+      })
+      export class InMemoryDataService implements InMemoryDbService {
+        createDb() {
+          const heroes = [
+            { id: 11, name: 'Dr Nice' },
+            { id: 12, name: 'Narco' },
+            { id: 13, name: 'Bombasto' },
+            { id: 14, name: 'Celeritas' },
+            { id: 15, name: 'Magneta' },
+            { id: 16, name: 'RubberMan' },
+            { id: 17, name: 'Dynama' },
+            { id: 18, name: 'Dr IQ' },
+            { id: 19, name: 'Magma' },
+            { id: 20, name: 'Tornado' }
+          ];
+          return {heroes};
+        }
+
+        // Overrides the genId method to ensure that a hero always has an id.
+        // If the heroes array is empty,
+        // the method below returns the initial number (11).
+        // if the heroes array is not empty, the method below returns the highest
+        // hero id + 1.
+        genId(heroes: Hero[]): number {
+          return heroes.length > 0 ? Math.max(...heroes.map(hero => hero.id)) + 1 : 11;
+        }
+      }
+
+15. Heroes(內部資料提供服務) and HTTP(資料物件與 HTTP 服務間的關係) : HeroService
+  15.0. 資料存取服務(get/select, post/create, put/update, delete/delete), 都由這裡提供.
+    1. :base/:collectionName 是 WebApi URL格式.
+      ex. private heroesUrl = 'api/heroes';
+
+  15.1. 使用 "HttpClient" 取得 Heroes(資料物件)
+    1. 原則(1), Observable from HttpClient 只會回傳1次, 值可以是單值或單陣列.
+    2. 原則(2), HttpClient.get() 預設回傳無型態JSON物件(untyped JSON object),
+        但可指定型別來減少錯誤發生, 下列就是指定 <Hero[]> 作為回傳型別.
+    3. 重點(3), 通常回傳JSON格式是由Server端決定的, 還需要用 RxJS 的 map() 作對應才行.
+        詳程式碼範例3.
+      
+      程式碼範例1：使用httpClient去抓資料(外部), 都能回傳 Observable 物件
+        getHeroes(): Observable<Hero[]> {
+          return this.http.get<Hero[]>(this.heroesUrl);
+        }
+      程式碼範例2：使用RxJS的of()去抓資料(內部), 都能回傳 Observable 物件
+        getHeroes(): Observable<Hero[]> {
+          const heroes = of(HEROES);
+          return heroes;
+        }
+      程式碼範例3：對應外部API的JSON物件, 使用 map() 方法
+        getHeroNo404<Data>(id: number): Observable<Hero> {
+          const url = `${this.heroesUrl}/${id}`;
+          return this.http.get<Hero[]>(url)
+          .pipe(
+            map(heroes => heroes[0]), // * 使用 map() 方法
+            tap(h => {
+              const outcome = h ? `fetched` : `did not find`;
+              this.log(`${outcome} hero id=${id}`);
+            }),
+            catchError(this.handleError<Hero>(`getHero id=${id}`))
+          );
+        }
+
+  15.2. 異常處理
+    1. 先從 rxjs/operators 匯入會用到的函式 catchError , map , tap.
+    2. 在 pipe 時, 利用 catchError 建立與 異常處理函式 間的連接.
+  
+  15.3. 看看可觀察的資料(tap into the Observable)
+    1. 在 pipe 時, 利用 tap 觀察回傳結果, 並留下必要記錄.
+    2. 在 pipe 時, 利用 map 對應JSON格式是否正確.(VIP: 讀取外部 WebApi 必用)
+
+  15.4. 利用 id 值, 取得所需的 Heroes(資料物件)
+
+16. 更新 Heroes(資料物件)
+
+17. 新增 Heroes(資料物件)
+
+18. 刪除 Heroes(資料物件)
+
+19. 搜尋 Heroes(資料物件) by name
+  19.1. 瀏覽頁加入 新增功能
+  19.2. 新增 "HeroSearchComponent"
+  19.3. AsyncPipe
+    1. The $ is a convention that indicates heroes$ is an Observable, not an array.
+      註: 加上 $ 的變數, 表示它是 Observable(可被觀察的)
+
+  19.4. 調整 "HeroSearchComponent"
+  19.5. 使用 "RxJS" 套件的 "searchItem"
+  19.6. Chaining RxJS 運算子
