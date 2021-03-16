@@ -119,19 +119,188 @@
            STOP RUN.
 
   [Selection and Interation]
-  # 迴圈 & IF(PERFORM..TIMES)
+  # 迴圈 & IF(PERFORM..TIMES, IF)
+    1.注意: 放在 PERFORM..END PERFORM 區域內指令, 不用加句點(.).
+    2.注意: PERFORM..END PERFORM 區域的句點(.), 放在END PERFORM.後即可.
+    3.注意: IF..THEN..END-IF. 使用IF時, 要有 "THEN", 不然會錯.
+  
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. ITERATIONIF.
 
-  # 條件式(Condition)
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  Num1 PIC 9 VALUE ZEROS.
+       01  Num2 PIC 9 VALUE ZEROS.
+       01  Result PIC 99 VALUE ZEROS.
+       01  Operator PIC X VALUE SPACE.
 
-  # 程式流程(PERFORM)
+       PROCEDURE DIVISION.
+       Calculator.
+           PERFORM 3 TIMES
+               DISPLAY "Enter First Number(1 digit):" WITH NO ADVANCING
+               ACCEPT Num1
+               DISPLAY "Enter Second Number(1 digit):" WITH NO ADVANCING
+               ACCEPT Num2
+               DISPLAY "Enter Operator(+ or *):" WITH NO ADVANCING
+               ACCEPT Operator
+               IF Operator = "+" THEN
+                 Add Num1, Num2 Giving Result
+               END-IF
+               IF Operator = "*" THEN
+                 Multiply Num1 By Num2 Giving Result
+               END-IF
+               Display "Result is = ", Result
+           END-PERFORM.
+           STOP RUN.
+       
+  # 條件式(LEVEL 88 條件名稱[Condition Names], Condition, EVALUATE TRUE..WHEN..END-EVALUATE, PERFORM UNTIL NOT xx ...END-PERFORM.)
+    1.LEVEL 88 條件名稱 + EVALUATE 合併使用.(範例寫法, 真的太美了..)      
+    2.LEVEL 88 條件名稱, 可作為 EVALUATE WHEN 條件式使用.
+    3.LEVEL 88 不用定義類別, 直接給條件值.ex. 88 Vowel VALUE "XXX"
+    4.LEVEL 88 資料型態, 依上階定義為準.
 
-  # 執行多次(PERFORM..TIMES)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CONDITIONS.
 
-  # 執行結束(PERFORM..UNTIL)  
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  Char PIC X.
+           88 Vowel VALUE "a", "e", "i", "o", "u".
+           88 Consonant VALUE "b", "c", "d", "f", "g", "h",
+                               "j" THRU "n", "p" THRU "t",
+                               "v" THRU "z".
+           88 Digit VALUE "0" THRU "9".
+           88 ValidCharacter VALUE "a" THRU "z", "0" THRU "9".
+       
+       PROCEDURE DIVISION.
+       Begin.
+           DISPLAY "Enter lower case character or digit. No Data ends.".
+           ACCEPT Char.
+           PERFORM UNTIL NOT ValidCharacter
+               EVALUATE TRUE
+                   WHEN Vowel Display "The letter '" Char "' is a vowel."
+                   WHEN Consonant DISPLAY "The letter '" Char "' is a consonant."
+                   WHEN Digit DISPLAY "The letter '" Char "' is a digit."
+                   WHEN OTHER
+                      DISPLAY "No Match, Problems Found."
+               END-EVALUATE
+           END-PERFORM.
+           STOP RUN.
+       
 
-  # 執行條件(PERFORM..VARYING..AFTER)
+  # 呼叫副程式,再返回(Type1: PERFORM <paragraph>.)
+    1. 注意: PERFORM 特點 == 呼叫副程式, 副程式執行完畢, 程式流會返回呼叫處, 再往下執行.
 
-  # 里程計數器(PERFORM..VARYING..AFTER)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PERFORMFORMAT1.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       
+       PROCEDURE DIVISION.
+       TopLevel.
+           DISPLAY "[TopLevel]-In. Starting to run program.".
+           PERFORM OneLevelDown.
+           DISPLAY "[TopLevel]-Back".
+           STOP RUN.
+       
+       TwoLevelDown.
+           DISPLAY "[22-TwoLevel]-In"
+           PERFORM ThreeLevelDown
+           DISPLAY "[22-TwoLevel]-Back".
+           
+       OneLevelDown.
+           DISPLAY "[1-OneLevel]-In"
+           PERFORM TwoLevelDown
+           DISPLAY "[1-OneLevel]-Back".
+           
+       ThreeLevelDown.
+           DISPLAY "[333-ThreeLevel]-In"
+           DISPLAY "[333-ThreeLevel]-Back".
+
+  # 執行多次(Type2: PERFORM ? TIMES .. END-PERFORM | PERFORM <paragraph-name> ? TIMES)
+    
+    1.用法1: PERFORM <要執行的程式段落 xx-paragraph-name> Number? TIMES
+    2.用法2: PERFORM Number? TIMES <要執行的程式碼指令...> END-PERFORM.
+       
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PERFORMFORMAT2.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  NumOfTimes PIC 9 VALUE 5.
+       
+       PROCEDURE DIVISION.
+       Begin.
+           DISPLAY "Program Begin.".
+      *>     用法1
+           PERFORM 3 TIMES
+               DISPLAY ">> In line Perform <<"
+           END-PERFORM
+           DISPLAY "Finished In line Perform".
+      *>     用法2
+           PERFORM OutOfLineEG NumOfTimes TIMES
+           DISPLAY "Back to Program Begin. Program Stop."
+           STOP RUN.
+       
+       OutOfLineEG.
+           DISPLAY ">> Out of line Perform <<".
+
+  # 執行結束(Type3: PERFORM UNTIL <Stop-Condition> .. END-PERFORM | PERFORM <paragraph-name> UNTIL <Stop-Condition>)  
+    1. 常用於 'Process a stream of data讀檔(不定行數)', UNTIL行數結束時, 也是程式結束點.
+    2. 'ON SIZE ERROR', 用於偵測數值超出上下限時.
+    3. 'NOT ON SIZE ERROR', 當數值未超出上下限時.
+    4. 'INITIALIZE', 用於資料項目(data-Item)設為'初始值' 或 '起始值'.
+
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PERFORMFORMAT3.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  IterCount PIC 99 VALUE ZEROS.
+           88  MaxCountReached VALUE 99.
+       01  UserInput PIC 99 VALUE ZEROS.
+           88  EndOfUserInput VALUE ZEROS.
+       01  RunningTotal PIC 999 VALUE ZEROS.
+       01  AverageValue PIC 99 VALUE ZEROS.
+       
+       PROCEDURE DIVISION.
+       Begin.
+           PERFORM UNTIL IterCount = 5
+               DISPLAY "IterCount = ", IterCount
+               ADD 1 TO IterCount
+           END-PERFORM
+           DISPLAY "FINISH In Line Perform.".
+
+           INITIALIZE IterCount.
+           DISPLAY "After INITIALIZE, IterCount Value = " IterCount.
+
+           DISPLAY "Enter a stream of up to 99 numbers."
+           DISPLAY "Each number must be in the range 1-99. Enter 0 to stop"
+           DISPLAY "Enter Number: " WITH NO ADVANCING.
+           ACCEPT UserInput.
+           PERFORM GetUserInput UNTIL EndOfUserInput OR MaxCountReached.
+
+           DISPLAY "RunningTotal is ", RunningTotal.
+           DISPLAY "IterCount is ", IterCount.
+           COMPUTE AverageValue = RunningTotal / IterCount.
+           DISPLAY "AverageValue is ", AverageValue.
+           STOP RUN.
+
+       GetUserInput.
+           ADD UserInput TO RunningTotal
+               ON SIZE ERROR DISPLAY "(Error): New Total is too large"
+               NOT ON SIZE ERROR ADD 1 TO IterCount END-ADD
+           END-ADD
+           
+           DISPLAY "Enter a stream of up to 99 numbers."
+           DISPLAY "Each number must be in the range 1-99. Enter 0 to stop"
+           DISPLAY "Enter Number: " WITH NO ADVANCING.
+           ACCEPT UserInput.
+       
+  # 執行條件(Type4: PERFORM..VARYING..AFTER)
+
+  # 里程計數器(Type4: PERFORM..VARYING..AFTER)
 
 
 1.Introduction to COBOL
