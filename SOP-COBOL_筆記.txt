@@ -10,6 +10,7 @@
     
   0.2. 模擬環境下載 & 詳細文件 https://arnoldtrembley.com/GnuCOBOL.htm
     更名：RENAME 
+  
   0.3. 在Windows上安裝GNUCobol https://medium.com/@sousandrosilveira/installing-gnucobol-3-1-on-windows-1bf27c9b2280
         解壓縮至COBOL資料夾(例:D:\GnuCOBOL)後，設定下列系統參數：
           > COB_MAIN_DIR=<COBOL安裝資料夾> ex. D:\GnuCOBOL
@@ -25,11 +26,114 @@
           > Rech COBOL => 開發COBOL用
           > Rech COBOL Debugger => 偵錯用
           > Rech Batch => 開發BATCH(Shell Script)用
+  
   0.5. 如何執行COBOL程式
         > cobc -x -free hello.cob => 編譯COBOL程式(生出EXE檔)
         > ./hello => 執行編譯後的COBOL程式(EXE)
 ===============================================================================
 資料來源：COBOL Programming Course(初階版) http://www.csis.ul.ie/cobol/
+
+0.程式範例(超實用)
+  http://www.csis.ul.ie/cobol/examples/default.htm#SimplePrograms
+
+  [Beginners Programs]
+  # 最短程式(DISPLAY, STOP RUN & PROGRAM-ID 兩個基本要素)
+       $set sourceformat "FREE"
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SHORTEST.
+
+       PROCEDURE DIVISION.
+       DisplayPrompt.
+           DISPLAY "I did it.".
+           stop run.
+
+  # 使用者輸入(ACCEPT, DISPLAY, ACCEPT FROM DATE, ACCEPT FROM DAY, ACCEPT FROM TIME)
+       *> $set sourceformat "FREE"
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. AcceptAndDisplay.
+       
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  StudentDetails.
+           02  StudentId   PIC 9(7).
+           02  StudentName.
+               03  FirstName PIC X(8).
+               03  LastName  PIC XX.
+           02  CourseCode  PIC X(4).
+           02  Gender  PIC X.
+      
+      *> YYYYMMDD
+       01  CurrentDate.
+           03  CurrentYear PIC 9(4).
+           03  CurrentMonth PIC 99.
+           03  CurrentDay  PIC 99.
+      
+      *> YYDDD
+       01  DayOfYear.
+           03  FILLER PIC 9(4).
+           03  YearDay PIC 9(3).
+      
+      *> HHMMSSss  s = S/100
+       01  CurrentTime.
+           03  CurrentHour PIC 99.
+           03  CurrentMinute PIC 99.
+           03  FILLER PIC 9(4).
+
+       PROCEDURE DIVISION.
+       Begin.
+           DISPLAY "Enter student details using template below".
+           DISPLAY "Enter - ID(7),FirstName(8),LastName(2),CourseCode(4),Gender(1)".
+           DISPLAY "==Please Input Your Data==".
+           ACCEPT StudentDetails.
+           ACCEPT CurrentDate FROM DATE YYYYMMDD.
+           ACCEPT DayOfYear FROM DAY YYYYDDD.
+           ACCEPT CurrentTime FROM TIME.
+           DISPLAY "Name is ", FirstName SPACE LastName.
+           DISPLAY "Date is " CurrentDay Space CurrentMonth Space CurrentYear.
+           DISPLAY "Today is " YearDay " of the year".
+           DISPLAY "The time is " CurrentHour ":" CurrentMinute.
+           STOP RUN.    
+
+  # 基本運算(ACCEPT, DISPLAY, MULTIPLY)
+       
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. MULTIPLIER.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  Num1 PIC 9 VALUES ZEROES.
+       01  Num2 PIC 9 VALUES ZEROES.
+       01  Result PIC 99 VALUES ZEROES.
+
+       PROCEDURE DIVISION.
+       BEGIN.
+      *>   DISPLAY "ENTER FIRST NUMBER (1 DIGIT):" WITH NO ADVANCING.
+      *>   DISPLAY + [WITH NO ADVANCING]. 表示不加換行符號; 
+      *>          沒+ [WITH NO ADVANCING]. 則會自動加換行符號.
+           DISPLAY "ENTER FIRST NUMBER (1 DIGIT):" WITH NO ADVANCING.
+           ACCEPT Num1.
+           DISPLAY "ENTER second NUMBER (1 DIGIT):" WITH NO ADVANCING.
+           ACCEPT Num2.
+           MULTIPLY Num1 BY Num2 GIVING Result.
+           DISPLAY "Result is = ", Result.
+           STOP RUN.
+
+  [Selection and Interation]
+  # 迴圈 & IF(PERFORM..TIMES)
+
+  # 條件式(Condition)
+
+  # 程式流程(PERFORM)
+
+  # 執行多次(PERFORM..TIMES)
+
+  # 執行結束(PERFORM..UNTIL)  
+
+  # 執行條件(PERFORM..VARYING..AFTER)
+
+  # 里程計數器(PERFORM..VARYING..AFTER)
+
+
 1.Introduction to COBOL
   1.1.The structure of COBOL programs
     a. COBOL is self-documenting(最大特點,它不用另外寫註解,但有比較冗長的問題)
@@ -134,13 +238,12 @@
         > HIGH-VALUE or HIGH-VALUES 最大值,ex.99
         > LOW-VALUE or LOW-VALUES 	最小值,ex.00
         > ALL literal 	            ex. ALL "a" , ALL 1. Allows a ordinary literal to act as Figurative Constant
-==2021-02-15 看到這裡==
+
 
   	1.2.3.Declaring Data-Items in COBOL => 使用 PIC 宣告變數
       In this section we show how variables are declared in COBOL using the PICTURE clause.
     1.2.4.Group and Elementary Data-Items => 如何指定合適的資料階層
       This section demonstrates how record structures can be specified using an appropriate arrangement of level numbers.
-
 
 ===============================================================================
 資料來源：https://www.tutorialspoint.com/cobol
