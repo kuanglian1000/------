@@ -1,24 +1,20 @@
 [TODO]
   ============
-  1.專案:心蓮病房APP
-    詳專案日誌：D:\KL_Data\Projects\NoteLibrary\NoteLibrary\Project-心蓮病房APP.txt
-
-  ============
-  教育訓練(醫院)
-    1.(2021-05-01前完成，2小時-實體、4小時-線上)提醒您_新進同仁報到後三個月內需取得感控時數達 6 小時!!! 為配合醫院感控查核規定，新進員工到職請於三個月內完成感控 6 小時教育訓練時數，請至教學部網站進行e-Learning學習(其中2小時必需為實體課程)，並完成考試!!!
-  
-  ============
-  教育訓練(人工智慧創新研發中心)
-    --首要工作(2門)--
+  教育訓練(APP開發)
+    --首要工作(3門)--
     TODO:1. Angular 程式開發
       a. Add Service(將資料提供獨立成服務)(OK)
-      b. Add Navigation(新增畫面導覽切換)
-      c. Get Data from a Server(從固定資料來源, 改為多資料來源)
+      b. Add Navigation(新增畫面導覽切換)(OK)
+      c. Get Data from a Server(從固定資料來源, 改為多資料來源)(OK)
 
     TODO:2. IONIC APP開發
       # 教育訓練:IONIC程式開發 => Developing(OK)
       # 教育訓練:IONIC程式開發 => Layout(OK)
       # 教育訓練:IONIC程式開發 => Theming(OK)
+      # Deep Link技術, 與外部廠商-APP資料傳遞用介面 => https://ionicframework.com/docs/native/deeplinks
+
+    TODO:3.(Web)Spring Boot WebApi開發 - 
+      # https://code.visualstudio.com/docs/java/java-spring-boot
 
     --有空再看(7門)--
       1.(Web)Android APP官方教材(觀念整理) - https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/index.html
@@ -68,7 +64,6 @@
             10.1 Part B: Deleting data from a Room database
       3.(Web)Android APP官方教材(進階課程) - https://developer.android.com/courses/advanced-training/overview
       4.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面 , https://developer.android.com/guide/navigation/navigation-deep-link
-      4.(Web)Spring Boot教材(如果要寫WebApi的話) - https://code.visualstudio.com/docs/java/java-spring-boot
       5.(Book)Android程式設計 入門、應用到精通(單元01-60 , 單元61-90)
       6.(Book)學會Swift3程式設計的21堂課
         => Part 1,2,3 ; Unit 01-25
@@ -129,35 +124,65 @@
      
 ==================================================================================
 W13:2021/03/29-04/02
-  03/29(一)
-    1.排休假(未確定)
 W12:2021/03/22-26
 W11:2021/03/15-19
+  [TODO]
+    
+
+  03/19(五)
+    # 個人: 準備考試
+  
+  03/18(四)
+    # 個人: 辦理離職手續
+  
+  03/17(三)
+    # 個人: 8小時積休假用完。
+  
+  03/16(二)
+    # 個人: 準備向ANDY提出離開中心的意願。
+    ====================================
+    # 專案:心蓮病房APP
+      1.開發<心蓮病房APP>畫面雛型 (本日目標：APP上傳至平板或手機)
+      2.回報進度, 評估週五能否向客戶DEMO
+    # 專案:醫事室APP優化
+      1.醫事室APP優化需求訪談, 待Andy帶去了解狀況(03/16[二] 下午預定)
+  
+  03/15(一)
+    # 專案:心蓮病房APP
+      0.本日重點：搞定畫面間的ROUTING, 使用ANGULAR網站的ROUTING範例
+      1.開發<心蓮病房APP>畫面雛型
+        (重點有四:1.(前端)機器量測紀錄(資料呈現), 
+                 2.(前端)機器量測功能(資料輸入), 
+                 3.(前端)自填身體狀況表紀錄(資料呈現), 
+                 4.(前端)自填身體狀況表(資料輸入))
+
 W10:2021/03/08-03/12
   [TODO]
     # 學習:IONIC 程式開發
     # 專案:心蓮病房APP
-      1.0.找心蓮病房護理長, 要網頁畫面作為製作APP的SAMPLE
+      1.0.找心蓮病房護理長, 要網頁畫面作為製作APP的SAMPLE(OK, 已自行瀏覽"照護系統網站", 取得參考畫面及功能項目)
       1.1.開發ProtoType-介面調整
       1.2.撰寫需求訪談報告(format: D:/KL_Data/Projects/2021-02-26-心蓮病房APP/軟體需求規格參考範本.pdf)
-    # 專案:醫事室APP優化
-      1.聽Andy轉述, 醫事室有APP優化需求, 待Andy帶去了解狀況(16:30 預定)
-
+    
   03/12(五)
     # 專案:心蓮病房APP
-      1.0.找心蓮病房護理長, 要網頁畫面作為製作APP的SAMPLE
+      1.再次瀏覽 "照護系統網站", 重新整理需求內容.(OK, 重點放在照護紀錄主功能上)
+      2.開發<心蓮病房APP>畫面雛型(本日重點：搞定畫面間的ROUTING, 使用ANGULAR網站的ROUTING範例)
 
   03/11(四)
+    # 學習:IONIC 程式開發
+      1.開發<心蓮病房APP>畫面雛型(產生)
 
   03/10(三)
     # 專案:心蓮病房APP
       1.整理昨天了解的產品及技術細節
-
+      2.開發<心蓮病房APP>雛型
+    
   03/09(二)
-    # 學習:IONIC 程式開發
-      1.開發<心蓮病房APP>雛型
+    # 學習:Angular 程式開發(OK)
+      1.完成Angular的範例專案(https://angular.io/tutorial)
 
-    # 專案:心蓮病房APP
+    # 專案:心蓮病房APP(OK)
       1.提前去心蓮病房找護理長, 談需求 with Andy(15:00)
       2.廠商產品DEMO-第2次(16:00)
 
