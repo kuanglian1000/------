@@ -376,7 +376,52 @@
 
   # 里程計數器-(迴圈)(Type4: PERFORM..VARYING..AFTER)
 
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PERFORMFORMAT4-MILEAGECOUNTER.
+       
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  Counter.
+           03 HundredsCount PIC 99 VALUE Zeros.
+           03 TensCount PIC 99 VALUE Zeros.
+           03 UnitsCount PIC 99 VALUE Zeros.
+       
+       01  DisplayItems.
+           03 PrnHunds PIC 9.
+           03 PrnTens  PIC 9.
+           03 PrnUnits PIC 9.
+       
+       PROCEDURE DIVISION.
+       Begin.
+           PERFORM CountMilage
+               varying HundredsCount from 0 by 1 until HundredsCount > 9
+               after TensCount from 0 by 1 until TensCount > 9
+               after UnitsCount from 0 by 1 until UnitsCount > 9.
 
+           DISPLAY "[Begin] Perform Multiple LOOP - inline code".
+           PERFORM varying HundredsCount from 0 by 1 until HundredsCount > 3
+               PERFORM varying TensCount from 0 by 1 until TensCount > 2
+                   PERFORM varying UnitsCount from 0 by 1 until UnitsCount > 1
+                       Move HundredsCount to PrnHunds
+                       Move TensCount to PrnTens
+                       Move UnitsCount to PrnUnits
+                       DISPLAY PrnHunds "-" PrnTens "-" PrnUnits
+                   END-PERFORM
+               END-PERFORM
+           END-PERFORM.
+           DISPLAY "[End] Perform Multiple LOOP - inline code".
+           
+           STOP RUN.
+
+
+       CountMilage.
+           Move HundredsCount to PrnHunds
+           Move TensCount to PrnTens
+           Move UnitsCount to PrnUnits
+           DISPLAY PrnHunds "-" PrnTens "-" PrnUnits.
+
+
+================================================================
 1.Introduction to COBOL
   1.1.The structure of COBOL programs
     a. COBOL is self-documenting(最大特點,它不用另外寫註解,但有比較冗長的問題)
