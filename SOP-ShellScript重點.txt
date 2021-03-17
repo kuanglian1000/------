@@ -1,0 +1,37 @@
+# Print Current Working Directory 
+  => cwd (x)
+  => pwd (TRUE) = present working Directory
+
+# 可應用在調整 '文字行' 排序(DESC or ASC)的指令 
+  => sort
+
+# 將游標(Cursor)移至行尾, 可按下鍵盤的 
+  => $
+
+# 將所有 pattern1 以 pattern2 取代(replace)的指令選項 
+  => :%s/pattern1/pattern2/g , 'g' 指的是全域取代(replace globally)    
+
+# 切換至上階目錄的指令
+  => cd.. (x)
+  => cd .. (TRUE, cd 和 .. 中間有1個空格)
+
+# 新增檔案/目錄連接的指令
+  => lk (x)
+  => ln (TRUE, 用來新增 hard/soft link for a file, and hard link for a Directory)
+
+# 可執行複雜數學運算的工具程式(utility program)
+  => cal (x)
+  => bc (TRUE, 指的是 basic Calculator, or 數學指令語言 or 數學殼層)
+
+# 新增時, 改變檔案 & 目錄預設權限的指令
+  => chmod (x)
+  => umask (TRUE, 用於設定 mask value)
+
+# 一般而言, 使用者根目錄(the working Directory of the user root)是
+  => / (x)
+  => /root (TRUE, 此路徑在安裝後仍可調整)
+
+# 
+
+
+
