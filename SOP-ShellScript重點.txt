@@ -1,3 +1,4 @@
+=01-10(2021-03-17)=
 # Print Current Working Directory 
   => cwd (x)
   => pwd (TRUE) = present working Directory
@@ -31,7 +32,5 @@
   => / (x)
   => /root (TRUE, 此路徑在安裝後仍可調整)
 
-# 
-
-
-
+# BLOCK Special File類型是 ? 
+  => DVD-ROM
