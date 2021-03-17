@@ -187,7 +187,6 @@
            END-PERFORM.
            STOP RUN.
        
-
   # 呼叫副程式,再返回(Type1: PERFORM <paragraph>.)
     1. 注意: PERFORM 特點 == 呼叫副程式, 副程式執行完畢, 程式流會返回呼叫處, 再往下執行.
 
@@ -298,9 +297,84 @@
            DISPLAY "Enter Number: " WITH NO ADVANCING.
            ACCEPT UserInput.
        
-  # 執行條件(Type4: PERFORM..VARYING..AFTER)
+  # 執行條件-(多重迴圈)(Type4: PERFORM..VARYING..AFTER)
+    1. PERFORM <PARAGRAPH-NAME> WITH TEST BEFORE 
+        VARYING <VARIABLE-NAME> FROM 1 BY 2
+        UNITL <VARIABLE-NAME> GREATER THAN 5.
+    2. PERFOMR <PARAGRAPH-NAME> WITH TEST AFTER
+        VARYING <VARIABLE-NAME> FROM 1 BY 2
+        UNITL <VARIABLE-NAME> GREATER THAN 5.
+    3. 兩者差別在於
+        [WITH TEST BEFORE] => (預設)執行前, 先測試是否符合 UNITL 條件式(不會超出限制)
+        [WITH TEST AFTER] => 執行後, 再測試是否符合 UNITL 條件式(會多作1次)
+    
+    <單迴圈>
+    4. PERFORM VARYING <VARIABLE-NAME> FROM 1 BY 1 UNTIL <VARIABLE-NAME> GREATER THAN 5
+        ...Inline 程式邏輯及演算法...
+       END-PERFORM.
+    5. PERFORM <PARAGRAPH-NAME> 
+        VARYING <VARIABLE-NAME> FROM 1 BY 1 UNTIL <VARIABLE-NAME> GERATER THAN 10.
+    
+    <多重迴圈>
+    6. PERFORM VARYING <VARIABLE-1> FROM 1 BY 1 UNTIL <VARIABLE-1> = 5
+        PERFORM VARYING <VARIABLE-2> FROM 1 BY 1 UNTIL <VARIABLE-2> = 6
+          ...Inline 程式邏輯及演算法...
+          DISPLAY VARIABLE-1 , VARIABLE-2
+        END-PERFORM
+       END-PERFORM.
+    7. PERFORM <PARAGRAPH-NAME>
+        VARYING <VARIABLE-1> FROM 10 BY -1 UNTIL <VARIABLE-1> LESS THAN 0
+        AFTER <VARIABLE-2> FROM 5 BY -1 UNTIL <VARIABLE-2> LESS THAN 0.
 
-  # 里程計數器(Type4: PERFORM..VARYING..AFTER)
+       <PARAGRAPH-NAME>.
+        DISPLAY VARIABLE-1 , VARIABLE-2.
+
+    8. 程式範例:            
+       
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PERFORMFORMAT4.
+       
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  LoopCount PIC 9 VALUE zeroes.
+       01  LoopCount2 PIC S9 value zeros.
+
+       PROCEDURE DIVISION.
+       Begin.
+           DISPLAY "Start WHILE Iteration of LoopBody"
+           PERFORM LoopBody WIth TEST BEFORE
+               varying LoopCount From 1 by 2
+               until LoopCount greater than 5.
+           DISPLAY "Finished WHILE Iteration. LoopCount = " LoopCount.
+           
+           DISPLAY "Start Repeat Iteration of LoopBody"
+           PERFORM LoopBody With Test after
+               varying LoopCount From 1 by 2
+               until LoopCount greater than 5.
+           DISPLAY "Finished Repeat Iteration of LoopBody = " LoopCount.
+           
+           DISPLAY "Start inline loops"
+           PERFORM varying LoopCount From 0 By 1 until LoopCount > 3
+             PERFORM varying LoopCount2 from 3 by -1 until LoopCount2 < 0
+                DISPLAY "Inline loop " with no advancing
+                DISPLAY "LoopCount = " LoopCount " LoopCount2 = " LoopCount2
+             END-PERFORM
+           END-PERFORM.
+           DISPLAY "Finished inline loops".
+           
+           DISPLAY "Start Perform..varying..after"
+           PERFORM LoopBody varying LoopCount from 1 by 2 until LoopCount greater than 5
+               after LoopCount2 from 5 by -2 until LoopCount2 less than zero.
+           
+           DISPLAY "Finished Perform..varying..after".
+
+           STOP RUN.
+
+       LoopBody.
+           DISPLAY "In LoopBody" with no advancing
+           DISPLAY "LoopCount = " LoopCount " LoopCount2 = " LoopCount2.
+
+  # 里程計數器-(迴圈)(Type4: PERFORM..VARYING..AFTER)
 
 
 1.Introduction to COBOL
