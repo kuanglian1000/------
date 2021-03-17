@@ -30,6 +30,7 @@
   0.5. 如何執行COBOL程式
         > cobc -x -free hello.cob => 編譯COBOL程式(生出EXE檔)
         > ./hello => 執行編譯後的COBOL程式(EXE)
+
 ===============================================================================
 資料來源：COBOL Programming Course(初階版) http://www.csis.ul.ie/cobol/
 
@@ -420,8 +421,31 @@
            Move UnitsCount to PrnUnits
            DISPLAY PrnHunds "-" PrnTens "-" PrnUnits.
 
+  [Sequential Files]
+  # 寫檔
+    
 
-================================================================
+
+
+===============================================================================
+資料來源：https://www.tutorialspoint.com/cobol
+1.Program Structure
+  Program -> 
+    Division -> 
+      Sections -> 
+        Paragraphs -> 
+          Sentences(必須以.結尾) -> 
+            Statements -> 
+              Characters
+  
+  ex.
+  PROCEDURE DIVISION.
+  A0000-FIRST-PARA SECTION.
+  FIRST-PARAGRAPH.
+  ACCEPT WS-ID
+  MOVE '10' TO WS-ID
+  DISPLAY WS-ID.
+
 1.Introduction to COBOL
   1.1.The structure of COBOL programs
     a. COBOL is self-documenting(最大特點,它不用另外寫註解,但有比較冗長的問題)
@@ -527,30 +551,10 @@
         > LOW-VALUE or LOW-VALUES 	最小值,ex.00
         > ALL literal 	            ex. ALL "a" , ALL 1. Allows a ordinary literal to act as Figurative Constant
 
-
   	1.2.3.Declaring Data-Items in COBOL => 使用 PIC 宣告變數
       In this section we show how variables are declared in COBOL using the PICTURE clause.
     1.2.4.Group and Elementary Data-Items => 如何指定合適的資料階層
       This section demonstrates how record structures can be specified using an appropriate arrangement of level numbers.
-
-===============================================================================
-資料來源：https://www.tutorialspoint.com/cobol
-1.Program Structure
-  Program -> 
-    Division -> 
-      Sections -> 
-        Paragraphs -> 
-          Sentences(必須以.結尾) -> 
-            Statements -> 
-              Characters
-  
-  ex.
-  PROCEDURE DIVISION.
-  A0000-FIRST-PARA SECTION.
-  FIRST-PARAGRAPH.
-  ACCEPT WS-ID
-  MOVE '10' TO WS-ID
-  DISPLAY WS-ID.
 
 2.COBOL 是由 <4個DIVISION> 所組成：
   Identification Division    //(1)

@@ -1,6 +1,70 @@
 [TODO]
   ============
-  教育訓練(APP開發)
+  110年度工作計劃
+    1.集保考試(03/21)
+    2.華南考試(04/10)
+      2.1. Java + SQL, 資料庫管理 + 資訊安全
+    3.鐵路特考-佐級-材料管理(04/11-06/19)
+      3.0. 考試科目               => 書目/考試準備材料
+      -----------------------------------
+      3.1. 國文 (包括公文格式用語) => 考選部考古題
+      3.2. 公民與英文             => 考選部考古題
+      3.3. 材料管理大意           => 考選部考古題 & 物料規劃相關書籍
+      3.4. 政府採購法大意         => 考選部考古題 & 政府採購法
+
+  ============
+  教育訓練(個人)
+    1.(Web)COBOL技術 , http://www.csis.ul.ie/cobol/course/Default.htm & https://devdocs.io/gnu_cobol/
+      1.Introduction to COBOL	
+        The structure of COBOL programs (new may 2002)
+        Declaring data in COBOL
+        Basic Procedure Division commands
+        Getting Started
+        These will be self assessment questions
+      2.COBOL Control structures	
+        Selection in COBOL
+        Iteration in COBOL
+        The Calculator and Countdown exercise
+        These will be self assessment questions
+      3.Simple Sequential Files	
+        Introduction to Sequential files
+        Processing Sequential files
+        Reading Sequential Files
+        Counting records in a Sequential File
+      4.Advanced data declaration	
+        Edited Pictures
+        The USAGE clause (new may 2002)
+        Writing records to a Sequential File
+        Inserting records in a Sequential File
+      5.Advanced Sequential Files	
+        COBOL print files and variable-length records
+        Sorting and Merging
+        Basic Procedure Division commands
+        Updating a Sequential File
+        Sorting a Sequential File
+      6.Direct access files	
+        Introduction to direct access files
+        Relative Files
+        Indexed Files
+      7.COBOL tables	
+        Using tables
+        Creating tables - syntax and semantics
+        Searching tables
+        Using Tables
+      8.Constructing large systems	
+        Contained and external sub-programs (new may 2002)
+        The COPY verb (new may 2002)
+      9.COBOL string handling	
+        Inspect
+        String
+        Unstring
+        Reference modification and Intrinsic Functions
+      10.The COBOL Report Writer	
+        Report Writer by example
+        Report Writer syntax and semantics
+
+  ============
+  教育訓練(APP開發) => 暫時不作了 <=
     --首要工作(3門)--
     TODO:1. Angular 程式開發
       a. Add Service(將資料提供獨立成服務)(OK)
@@ -70,66 +134,19 @@
         => Part 4,5,6 ; Unit 20-37
         => Part 7,8,9 ; Unit 38-53
       7.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
-    
-  ============
-  教育訓練(個人)
-    1.(Web)COBOL技術 , http://www.csis.ul.ie/cobol/course/Default.htm & https://devdocs.io/gnu_cobol/
-      1.Introduction to COBOL	
-        The structure of COBOL programs (new may 2002)
-        Declaring data in COBOL
-        Basic Procedure Division commands
-        Getting Started
-        These will be self assessment questions
-      2.COBOL Control structures	
-        Selection in COBOL
-        Iteration in COBOL
-        The Calculator and Countdown exercise
-        These will be self assessment questions
-      3.Simple Sequential Files	
-        Introduction to Sequential files
-        Processing Sequential files
-        Reading Sequential Files
-        Counting records in a Sequential File
-      4.Advanced data declaration	
-        Edited Pictures
-        The USAGE clause (new may 2002)
-        Writing records to a Sequential File
-        Inserting records in a Sequential File
-      5.Advanced Sequential Files	
-        COBOL print files and variable-length records
-        Sorting and Merging
-        Basic Procedure Division commands
-        Updating a Sequential File
-        Sorting a Sequential File
-      6.Direct access files	
-        Introduction to direct access files
-        Relative Files
-        Indexed Files
-      7.COBOL tables	
-        Using tables
-        Creating tables - syntax and semantics
-        Searching tables
-        Using Tables
-      8.Constructing large systems	
-        Contained and external sub-programs (new may 2002)
-        The COPY verb (new may 2002)
-      9.COBOL string handling	
-        Inspect
-        String
-        Unstring
-        Reference modification and Intrinsic Functions
-      10.The COBOL Report Writer	
-        Report Writer by example
-        Report Writer syntax and semantics
-     
+  
 ==================================================================================
 W13:2021/04/05-04/09
 W13:2021/03/29-04/02
 W12:2021/03/22-03/26
   [TODO]
     1.辦理離職手續.
-    2.準備華南考試(Java+SQL, 資料庫管理+資訊安全).
+    2.準備華南考試.
 
+  03/23(二)
+    1.華南招考
+    2.鐵路特考
+  
   03/22(一)
     # 個人: 辦理離職手續
 
