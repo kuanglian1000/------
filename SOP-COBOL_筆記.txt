@@ -689,11 +689,21 @@
            
            STOP RUN.
 
-  # 讀檔, 報表產出:
+  # 讀檔(報表產出): Sequential Files, Condition Names(Level 88), Read, Write, Writing to a Report File.
     4. 程式範例:
        
        IDENTIFICATION DIVISION.
        PROGRAM-ID. SEQUENTIALFILE-REPORT.
+
+       *INPUT      The student record file Students.Dat  Records in this file 
+       *           are sequenced on ascending Student Number. 
+       *OUTPUT     Shows the number of student records in the file and the  
+       *           number of records for males and females. 
+       *PROCESSING For each record read; 
+       *               Adds one to the TotalStudents count 
+       *               IF the Gender is Male   adds one to TotalMales 
+       *               IF the Gender is Female adds one to TotalFemales 
+       *           At end of file writes the results to the report file.         
 
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
@@ -785,6 +795,149 @@
                AFTER ADVANCING 2 LINES.
         
   [Sorting and Merging]
+  # 排序(使用WORKING FILE作排序, ACCEPT WORKFILE 暫存, RELEASE WORKFILE 確認寫入): SORT & INPUT PROCEDURE & 除了FD外, 又使用了SD
+    4. 程式範例:
+
+      $ SET SOURCEFORMAT"FREE"
+      IDENTIFICATION DIVISION.
+      PROGRAM-ID.  InputSort.
+      AUTHOR.  Michael Coughlan.
+      * An example program using the SORT and an 
+      * INPUT PROCEDURE.  The program accepts records
+      * from the user and RELEASEs them to the work file
+      * where they are sorted.  This program
+      * allows student records to be entered in any order but
+      * produces a file sequenced on ascending StudentId.
+      
+      ENVIRONMENT DIVISION.
+      INPUT-OUTPUT SECTION.
+      FILE-CONTROL.
+          SELECT StudentFile ASSIGN TO "SORTSTUD.DAT"
+          ORGANIZATION IS LINE SEQUENTIAL.
+          SELECT WorkFile ASSIGN TO "WORK.TMP".
+
+
+      DATA DIVISION.
+      FILE SECTION.
+      FD StudentFile.
+      01 StudentDetails      PIC X(30).
+
+      * The StudentDetails record has the description shown below.
+      * But in this program we don't need to refer to any of the items in 
+      * the record and so we have described it as PIC X(32) 
+      * 01 StudentDetails
+      *    02  StudentId       PIC 9(7).
+      *    02  StudentName.
+      *        03 Surname      PIC X(8).
+      *        03 Initials     PIC XX.
+      *    02  DateOfBirth.
+      *        03 YOBirth      PIC 9(4).
+      *        03 MOBirth      PIC 9(2).
+      *        03 DOBirth      PIC 9(2).
+      *    02  CourseCode      PIC X(4).
+      *    02  Gender          PIC X.
+
+
+      SD WorkFile.
+      01 WorkRec.
+        02 WStudentId       PIC 9(7).
+        02 FILLER           PIC X(23).
+
+
+      PROCEDURE DIVISION.
+      Begin.
+        SORT WorkFile ON ASCENDING KEY WStudentId
+              INPUT PROCEDURE IS GetStudentDetails
+              GIVING StudentFile.
+        STOP RUN.
+
+
+      GetStudentDetails.
+          DISPLAY "Enter student details using template below."
+          DISPLAY "Enter no data to end.".
+          DISPLAY "Enter - StudId, Surname, Initials, YOB, MOB, DOB, Course, Gender"
+          DISPLAY "NNNNNNNSSSSSSSSIIYYYYMMDDCCCCG"
+          ACCEPT  WorkRec.
+          PERFORM UNTIL WorkRec = SPACES
+            RELEASE WorkRec
+            ACCEPT WorkRec
+          END-PERFORM.
+
+  # 排序(使用WORKING FILE作排序, ACCEPT WORKFILE 暫存, RELEASE WORKFILE 確認寫入):
+    4. 程式範例
+
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SORT-READDATAFILE.
+       * Uses the the SORT and an INPUT PROCEDURE to read
+       * the student masterfile (sorted on ascending Student Id)
+       * and from it to produce a file containing only the records of
+       * male students sorted on ascending student name.
+
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT StudentFile ASSIGN TO "STUDENTS.DAT"
+             ORGANIZATION IS LINE SEQUENTIAL.
+           
+           SELECT StudentFile-Male ASSIGN TO "STUDENTS-MALE.DAT"
+             ORGANIZATION IS LINE SEQUENTIAL.
+
+           SELECT WorkFile ASSIGN TO "WORK.TEMP".
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD  StudentFile.
+       01  StudentRec  PIC X(30).
+           88  EndOfStudentFile VALUE High-value.
+
+       FD  StudentFile-Male.
+       01  StudentRec-Male PIC X(30).
+
+       SD  WorkFile.
+       01  WorkRec.
+           03  FILLER PIC X(7).
+           03  wStudentName PIC X(10).
+           03  FILLER PIC X(12).
+           03  wGender PIC X.
+               88  MaleStudent VALUE "M".
+
+       PROCEDURE DIVISION.
+       BEGIN.
+           SORT WorkFile ON ASCENDING KEY wStudentName
+               INPUT PROCEDURE IS GetMaleStudent
+               GIVING StudentFile-Male.
+           STOP RUN.
+
+       GetMaleStudent.
+           OPEN INPUT StudentFile
+           
+           READ StudentFile
+               AT END SET EndOfStudentFile TO TRUE
+           END-READ
+           PERFORM UNTIL EndOfStudentFile
+               MOVE StudentRec TO WorkRec
+               IF MaleStudent
+                   RELEASE WorkRec
+               END-IF
+               READ StudentFile
+                   AT END SET EndOfStudentFile TO TRUE
+               END-READ
+           END-PERFORM
+
+           CLOSE StudentFile.
+
+
+  # 合併:
+
+  ==先略過BEGIN==
+  # 案例1:
+
+  # 案例2:
+
+  # 案例3:
+
+  # 案例4:
+  ==先略過BEGIN==
 
   [Direct Access Files]
 
