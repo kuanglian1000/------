@@ -422,9 +422,288 @@
            DISPLAY PrnHunds "-" PrnTens "-" PrnUnits.
 
   [Sequential Files]
-  # 寫檔
-    
+  # 寫檔: Sequential File, Write, Open OUTPUT, Close, File Description(FD), Select...ASSIGN TO...ORGANIZATION IS LINE SEQUENTIAL.
+    1. 使用 ACCEPT & WRITE 
+    2. Carriage Return (CR).
+    3. 寫檔多使用了 
+        
+      OPEN OUTPUT StudentFile
+        ACCEPT StudentDetails
+        WRITE StudentDetails
+      CLOSE StudentFile
+      
+      ENVIRONMENT DIVISION.
+      INPUT-OUTPUT SECTION.
+      FILE CONTROL.
+        SELECT <FD VARIABLE NAME> ASSIGN TO "<PHYSICAL FILE NAME>"
+          ORGANIZATION IS LINE SEQUENTIAL.
+      
+      DATA DIVISION.
+      FILE SECTION.
+      FD  StudentFile.
+      01  StudentDetails.
+          03  StudentId PIC 9(7).
+          03  StudentName.
+              05  FirstName PIC X(8).
+              05  LastName    PIC XX.
+          03  DateOfBirth.
+              05  YoBirth PIC 9(4).
+              05  MoBirth PIC 9(2).
+              05  DoBirth PIC 9(2).
+          03  CourseCode  PIC X(4).
+          03  Gender      PIC X.
+      
+      PROCEDURE DIVISION.
+      BEGIN.
+        OPEN OUTPUT StudentFile
+        PERFORM GetStudentDetails
+        PERFORM UNTIL StudentDetails = SPACE
+          WRITE StudentDetails
+          PERFORM GetStudentDetails
+        END-PERFORM
+        CLOSE StudentFile
+        STOP RUN.
+      
+      GetStudentDetails.
+        ACCEPT StudentDetails.
+    4. 程式範例
+       
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SEQUENTIALFILEWRITE.
 
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT StudentFile ASSIGN TO "Student.dat"
+             ORGANIZATION IS LINE SEQUENTIAL.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD  StudentFile.
+       01  StudentDetails.
+           03  StudentId PIC 9(7).
+           03  StudentName.
+               05  FirstName PIC X(8).
+               05  LastName    PIC XX.
+           03  DateOfBirth.
+               05  YoBirth PIC 9(4).
+               05  MoBirth PIC 9(2).
+               05  DoBirth PIC 9(2).
+           03  CourseCode  PIC X(4).
+           03  Gender      PIC X.
+
+       PROCEDURE DIVISION.
+       Begin.
+           OPEN OUTPUT StudentFile
+           DISPLAY "ENTER STUDENT DETAIL USING TEMPLATE BELOW. ENTER NO DATA TO END."
+           
+           PERFORM GetStudentDetails
+           PERFORM UNTIL StudentDetails = SPACE
+               WRITE StudentDetails
+               PERFORM GetStudentDetails
+           END-PERFORM
+           
+           CLOSE StudentFile
+           STOP RUN.
+       
+       GetStudentDetails.
+           DISPLAY "Enter => Id,FirstName,LastName,Year,Month,Day,CourseCode,Gender"
+           DISPLAY "1234567FFFFFFFFLLYYYYMMDDCodeG"
+           ACCEPT StudentDetails.
+    
+  # 讀檔(without LEVEL 88): Sequential File, Read, Open Input, Close, File Description(FD), Select..ASSIGN
+    4. 程式範例
+    
+      IDENTIFICATION DIVISION.
+      PROGRAM-ID. SEQUENTIALFILEREADNO88.
+      * An example showing how to read a sequential file without
+      * using condition names.
+      * See '讀檔(with LEVEL 88 Condition Name)' for the definitive example.
+
+      ENVIRONMENT DIVISION.
+      INPUT-OUTPUT SECTION.
+      FILE-CONTROL.
+          SELECT StudentFile ASSIGN TO "Student.dat"
+            Organization is line sequential.
+
+      DATA DIVISION.
+      FILE SECTION.
+      FD  StudentFile.
+      01  StudentDetails.
+      03  StudentId PIC 9(7).
+      03  StudentName.
+          05  FirstName PIC X(8).
+          05  LastName    PIC XX.
+      03  DateOfBirth.
+          05  YoBirth PIC 9(4).
+          05  MoBirth PIC 9(2).
+          05  DoBirth PIC 9(2).
+      03  CourseCode  PIC X(4).
+      03  Gender      PIC X.
+      
+      PROCEDURE DIVISION.
+      BEGIN.
+          OPEN INPUT StudentFile
+
+          READ StudentFile
+              AT END MOVE HIGH-VALUES TO StudentDetails
+          END-READ
+          PERFORM UNTIL StudentDetails = HIGH-VALUES
+              DISPLAY StudentId SPACE StudentName SPACE CourseCode SPACE YoBirth
+              READ StudentFile
+                  AT END MOVE HIGH-VALUE TO StudentDetails
+              END-READ
+          END-PERFORM
+
+          CLOSE StudentFile.
+          STOP RUN.
+
+  # 讀檔(with LEVEL 88 Condition Name): Sequential File, Read, Open Input, Close, File Description(FD), Select..assign to ..organization is line sequential.
+    4. 程式範例:
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SEQUENTIALFILEREADWITH88.
+       * An example program showing how to read a sequential file.
+       * This is the definitive example 
+
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT StudentFile ASSIGN TO "Student.dat"
+             ORGANIZATION IS LINE SEQUENTIAL.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD  StudentFile.
+       01  StudentDetails.
+           88  EndOfStudentFile value high-values.
+           03  StudentId   pic x(7).
+           03  StudentName.
+               05  FirstName pic x(8).
+               05  LastName pic xx.
+           03  DateOfBirth.
+               05  YoBirth pic 9(4).
+               05  MoBirth pic 9(2).
+               05  DoBirth pic 9(2).
+           03  CourseCode pic x(4).
+           03  Gender pic x.
+       
+       PROCEDURE DIVISION.
+       BEGIN.
+           OPEN INPUT StudentFile
+
+           READ StudentFile
+               AT END SET EndOfStudentFile TO TRUE
+           END-READ
+
+           PERFORM UNTIL EndOfStudentFile
+               DISPLAY StudentId space StudentName space DateOfBirth space Gender
+               READ StudentFile
+                   AT END SET EndOfStudentFile TO TRUE
+               END-READ
+           END-PERFORM
+           CLOSE StudentFile.
+           STOP RUN.
+       
+  # 寫檔(插入資料, 比對是否存在, 匯出合併後新檔): Sequential File, Condition Names(Level 88), Read, Write, access mode is sequential
+    4. 程式範例:
+       
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SEQUENTIALFILE-INSERTRECORDS.
+       * This program updates the Students.Dat file with insertions
+       * taken from the Transins.Dat file to create a new file
+       * - Students.New - which contains the inserted records.
+
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT StudentRecords ASSIGN TO "STUDENTS-forInsert.dat"
+             ORGANIZATION IS LINE SEQUENTIAL
+             ACCESS MODE IS SEQUENTIAL.
+
+           SELECT TransRecords ASSIGN TO "TRANS-forInsert.DAT"
+             ORGANIZATION IS LINE SEQUENTIAL
+             ACCESS MODE IS SEQUENTIAL.
+
+           SELECT NewStudentRecords ASSIGN TO "STUDENTs-forInsert.new"
+             ORGANIZATION IS LINE SEQUENTIAL
+             ACCESS MODE IS SEQUENTIAL.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD  StudentRecords.
+       01  StudentRecord.
+           88  EndOfStudentFile value high-values.
+           03  StudentId pic x(7).
+           03  FILLER pic x(23).
+
+       FD  TransRecords.
+       01  TransRecord.
+           88  EndOfTransFile value high-values.
+           03  TransStudentId pic x(7).
+           03  FILLER pic x(23).
+
+       FD  NewStudentRecords.
+       01  NewStudentRecord PIC x(30).
+       
+       PROCEDURE DIVISION.
+       BEGIN.
+           OPEN INPUT StudentRecords.
+           OPEN INPUT TransRecords.
+           OPEN OUTPUT NewStudentRecords.
+
+           READ StudentRecords
+               AT END SET EndOfStudentFile TO TRUE
+           END-READ
+
+           READ TransRecords
+               AT END SET EndOfTransFile TO TRUE
+           END-READ
+
+           PERFORM UNTIL (EndOfStudentFile) AND (EndOfTransFile)
+               EVALUATE TRUE
+                   WHEN (TransStudentId > StudentId)
+                       WRITE NewStudentRecord FROM StudentRecord
+                       READ StudentRecords
+                           AT END SET EndOfStudentFile TO TRUE
+                       END-READ
+                   WHEN (TransStudentId < StudentId)
+                       WRITE NewStudentRecord FROM TransRecord
+                       READ TransRecords
+                           AT END SET EndOfTransFile TO TRUE
+                       END-READ
+                   WHEN (TransStudentId = StudentId)
+                       DISPLAY "ERROR - " TransStudentId " ALREADY EXISTS IN FILE"
+                       READ TransRecords
+                           AT END SET EndOfTransFile TO TRUE
+                       END-READ
+               END-EVALUATE
+           END-PERFORM
+
+           CLOSE StudentRecords.
+           CLOSE TransRecords.
+           CLOSE NewStudentRecords.
+           
+           STOP RUN.
+
+  # 讀檔, 報表產出: 
+    4. 程式範例:
+    
+    
+  [Sorting and Merging]
+
+  [Direct Access Files]
+
+  [CALLing sub-programs]
+
+  =2021-03-18 目標 END=
+
+  [String handling]
+
+  [The COBOL Report Writer]
+
+  [COBOL Tables]
+
+  =2021-03-19 目標 END=
 
 
 ===============================================================================
@@ -717,7 +996,7 @@
       05  WS-CITY   PIC X(15).        <-- Elementary Item
       05  WS-COUNTRY PIC X(15) VALUE 'TAIWAN'.  <-- Elementary Item
   
-  Picture Clause
+  Picture Clause(資料型態)
     9 數值
     A 字元,空白
     X 英數字,特殊字元
