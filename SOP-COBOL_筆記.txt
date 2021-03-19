@@ -1588,4 +1588,84 @@
               10 WS-CHAR1 PIC X(2) VALUE 'AA'.
               10 WS-CHAR2 PIC X(2) VALUE 'BB'.
 
+7. Conditional Statements
+
+    [IS], [NOT], [OR]
+
+    [IF] : 是否條件
+      
+      "IF ... THEN ... END-IF."
+
+    [RELATION Condition] : 關係條件
+
+       " = (EQUAL TO) , > (GREATER THAN) , < (LESS THAN) , 
+       >= (GREATER THAN OR EQUAL) , <= (LESS THAN OR EQUAL) "
+
+    [Sign Condition] : 正負數條件
+      
+      " positive, negative, zero "
+
+    [CLASS Condition] : 資料型態條件, 數值 或 字元 或 大寫字元 或 小寫字元
+      
+      " numberic, alphabetic, alphabetic-lower, alphabetic-upper "
+
+    [Condition-name condition] : 使用者自訂條件.
+
+      注意事項: 
+      # Condition-name, 可看作是 Boolean 變數.
+      # Condition-name, 使用 88 Level 作定義.
+      # Condition-name, 須定義 VALUE 值
+      # Condition-name, 不用加 PIC CLAUSE, 它是跟在 GROUP OR Elementary item 後面, 型態依上階DATA ITEM而定.
+
+      語法:
+      88 [Condition-name] VALUE [IS, ARE] [LITERAL] [THRU LITERAL]
+
+      ex.
+      01 WS-NUM PIC 9(3).
+        88 PASS VALUE ARE 041 THRU 100.
+        88 FAIL VALUE ARE 000 THRU 040.
+    
+    [negative Condition] : NOT
+
+      語法:
+      IF NOT [CONDITION] 
+        COBOL Statements
+      END-IF.
+    
+    [combined condition] : AND, OR
+
+      語法:
+      IF [CONDITION] AND [CONDITION]
+        COBOL Statements
+      END-IF.
+
+    [EVALUATE VERB] : 和 SWITCH CASE 功能相同, 多條件判斷, IF-ELSE 的另一選項.
+
+      語法:
+      EVALUATE TRUE
+        WHEN ..
+          ..
+        WHEN ..
+          ..
+        WHEN OTHER
+          ..
+      END-EVALUATE.
+
+8. Loop Statements
+
+9. String handling
+
+10. Table PROCESSING
+
+11. File handling
+
+12. File Organization
+
+13. File Access mode
+
+14. File Handling VERBS
+
+15. Subroutines
+
+16. Database Interface
 
