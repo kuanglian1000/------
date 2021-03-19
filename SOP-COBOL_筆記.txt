@@ -1609,7 +1609,7 @@
       
       " numberic, alphabetic, alphabetic-lower, alphabetic-upper "
 
-    [Condition-name condition] : 使用者自訂條件.
+    [Condition-name Condition] : 使用者自訂條件.
 
       注意事項: 
       # Condition-name, 可看作是 Boolean 變數.
@@ -1625,14 +1625,14 @@
         88 PASS VALUE ARE 041 THRU 100.
         88 FAIL VALUE ARE 000 THRU 040.
     
-    [negative Condition] : NOT
+    [NEGATIVE Condition] : NOT
 
       語法:
       IF NOT [CONDITION] 
         COBOL Statements
       END-IF.
     
-    [combined condition] : AND, OR
+    [COMBINED condition] : AND, OR
 
       語法:
       IF [CONDITION] AND [CONDITION]
@@ -1652,6 +1652,50 @@
       END-EVALUATE.
 
 8. Loop Statements
+    [PERFORM THRU]
+      # IN-LINE PERFORM
+        PERFORM 
+          DISPLAY 'HELLO WORLD'
+        END-PERFORM.
+
+      # OUT-LINE PERFORM
+        PERFORM <PARAGRAPH1> THRU <PARAGRAPH4>
+       *> 從 PARAGRAPH1 -> PARAGRAPH2 -> PARAGRAPH3 執行到 PARAGRAPH4 結束.
+
+    [PERFORM UNTIL]
+      注意事項:
+      # WITH TEST BEFORE 是(預設值,先檢查再符合,則停止), 另一選項是 WITH TEST AFTER.
+      # 單純的 [PERFORM WITH TEST BEFORE UNTIL]結果 == [PERFORM WITH TEST AFTER UNTIL]結果
+      # 滿足 UNTIL 後的條件時, 則會停止執行.      
+
+    [PERFORM TIMES]
+      語法:
+        PERFORM paragraph Number? TIMES.
+
+    [PERFORM VARYING]
+      語法:
+        PERFORM paragraph VARYING A FROM 1 BY 1 UNTIL A = 5.
+
+      注意事項:
+        # WITH TEST BEFORE 是(預設值,先檢查再符合,則停止), 另一選項是 WITH TEST AFTER.
+        # 複雜 
+          [PERFORM WITH TEST BEFORE VARYING <variables> FROM 1 BY 1 UNTIL <variables> > 5 ]
+            先比條件,若符合停下來.
+          [PERFORM WITH TEST AFTER VARYING <variables> FROM 1 BY 1 UNTIL <variables> > 5 ]
+            先執行,再比條件.(會多作1次)
+
+    [GO TO]
+      
+      注意事項:
+        # GO TO 和 PERFORM 最大的差異在於 GO TO 不會返回, 而 PERFORM會.
+        # GO TO 常用於 離開 paragraph.
+
+      語法1: Unconditional GO TO
+        GO TO paragraph.
+
+      語法2: Conditional GO TO
+        GO TO para-1 para-2 para-3 DEPENDING ON x.
+       *> 如果 x = 1, GO TO para-1....
 
 9. String handling
 
