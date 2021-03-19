@@ -1,4 +1,4 @@
-
+==VIP==
 0.Windows OS上執行COBOL的方法(gnu_cobol)
   0.1. 學習資料來源
     >(先看這一份,還有作業可以寫) COBOL Programming Course(初階版) http://www.csis.ul.ie/cobol/
@@ -953,7 +953,6 @@
 
   =2021-03-19 目標 END=
 
-
 ===============================================================================
 資料來源：https://www.tutorialspoint.com/cobol
 1.Program Structure
@@ -1324,11 +1323,12 @@
         STOP RUN.
     
     [MOVE] VERB
+      MOVE(X:L) X = 起始位置(COBOL是從1起算) , L = 長度
+        ex. MOVE(3:6) , 第3個位置(含), 往後算6個字元
       COPY DATA FROM SOURCE TO DESTINATION.
       CAN BE USED BOTH <GROUP Items> AND <Elementary Items>
         FOR GROP Items , [MOVE CORRESPONDING/CORR]
-      MOVE(X:L) X = 起始位置 , L = 長度
-
+      
         <SAMPLE CODE>
           IDENTIFICATION DIVISION.
           PROGRAM-ID. HELLO.
@@ -1360,8 +1360,8 @@
 
           STOP RUN.
     
-    [ADD] VERB
-      加法用
+    [ADD] VERB : 加法用
+      
       SAMPLE-1 : ADD A B TO C D.  <-- C = A+B+C , D = A+B+D
       SAMPLE-2 : ADD A B C TO D GIVING E. <-- E = A+B+C+D (注意: E 原值被加總值取代 , 不會一起加進去)
       SAMPLE-3 : ADD CORR WS-GROUP1 TO WS-GROUP2. <-- WS-GROUP2 = WS-GROUP1 + WS-GROUP2
@@ -1388,11 +1388,11 @@
 
           STOP RUN.
     
-    [SUBTRACT] VERB
-      減法用
+    [SUBTRACT] VERB : 減法用
+      
       SAMPLE-1 : SUBTRACT A B FROM C D.  <-- C = C-(A+B) , D = D-(A+B)
       SAMPLE-2 : SUBTRACT A B C FROM D GIVING E. <-- E = D-(A+B+C) (注意: E原值被取代 , 不會一起作運算)
-      SAMPLE-3 : SUBTRACT CORR WS-GROUP1 TO WS-GROUP2. <-- WS-GROUP2 = WS-GROUP1 - WS-GROUP2
+      SAMPLE-3 : SUBTRACT CORR WS-GROUP1 TO WS-GROUP2. <-- WS-GROUP2 = WS-GROUP2 - WS-GROUP1
 
         <SAMPLE CODE>
           IDENTIFICATION DIVISION.
@@ -1416,8 +1416,8 @@
 
           STOP RUN.
 
-    [MULTIPLY] VERB
-      乘法用
+    [MULTIPLY] VERB : 乘法用
+      
       MULTIPLY A BY B C.        <-- B = A*B , C = A*C
       MULTIPLY A BY B GIVING E. <-- E = A*B
 
@@ -1438,8 +1438,8 @@
             MULTIPLY WS-NUM1 BY WS-NUM2 WS-NUM3. <-- WS-NUM2 = 000000100 , WS-NUM3 = 000000100
             MULTIPLY WS-NUMA BY WS-NUMB GIVING WS-NUMC. <-- WS-NUMC = 10 * 10 = 000000100
 
-    [DIVIDE] VERB
-      除法用
+    [DIVIDE] VERB : 除法用
+
       DIVIDE A INTO B. <-- B = B/A.
       DIVIDE A BY B GIVING C REMAINDER R <-- 注意(和上面的式子不同哦): C = A / B , R = 餘數
 
@@ -1462,8 +1462,9 @@
 
           STOP RUN.
     
-    [COMPUTE] Statements
-      四乘運算用 (+-*/)
+    [COMPUTE] Statements : 四乘運算用, 使用 (+-*/) 符號作運算
+
+      COMPUTE WS-NUMC = (WS-NUM1 * WS-NUM2) - (WS-NUMA / WS-NUMB) + WS-NUM3.
 
         <SAMPLE CODE>
           IDENTIFICATION DIVISION.
@@ -1482,3 +1483,109 @@
             COMPUTE WS-NUMC = (WS-NUM1 * WS-NUM2) - (WS-NUMA / WS-NUMB) + WS-NUM3. <-- WS-NUMC = 100 - 5 + 10 = 000000105
 
           STOP RUN.
+
+6. Data Layout
+    [REDEFINE] CLAUSE : 原變數 => 參考成 '新資料型態變數'. (兩者值永遠相同)
+      
+      01  WS-OLD PIC X(10).
+      01  WS-NEW1 REDEFINE WS-OLD PIC 9(8).
+      01  WS-NEW2 REDEFINE WS-OLD PIC A(10).
+
+      MOVE '1234567890' TO WS-OLD.
+      *> WS-NEW1 == 12345678
+      *> WS-NEW2 == '1234567890'
+
+      MOVE '5656' TO WS-OLD.
+      *> WS-NEW1 == 12345678
+      *> WS-NEW2 == '1234567890'
+
+      注意事項:
+      # Level numbers of redefined item and redefining item must be the same and it cannot be 66 or 88 level number. 
+      # Do not use VALUE clause with a redefining item. 
+      # In File Section, do not use a redefines clause with 01 level number. 
+      # Redefines definition must be the next data description you want to redefine. 
+      # A redefining item will always have the same value as a redefined item.
+      註: '原變數'改變時, '新資料型態變數'跟著變, 兩者值永遠相同.
+        
+    [RENAME] CLAUSE : 重新組合現有資料, 再命名. (Level 66 => RENAME專用)
+
+      注意事項: 
+      # RENAME 可以跨 GROUP OR Elementary Items 組合.
+      # RENAME 只能用於 same level.
+      # RENAME 必須緊接在 組合資料項目的後面.
+      # 不能針對 01, 77, 66 level number項目作 RENAME.
+      # RENAME 的項目必須依序排序.
+      # RENAME 不能針對 使用 OCCUR clause 的資料項目.
+
+      程式範例:
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. HELLO.
+
+        DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01 WS-DESCRIPTION.
+          05 WS-NUM.
+          10 WS-NUM1 PIC 9(2) VALUE 20.
+          10 WS-NUM2 PIC 9(2) VALUE 56.
+          05 WS-CHAR.
+          10 WS-CHAR1 PIC X(2) VALUE 'AA'.
+          10 WS-CHAR2 PIC X(2) VALUE 'BB'.
+          66 WS-RENAME RENAMES WS-NUM2 THRU WS-CHAR2.
+
+        PROCEDURE DIVISION.
+          DISPLAY "WS-RENAME : " WS-RENAME.
+        *> 執行結果 => 'WS-RENAME : 56AABB'
+          
+        STOP RUN.
+
+    [USAGE] CLAUSE : 指定資料在os內的儲存大小
+
+      注意事項:
+      # 不能用在 level 66 OR 88.
+      # 若 USAGE CLAUSE指定在 GROUP上, 則下面的 Elementary ITEM 均相同.
+
+      種類:
+      1. DISPLAY: ASCII FORMAT, 每個字元 1 BYTE(預設值)
+        EX.
+          01 WS-NUM PIC S9(5)V9(3) USAGE IS DISPLAY. 
+         *> //需要 8 BYTES, SIGN & DECIMAL 不佔 BYTES.
+
+          01 WS-NUM PIC 9(5) USAGE IS DISPLAY.
+         *> //需要 5 BYTES
+
+      2. COMP: BINARY FORMAT, 算法比較特別.
+        
+        //這裡有加 S (有正負號,所以要2倍空間). 註: 均為 2的倍數, 2, 4, 8,..
+        01 WS-NUM PIC S9(n) USAGE IS COMP. 
+          If 'n' = 1 to 4, it takes 2 bytes.
+          If 'n' = 5 to 9, it takes 4 bytes.
+          If 'n' = 10 to 18, it takes 8 bytes.
+
+        01 WS-NUM PIC 9(n) USAGE IS COMP. //沒有加 S (正數).
+          Number of bytes = n/2 (If n is even)
+          Number of bytes = n/2 + 1(If n is odd, consider only integer part)
+
+        01 WS-NUM PIC 9(4) USAGE IS COMP-3 VALUE 21.
+          It requires 2 bytes of storage as each digit occupies half a byte.
+
+        01 WS-NUM PIC 9(5) USAGE IS COMP-3 VALUE 21.
+          It requires 3 bytes of storage as each digit occupies half a byte.
+
+    [COPYBOOKS] : 資料定義-共用, 可引入不同程式中的 DATA DIVISION.
+
+      程式範例:
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+       *> ABC 就是1個COPYBOOKS Name.
+        COPY ABC.
+       
+       *> ABC 定義在這裡
+        01 WS-DESCRIPTION.
+          05 WS-NUM.
+              10 WS-NUM1 PIC 9(2) VALUE 20.
+              10 WS-NUM2 PIC 9(2) VALUE 56.
+          05 WS-CHAR.
+              10 WS-CHAR1 PIC X(2) VALUE 'AA'.
+              10 WS-CHAR2 PIC X(2) VALUE 'BB'.
+
+
