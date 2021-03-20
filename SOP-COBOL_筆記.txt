@@ -1757,7 +1757,7 @@
     11. COBOL 的 FILE OPENING MODE有哪些?
           OPEN INPUT fileVariable.  //讀取
           OPEN OUTPUT fileVariable. //寫入模式
-          OPEN I-O fileVariable.    //可讀可寫
+          OPEN I-O fileVariable.    //先讀再寫(重寫用, REWRITE)
           OPEN EXTEND fileVariable. //寫入模式
 
     12. COBOL NUMERIC數值型態 最大長度?
@@ -1878,4 +1878,76 @@
           WITH TEST BEFORE, 先檢查再作(預設值)
           差異發生在 加入 VARYING FROM 1 BY 1 ,才會出現.
     
-    37. 
+    37. LOCAL-STORAGE SECTION. 用途為何?
+          # 每次程式執行時, 都會重新配置空間.
+          # 當程式結束時, 則會釋放空間.
+          # 程式結束方式有, STOP RUN. GOBACK. EXIT PROGRAM.
+          # 定義位置在 WORKING-STORAGE SECTION. 後面
+          # 程式範例:
+            IDENTIFICATION DIVISION.
+            PROGRAM-ID. TEST.
+
+            ENVIRONMENT DIVISION.
+            INPUT-OUTPUT SECTION.
+            FILE CONTROL.
+              SELECT fileVaraible ASSIGN TO "FILE.DAT"
+                ORGANIZATION IS LINE SEQUENTIAL.
+
+            DATA DIVISION.
+            FILE SECTION.
+            FD fileVaraible.
+            01 ...
+
+            WORKING-STORAGE SECTION.
+            01 ...
+
+            LOCAL-STORAGE SECTION. //定義在這裡.
+            01 ...
+
+    38. START STATEMENT 的存取模式(ACCESS MODE)是?
+          SEQUENTIAL OR DYNAMIC for the start Statement.
+
+    39. PIC 9.99 & PIC 9V99 差異是?
+          PIC 9.99, 佔 4 個位置, 小數點也佔1個.
+          PIC 9V99, 只佔 3 個位置, 小數點用在ASSUMED DECIMAL POSITION.
+
+    40. 在 Table 上搜尋, 是否要有 Index (WITH OR without)?
+          Table必須被索引(BE INDEXED)後, 才能被搜尋.
+          所以一定要有INDEX.
+
+    41. 為什麼 OPEN A FILE IN I-O MODE FOR REWRITE?
+          執行 REWRITE 前, 檔案必須先開啟, 然後讀取.
+          所以必須以 I-O MODE開檔後, 才能使用 REWRITE.
+    
+    42. 什麼是 Literals?
+          # 只包含資料本身
+          # 不能被命名定義
+          # 是 CONSTANT 資料項目(持續的)
+
+    43. 更新檔案(UPDATE FILE)用的VERB是?
+          # REWRITE 是更新紀錄用的.
+          # 檔案必須以 I-O MODE開啟.
+          # 讀取成功後, 才能 REWRITE 被執行.
+          # REWRITE 取代最後1筆(LAST)讀取紀錄.
+
+    44. 數值:123 移至 01 wsNum PIC PP999, 得到的值為何?
+          # 結果: .00123
+          # P is assumed decimal scaling position 
+            which is used to specify the location of an assumed decimal point 
+            when the point is not within the number that appears in the data item. .
+            PIC PP999 means that numeric data item is of 3 characters 
+            and there are 5 positions after the decimal point.
+
+          # 實測結果
+          01  wsNum2 PIC P99999.
+          MOVE 256.98 TO wsNum2.
+          DISPLAY wsNum2. // .080000
+
+          # 參考資料:https://www.mainframestechhelp.com/tutorials/cobol/cobol-assumed-decimal-point-data-type.htm
+
+    45. OCCURS 子句 可以用在哪?
+          (o)ELEMENTARY ITEM OR GROUP ITEM.
+          (x)但是 <01 LEVEL RECORD LEVEL> 不能用.
+    
+    46. S9(7), 佔幾個BYTE?
+          9(7) 佔 7 個 + S 佔 1 個 = 8個 BYTES.
