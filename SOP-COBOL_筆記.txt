@@ -926,7 +926,6 @@
 
            CLOSE StudentFile.
 
-
   # 合併:
 
   ==先略過BEGIN==
@@ -955,761 +954,928 @@
 
 ===============================================================================
 資料來源：https://www.tutorialspoint.com/cobol
-1.Program Structure
-  Program -> 
-    Division -> 
-      Sections -> 
-        Paragraphs -> 
-          Sentences(必須以.結尾) -> 
-            Statements -> 
-              Characters
-  
-  ex.
-  PROCEDURE DIVISION.
-  A0000-FIRST-PARA SECTION.
-  FIRST-PARAGRAPH.
-  ACCEPT WS-ID
-  MOVE '10' TO WS-ID
-  DISPLAY WS-ID.
-
-1.Introduction to COBOL
-  1.1.The structure of COBOL programs
-    a. COBOL is self-documenting(最大特點,它不用另外寫註解,但有比較冗長的問題)
-    b. COBOL is non-proprietary (portable)
-    c. COBOL is Maintainable
-    d. 程式範例：兩數相加,並顯示結果
-      IDENTIFICATION DIVISION.
-      PROGRAM-ID. HELLO.
-
-      DATA DIVISION.
-          WORKING-STORAGE SECTION.
-          01 WS-NUM1 PIC 9(5).
-          01 WS-NUM2 PIC 9(5).
-          01 WS-RESULT pic 9(5).
-        
+  [完整學習]
+    1.Program Structure
+      Program -> 
+        Division -> 
+          Sections -> 
+            Paragraphs -> 
+              Sentences(必須以.結尾) -> 
+                Statements -> 
+                  Characters
+      
+      ex.
       PROCEDURE DIVISION.
-          DISPLAY "INPUT NUM1 : ".
-          ACCEPT WS-NUM1. 
-          DISPLAY "INPUT NUM2 : ".
-          ACCEPT WS-NUM2.
-          MULTIPLY WS-NUM1 BY WS-NUM2 giving WS-RESULT.
-          DISPLAY "RESULT IS : " , WS-RESULT.
-          
-      STOP RUN.
-    e. 撰寫規則：
-      |1-6|7|8-11|12-72|73-80|
-      |行號區(1-6),很多編譯器可忽略
-      |指示區(7) / * 表示註解 , - 表示接續 , / 表示form feed
-      |Area A(8-11) => 所有的段落標示 , 都在這個區域開始 , FD AND 01 Level 數值要寫在這個區域
-      |Area B(12-72) => 所有的程式碼 , 都在這個區域
-    f. 命名原則：
-      1.至少1個字元,最多30個字元
-      2.至少1個英文字
-      3.開頭及結尾不能用連字號(-)
-      4.命名必須由(A-Z) , (0-9) 及 (-) 組成
-      5.不能包含空白字元
-      6.命名不分大小寫, total == Total = tOtAl = TOTAL
-    g. 程式結構：
-      Program > Division > SECTION > PARAGRAPH > Sentences > Statements
-    h. 四個Divisions
-      IDENTIFICATION DIVISION.
-        [程式資訊]:裡面內容主要是寫給程式員看的,會被編譯器視為註解.
-        唯一例外,每個COBOL PROGRAM都要有 <PROGRAM-ID.> , 而且要緊接在 <IDENTIFICATION DIVISION.> 後面.
-        
-      ENVIRONMENT DIVISION.
-        [環境設定]:外部裝置會給定一個別名
+      A0000-FIRST-PARA SECTION.
+      FIRST-PARAGRAPH.
+      ACCEPT WS-ID
+      MOVE '10' TO WS-ID
+      DISPLAY WS-ID.
 
-      DATA DIVISION.
-        [資料描述]:有兩個主要的Sections, 
-          分別是: <FILE SECTION.> & <WORKING-STORAGE SECTION.>
-          另外還有: <LINKAGE SECTION.> 在子程式(subprograms)內使用
-          還有: <REPORT SECTION.> 在Report Writer based programs內使用
+    1.Introduction to COBOL
+      1.1.The structure of COBOL programs
+        a. COBOL is self-documenting(最大特點,它不用另外寫註解,但有比較冗長的問題)
+        b. COBOL is non-proprietary (portable)
+        c. COBOL is Maintainable
+        d. 程式範例：兩數相加,並顯示結果
+          IDENTIFICATION DIVISION.
+          PROGRAM-ID. HELLO.
 
-      PROCEDURE DIVISION.
-        [程式邏輯及演算法]:是由 <SECTIONS> , <PARAGRAPHS> , <SENTENCES> , <STATEMENTS> 所組成
-          1. <SECTIONS> 非必要選項,
-          2. 至少要有1個<PARAGRAPHS> , <SENTENCES> , <STATEMENTS>
-          3. <SECTIONS> & <PARAGRAPHS> 須符合命名規則.
-
-          程式範例(最短):
-            IDENTIFICATION DIVISION.
-            PROGRAM-ID. SmallProgram.
-            AUTHOR. kl.cheng
-
-            PROCEDURE DIVISION.
-            DISPLAY "hello world".
-            STOP RUN.
-          
-          程式範例:
-            IDENTIFICATION DIVISION.
-            PROGRAM-ID. TEST-PROGRAM.
-            AUTHOR. KL CHENG.
-
-            DATA DIVISION.
-            WORKING-STORAGE SECTION.
-            01 NUM1 PIC 9 VALUE ZEROS.
-            01 NUM2 PIC 9 VALUE ZEROS.
-            01 RESULT PIC 99 VALUE ZEROS.
-
-            PROCEDURE DIVISION.
-            CalculateResult.
-              ACCEPT NUM1.
-              ACCEPT NUM2.
-              MULTIPLY NUM1 BY NUM2 GIVING RESULT.
-              DISPLAY "RESULT IS = " , RESULT.
-              STOP RUN.
-  1.2.Declaring data in COBOL
-    1.2.1.Introduction => Unit aims, objectives, prerequisites and further reading.
-
-  	1.2.2.Categories of COBOL data => Variables , Literals , Figurative Constants.
-      1.Variable 資料型態只有三種：numeric (數字) , alphanumeric (text/string 英數字) , alphabetic (字母無數字)
-      2.Variable 用錯 data type , 執行運算會讓程式直接掛掉.
-      3.Literals 指的常數(固定值) , 無法指定一個Name.
-      4.Literals 有兩種型態: 
-        > String/Alphanumeric Literals (ex.  "Michael Ryan", "-123", "123.45" )
-        > Numeric Literals (ex. 123, 123.45, -256, +2987 )
-      5.Figurative Constants 指的是具象常數.
-      6.Figurative Constants 類別有:
-        > SPACE or SPACES 	        1個或多個" "空白字元
-        > ZERO or ZEROS or ZEROES   1個或多個0
-        > QUOTE or QUOTES 	        "" Used instead of a quotation mark
-        > HIGH-VALUE or HIGH-VALUES 最大值,ex.99
-        > LOW-VALUE or LOW-VALUES 	最小值,ex.00
-        > ALL literal 	            ex. ALL "a" , ALL 1. Allows a ordinary literal to act as Figurative Constant
-
-  	1.2.3.Declaring Data-Items in COBOL => 使用 PIC 宣告變數
-      In this section we show how variables are declared in COBOL using the PICTURE clause.
-    1.2.4.Group and Elementary Data-Items => 如何指定合適的資料階層
-      This section demonstrates how record structures can be specified using an appropriate arrangement of level numbers.
-
-2.COBOL 是由 <4個DIVISION> 所組成：
-  Identification Division    //(1)
-    PROGRAM-ID 定義程式名稱,長度為1-30
-  
-  Environment Division       //(2)指定INPUT & OUTPUT FILE，並由 <2個SECTION> 所組成，分別是
-    CONFIGURATION SECTION.
-      SOURCE-COMPUTER.       //編譯程式的系統
-      OBJECT-COMPUTER.       //執行程式的系統
-    INPUT-OUTPUT SECTION.
-      FILE-CONTROL.          //外部資料集合(Data Sets)
-      I-O CONTROL.           //檔案
-  
-  Data Division              //(3)定義變數的位置，由 <4個SECTIONS> 所組成,分別是
-    FILE SECTION.            //檔案的資料結構(RECORD STRUCTURE)
-    WORKING-STORAGE SECTION. //定義程式變數
-    LOCAL-STORAGE SECTION.   //定義程式變數,跟WORKING-STORAGE相似,差別在於LOCAL-STORAGE會給初始值,在程式執行時
-    LINKAGE SECTION.         //描述從外部程式接收的資料名稱
-
-  Procedure Division         
-                            //(4)包括程序邏輯 , 它會使用 DATA DIVISION 內的變數名稱
-                            //在PROCEDURE DIVISION 內至少要有 1句 , STOP RUN. OR EXIT PROGRAM.
-                            //STOP RUN. 用於呼叫端
-                            //EXIT PROGRAM. 用於被呼叫端
-                            //在PROCEDURE DIVISION 內的SECTION , 可由 Programmer 自訂
-  (example. for Identification Division)
-    IDENTIFICATION DIVISION.
-    PROGRAM-ID. HELLO.
-    PROCEDURE DIVISION.
-    DISPLAY 'Welcome to COBOL Programming World'.
-    STOP RUN.
-
-  (example. for Environment Division)
-    ENVIRONMENT DIVISION.
-    CONFIGURATION SECTION.
-      SOURCE-COMPUTER. XXX-ZOS.
-      OBJECT-COMPUTER. XXX-ZOS.
-    INPUT-OUTPUT SECTIONS.
-      FILE-CONTROL.
-      SELECT FILEN ASSIGN TO DDNAME
-      ORGANIZATION IS SEQUENTIAL.
-
-  (example. for Data Division)
-    IDENTIFICATION DIVISION.
-    PROGRAM-ID HELLO.
-
-    ENVIRONMENT DIVISION.
-      INPUT-OUTPUT SECTION.
-      FILE-CONTROL.
-      SELECT FILEN ASSIGN TO INPUT.
-        ORGANIZATION IS SEQUENTIAL.
-        ACCESS IS SEQUENTIAL.
-
-    DATA DIVISION.
-      FILE SECTION.
-      FD FILEN
-      01 NAME PIC A(25).
-
-      WORKING-STORAGE SECTION.
-      01 WS-STUDENT PIC A(30).
-      01 WS-ID PIC 9(5).
-
-      LOCAL-STORAGE SECTION.
-      01 LS-CLASS PIC 9(3).
-
-      LINKAGE SECTION.
-      01 LS-ID PIC 9(5).
-
-    PROCEDURE DIVISION.
-      DISPLAY 'EXECUTING COBOL PROGRAM USING JCL'.
-    
-    STOP RUN.
-
-  (example. for Procedure Division)
-    IDENTIFICATION DIVISION.
-    PROGRAM-ID HELLO.
-
-    DATA DIVISION.
-      WORKING-STORAGE SECTION.
-      01 WS-NAME PIC A(30).
-      01 WS-IS PIC 9(5) VALUE 12345.
-
-    PROCEDURE DIVISION.
-      A000-FIRST-PARA.
-      DISPLAY 'HELLO WORLD.
-      MOVE 'tutorialspoint' TO WS-NAME.
-      DISPLAY 'MY NAME IS 'WS-NAME.
-      DISPLAY 'MY ID IS 'WS-IS.
-
-3.COBOL - BASIC SYNTAX
-
-  CHARACTER SET(字元集合)
-    1.A-Z
-    2.a-Z
-    3.0-9
-    4.' '//空白
-    5.  +
-    6.  -
-    7.  *
-    8.  /
-    9.  $
-    10. ,
-    11. ;
-    12. .
-    13. "
-    14. (
-    15. )
-    16. > 
-    17. <
-    18. :
-    19. '
-    20. =
-  
-  Coding Sheet(程式碼樣式 , 撰寫定位規定)
-    位置  /欄位名稱 /功能
-    1-6   / 行號   / 保留給行號使用
-    7     / 指示   / * 表示註解 , - 表示接續 , / 表示form feed
-    8-11  / A區域  / 所有的段落標示 , 都在這個區域開始 , FD AND 01 Level 數值要寫在這個區域
-    12-72 / B區域  / 所有的程式碼 , 都在這個區域
-    73-80 / 識別區 / Programmer有需要時 , 可使用
-
-    example:
-    1-----78---12-----------------------------------------------------------73------
-    000100 IDENTIFICATION DIVISION.                                         000100
-    000200 PROGRAM-ID. HELLO.                                               000101
-    000250* THIS IS A COMMIT LINE.                                          000102
-    000300 PROCEDURE DIVISION.                                              000103
-    000350 A000-FIRST-PARA.                                                 000104
-    000400     DISPLAY "CODEING SHEET".                                     000105
-    000500 STOP RUN.
-
-4.COBOL - Data Types
-  Data NAME
-    Valid:
-      WS-NAME
-      TOTAL-STUDENTS
-      A100
-      100B
-    Invalid:
-      MOVE
-      COMPUTE
-      100
-      100+b
-  
-  Level Number
-    01 RECORD description entry
-    02 to 49  Group and Elementary Items
-    66 Rename Clause Items
-    77 Items which cannot be sub-divided
-    88 Condition name entry
-
-    DATA DIVISION.
-    WORKING-STORAGE SECTION.
-    01 WS-NAME PIC X(25).             <--Elementary Item
-    01 WS-CLASS PIC 9(2) VALUE '10'.  <--Elementary Item
-
-    01  WS-ADDRESS.                   <-- GROUP Item
-      05  WS-HOUSE-NUMBER PIC 9(3).   <-- Elementary Item
-      05  WS-STREET PIC X(15).        <-- Elementary Item
-      05  WS-CITY   PIC X(15).        <-- Elementary Item
-      05  WS-COUNTRY PIC X(15) VALUE 'TAIWAN'.  <-- Elementary Item
-  
-  Picture Clause(資料型態)
-    9 數值
-    A 字元,空白
-    X 英數字,特殊字元
-    V implicit decimal(小數點)
-    S 正負號
-    P assumed decimal(假設是小數點)
-
-    DATA DIVISION.
-      WORKING-STORAGE SECTION.
-      01 WS-NUM1 PIC S9(3)V9(2).              <-- +000.00
-      01 WS-NUM2 PIC PPP999.                  <-- .000000
-      01 WS-NUM3 PIC S9(3)V9(2) VALUE -123.45 <-- -123.45
-      01 WS-NAME PIC A(6) VALUE 'ABCDEF'.     <-- ABCDEF
-      01 WS-ID PIC X(5) VALUE 'A123$'.        <-- A123$
-  
-  VALUE Clause
-    OPTIONAL Clause , 可用於 GROUP Item AND Elementary Item
-    設定初值用
-
-    DATA DIVISION.
-      WORKING-STORAGE SECTION.
-      01 WS-NUM1 PIC 99V9 VALUE IS 25.9.  <-- 25.9 OR 03.5 OR 00.5
-      01 WS-NAME PIC A(6) VALUE 'TAIWAN'. <-- TAIWAN OR USA OR JAPAN
-      01 WS-ID PIC 99 VALUE ZERO.         <-- 00
-
-5.BASIC VERBS
-  INPUT/OUTPUT VERBS
-    [ACCEPT] VERBS
-      ACCEPT WS-STUDENT-NAME. <--GET DATA FROM JCL , USER INPUT
-      ACCEPT WS-DATE FROM SYSTEM-DATE.  <-- GET DATA FROM OS , NEED A "FROM" KEYWORD
-    
-    [DISPLAY] VERB
-      DISPLAY WS-STUDENT-NAME.
-      DISPLAY "SYSTEM DATE IS " WS-DATE.
-
-      <SAMPLE CODE>
-        IDENTIFICATION DIVISION.
-        PROGRAM-ID. HELLO.
-
-        DATA DIVISION.
-          WORKING-STORAGE SECTION.
-          01 WS-STUDENT-NAME PIC X(25).
-          01 WS-DATE PIC X(10).
-          
-        PROCEDURE DIVISION.
-          ACCEPT WS-STUDENT-NAME. <-- GET FROM JCL INPUT
-          ACCEPT WS-DATE FROM DATE.
-          DISPLAY "NAME : " WS-STUDENT-NAME.
-          DISPLAY "DATE : " WS-DATE.
-
-        STOP RUN.
-    
-    [INITIALIZE] VERB
-      RENAME Clause 不能被初始化
-      NUMERIC DATA Items 初始化後為 ZEROES.
-      ALPHANUMERIC OR ALPHABETIC 初始化後為 SPACES.
-      REPLACING term 以指定值作初始化
-
-      <SAMPLE CODE>
-        IDENTIFICATION DIVISION.
-        PROGRAM-ID. HELLO.
-
-        DATA DIVISION.
-          WORKING-STORAGE SECTION.
-          01 WS-NAME PIC A(30) VALUE 'ABCDEF'.
-          01 WS-ID PIC 9(5).
-          01 WS-ADDRESS.
-            05  WS-HOUSE-NUMBER PIC 9(3).
-            05  WS-COUNTRY PIC X(15).
-            05  WS-PINCODE PIC 9(6) VALUE 123456.
+          DATA DIVISION.
+              WORKING-STORAGE SECTION.
+              01 WS-NUM1 PIC 9(5).
+              01 WS-NUM2 PIC 9(5).
+              01 WS-RESULT pic 9(5).
             
+          PROCEDURE DIVISION.
+              DISPLAY "INPUT NUM1 : ".
+              ACCEPT WS-NUM1. 
+              DISPLAY "INPUT NUM2 : ".
+              ACCEPT WS-NUM2.
+              MULTIPLY WS-NUM1 BY WS-NUM2 giving WS-RESULT.
+              DISPLAY "RESULT IS : " , WS-RESULT.
+              
+          STOP RUN.
+        e. 撰寫規則：
+          |1-6|7|8-11|12-72|73-80|
+          |行號區(1-6),很多編譯器可忽略
+          |指示區(7) / * 表示註解 , - 表示接續 , / 表示form feed
+          |Area A(8-11) => 所有的段落標示 , 都在這個區域開始 , FD AND 01 Level 數值要寫在這個區域
+          |Area B(12-72) => 所有的程式碼 , 都在這個區域
+        f. 命名原則：
+          1.至少1個字元,最多30個字元
+          2.至少1個英文字
+          3.開頭及結尾不能用連字號(-)
+          4.命名必須由(A-Z) , (0-9) 及 (-) 組成
+          5.不能包含空白字元
+          6.命名不分大小寫, total == Total = tOtAl = TOTAL
+        g. 程式結構：
+          Program > Division > SECTION > PARAGRAPH > Sentences > Statements
+        h. 四個Divisions
+          IDENTIFICATION DIVISION.
+            [程式資訊]:裡面內容主要是寫給程式員看的,會被編譯器視為註解.
+            唯一例外,每個COBOL PROGRAM都要有 <PROGRAM-ID.> , 而且要緊接在 <IDENTIFICATION DIVISION.> 後面.
+            
+          ENVIRONMENT DIVISION.
+            [環境設定]:外部裝置會給定一個別名
+
+          DATA DIVISION.
+            [資料描述]:有兩個主要的Sections, 
+              分別是: <FILE SECTION.> & <WORKING-STORAGE SECTION.>
+              另外還有: <LINKAGE SECTION.> 在子程式(subprograms)內使用
+              還有: <REPORT SECTION.> 在Report Writer based programs內使用
+
+          PROCEDURE DIVISION.
+            [程式邏輯及演算法]:是由 <SECTIONS> , <PARAGRAPHS> , <SENTENCES> , <STATEMENTS> 所組成
+              1. <SECTIONS> 非必要選項,
+              2. 至少要有1個<PARAGRAPHS> , <SENTENCES> , <STATEMENTS>
+              3. <SECTIONS> & <PARAGRAPHS> 須符合命名規則.
+
+              程式範例(最短):
+                IDENTIFICATION DIVISION.
+                PROGRAM-ID. SmallProgram.
+                AUTHOR. kl.cheng
+
+                PROCEDURE DIVISION.
+                DISPLAY "hello world".
+                STOP RUN.
+              
+              程式範例:
+                IDENTIFICATION DIVISION.
+                PROGRAM-ID. TEST-PROGRAM.
+                AUTHOR. KL CHENG.
+
+                DATA DIVISION.
+                WORKING-STORAGE SECTION.
+                01 NUM1 PIC 9 VALUE ZEROS.
+                01 NUM2 PIC 9 VALUE ZEROS.
+                01 RESULT PIC 99 VALUE ZEROS.
+
+                PROCEDURE DIVISION.
+                CalculateResult.
+                  ACCEPT NUM1.
+                  ACCEPT NUM2.
+                  MULTIPLY NUM1 BY NUM2 GIVING RESULT.
+                  DISPLAY "RESULT IS = " , RESULT.
+                  STOP RUN.
+      1.2.Declaring data in COBOL
+        1.2.1.Introduction => Unit aims, objectives, prerequisites and further reading.
+
+        1.2.2.Categories of COBOL data => Variables , Literals , Figurative Constants.
+          1.Variable 資料型態只有三種：numeric (數字) , alphanumeric (text/string 英數字) , alphabetic (字母無數字)
+          2.Variable 用錯 data type , 執行運算會讓程式直接掛掉.
+          3.Literals 指的常數(固定值) , 無法指定一個Name.
+          4.Literals 有兩種型態: 
+            > String/Alphanumeric Literals (ex.  "Michael Ryan", "-123", "123.45" )
+            > Numeric Literals (ex. 123, 123.45, -256, +2987 )
+          5.Figurative Constants 指的是具象常數.
+          6.Figurative Constants 類別有:
+            > SPACE or SPACES 	        1個或多個" "空白字元
+            > ZERO or ZEROS or ZEROES   1個或多個0
+            > QUOTE or QUOTES 	        "" Used instead of a quotation mark
+            > HIGH-VALUE or HIGH-VALUES 最大值,ex.99
+            > LOW-VALUE or LOW-VALUES 	最小值,ex.00
+            > ALL literal 	            ex. ALL "a" , ALL 1. Allows a ordinary literal to act as Figurative Constant
+
+        1.2.3.Declaring Data-Items in COBOL => 使用 PIC 宣告變數
+          In this section we show how variables are declared in COBOL using the PICTURE clause.
+        1.2.4.Group and Elementary Data-Items => 如何指定合適的資料階層
+          This section demonstrates how record structures can be specified using an appropriate arrangement of level numbers.
+
+    2.COBOL 是由 <4個DIVISION> 所組成：
+      Identification Division    //(1)
+        PROGRAM-ID 定義程式名稱,長度為1-30
+      
+      Environment Division       //(2)指定INPUT & OUTPUT FILE，並由 <2個SECTION> 所組成，分別是
+        CONFIGURATION SECTION.
+          SOURCE-COMPUTER.       //編譯程式的系統
+          OBJECT-COMPUTER.       //執行程式的系統
+        INPUT-OUTPUT SECTION.
+          FILE-CONTROL.          //外部資料集合(Data Sets)
+          I-O CONTROL.           //檔案
+      
+      Data Division              //(3)定義變數的位置，由 <4個SECTIONS> 所組成,分別是
+        FILE SECTION.            //檔案的資料結構(RECORD STRUCTURE)
+        WORKING-STORAGE SECTION. //定義程式變數
+        LOCAL-STORAGE SECTION.   //定義程式變數,跟WORKING-STORAGE相似,差別在於LOCAL-STORAGE會給初始值,在程式執行時
+        LINKAGE SECTION.         //描述從外部程式接收的資料名稱
+
+      Procedure Division         
+                                //(4)包括程序邏輯 , 它會使用 DATA DIVISION 內的變數名稱
+                                //在PROCEDURE DIVISION 內至少要有 1句 , STOP RUN. OR EXIT PROGRAM.
+                                //STOP RUN. 用於呼叫端
+                                //EXIT PROGRAM. 用於被呼叫端
+                                //在PROCEDURE DIVISION 內的SECTION , 可由 Programmer 自訂
+      (example. for Identification Division)
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. HELLO.
+        PROCEDURE DIVISION.
+        DISPLAY 'Welcome to COBOL Programming World'.
+        STOP RUN.
+
+      (example. for Environment Division)
+        ENVIRONMENT DIVISION.
+        CONFIGURATION SECTION.
+          SOURCE-COMPUTER. XXX-ZOS.
+          OBJECT-COMPUTER. XXX-ZOS.
+        INPUT-OUTPUT SECTIONS.
+          FILE-CONTROL.
+          SELECT FILEN ASSIGN TO DDNAME
+          ORGANIZATION IS SEQUENTIAL.
+
+      (example. for Data Division)
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID HELLO.
+
+        ENVIRONMENT DIVISION.
+          INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+          SELECT FILEN ASSIGN TO INPUT.
+            ORGANIZATION IS SEQUENTIAL.
+            ACCESS IS SEQUENTIAL.
+
+        DATA DIVISION.
+          FILE SECTION.
+          FD FILEN
+          01 NAME PIC A(25).
+
+          WORKING-STORAGE SECTION.
+          01 WS-STUDENT PIC A(30).
+          01 WS-ID PIC 9(5).
+
+          LOCAL-STORAGE SECTION.
+          01 LS-CLASS PIC 9(3).
+
+          LINKAGE SECTION.
+          01 LS-ID PIC 9(5).
+
+        PROCEDURE DIVISION.
+          DISPLAY 'EXECUTING COBOL PROGRAM USING JCL'.
+        
+        STOP RUN.
+
+      (example. for Procedure Division)
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID HELLO.
+
+        DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01 WS-NAME PIC A(30).
+          01 WS-IS PIC 9(5) VALUE 12345.
+
         PROCEDURE DIVISION.
           A000-FIRST-PARA.
-          INITIALIZE WS-NAME , WS-ADDRESS.  <-- WS-NAME = '30個空白' , WS-ADDRESS = 000'15個空白'000000
-          INITIALIZE WS-ID REPLACING NUBERIC DATA BY 12345. <-- WS-ID = 12345
+          DISPLAY 'HELLO WORLD.
+          MOVE 'tutorialspoint' TO WS-NAME.
+          DISPLAY 'MY NAME IS 'WS-NAME.
+          DISPLAY 'MY ID IS 'WS-IS.
 
-        STOP RUN.
-    
-    [MOVE] VERB
-      MOVE(X:L) X = 起始位置(COBOL是從1起算) , L = 長度
-        ex. MOVE(3:6) , 第3個位置(含), 往後算6個字元
-      COPY DATA FROM SOURCE TO DESTINATION.
-      CAN BE USED BOTH <GROUP Items> AND <Elementary Items>
-        FOR GROP Items , [MOVE CORRESPONDING/CORR]
+    3.COBOL - BASIC SYNTAX
+
+      CHARACTER SET(字元集合)
+        1.A-Z
+        2.a-Z
+        3.0-9
+        4.' '//空白
+        5.  +
+        6.  -
+        7.  *
+        8.  /
+        9.  $
+        10. ,
+        11. ;
+        12. .
+        13. "
+        14. (
+        15. )
+        16. > 
+        17. <
+        18. :
+        19. '
+        20. =
       
-        <SAMPLE CODE>
-          IDENTIFICATION DIVISION.
-          PROGRAM-ID. HELLO.
+      Coding Sheet(程式碼樣式 , 撰寫定位規定)
+        位置  /欄位名稱 /功能
+        1-6   / 行號   / 保留給行號使用
+        7     / 指示   / * 表示註解 , - 表示接續 , / 表示form feed
+        8-11  / A區域  / 所有的段落標示 , 都在這個區域開始 , FD AND 01 Level 數值要寫在這個區域
+        12-72 / B區域  / 所有的程式碼 , 都在這個區域
+        73-80 / 識別區 / Programmer有需要時 , 可使用
 
-          DATA DIVISION.
-            WORKING-STORAGE SECTION.
-            01 WS-NUM1 PIC 9(9).
-            01 WS-NUM2 PIC 9(9).
-            01 WS-NUM3 PIC 9(5).
-            01 WS-NUM4 PIC 9(6).
-            01 WS-ADDRESS. 
-              05 WS-HOUSE-NUMBER PIC 9(3).
-              05 WS-COUNTRY PIC X(5).
-              05 WS-PINCODE PIC 9(6).
-            01 WS-ADDRESS1. 
-              05 WS-HOUSE-NUMBER1 PIC 9(3).
-              05 WS-COUNTRY1 PIC X(5).
-              05 WS-PINCODE1 PIC 9(6).
+        example:
+        1-----78---12-----------------------------------------------------------73------
+        000100 IDENTIFICATION DIVISION.                                         000100
+        000200 PROGRAM-ID. HELLO.                                               000101
+        000250* THIS IS A COMMIT LINE.                                          000102
+        000300 PROCEDURE DIVISION.                                              000103
+        000350 A000-FIRST-PARA.                                                 000104
+        000400     DISPLAY "CODEING SHEET".                                     000105
+        000500 STOP RUN.
 
-          PROCEDURE DIVISION.
-            A000-FIRST-PARA.
-            MOVE 123456789 TO WS-NUM1.        <-- WS-NUM1 = 123456789
-            MOVE WS-NUM1 TO WS-NUM2 WS-NUM3.  <-- WS-NUM2 = 123456789 , WS-NUM3 = 56789(注意:是前面 1234 被截掉)
-            MOVE WS-NUM1(3:6) TO WS-NUM4.       <-- WS-NUM4 = 345678
-            MOVE 123 TO WS-HOUSE-NUMBER.      <-- WS-HOUSE-NUMBER = 123
-            MOVE 'TAIWAN' TO WS-COUNTRY.      <-- WS-COUNTRY = 'TAIWA' (注意:字元 N 被截掉)
-            MOVE 159753 TO WS-PINCODE.        <-- WS-PINCODE = 159753
-            MOVE WS-ADDRESS TO WS-ADDRESS1.   <-- GROUP ITEM IS OK
-
-          STOP RUN.
-    
-    [ADD] VERB : 加法用
+    4.COBOL - Data Types
+      Data NAME
+        Valid:
+          WS-NAME
+          TOTAL-STUDENTS
+          A100
+          100B
+        Invalid:
+          MOVE
+          COMPUTE
+          100
+          100+b
       
-      SAMPLE-1 : ADD A B TO C D.  <-- C = A+B+C , D = A+B+D
-      SAMPLE-2 : ADD A B C TO D GIVING E. <-- E = A+B+C+D (注意: E 原值被加總值取代 , 不會一起加進去)
-      SAMPLE-3 : ADD CORR WS-GROUP1 TO WS-GROUP2. <-- WS-GROUP2 = WS-GROUP1 + WS-GROUP2
+      Level Number
+        01 RECORD description entry
+        02 to 49  Group and Elementary Items
+        66 Rename Clause Items
+        77 Items which cannot be sub-divided
+        88 Condition name entry
 
-        <SAMPLE CODE>
-          IDENTIFICATION DIVISION.
-          PROGRAM-ID. HELLO.
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01 WS-NAME PIC X(25).             <--Elementary Item
+        01 WS-CLASS PIC 9(2) VALUE '10'.  <--Elementary Item
 
-          DATA DIVISION.
-            WORKING-STORAGE SECTION.
-            01 WS-NUM1 PIC 9(9) VALUE 10 .
-            01 WS-NUM2 PIC 9(9) VALUE 10.
-            01 WS-NUM3 PIC 9(9) VALUE 10.
-            01 WS-NUM4 PIC 9(9) VALUE 10.
-            01 WS-NUMA PIC 9(9) VALUE 10.
-            01 WS-NUMB PIC 9(9) VALUE 10.
-            01 WS-NUMC PIC 9(9) VALUE 10.
-            01 WS-NUMD PIC 9(9) VALUE 10.
-            01 WS-NUME PIC 9(9) VALUE 10.
-
-          PROCEDURE DIVISION.
-            ADD WS-NUM1 WS-NUM2 TO WS-NUM3 WS-NUM4.  <-- WS-NUM3 = 000000030 , WS-NUM4 = 000000030
-            ADD WS-NUMA WS-NUMB WS-NUMC TO WS-NUMD GIVING WS-NUME. <-- WS-NUME = 000000040
-
-          STOP RUN.
-    
-    [SUBTRACT] VERB : 減法用
+        01  WS-ADDRESS.                   <-- GROUP Item
+          05  WS-HOUSE-NUMBER PIC 9(3).   <-- Elementary Item
+          05  WS-STREET PIC X(15).        <-- Elementary Item
+          05  WS-CITY   PIC X(15).        <-- Elementary Item
+          05  WS-COUNTRY PIC X(15) VALUE 'TAIWAN'.  <-- Elementary Item
       
-      SAMPLE-1 : SUBTRACT A B FROM C D.  <-- C = C-(A+B) , D = D-(A+B)
-      SAMPLE-2 : SUBTRACT A B C FROM D GIVING E. <-- E = D-(A+B+C) (注意: E原值被取代 , 不會一起作運算)
-      SAMPLE-3 : SUBTRACT CORR WS-GROUP1 TO WS-GROUP2. <-- WS-GROUP2 = WS-GROUP2 - WS-GROUP1
-
-        <SAMPLE CODE>
-          IDENTIFICATION DIVISION.
-          PROGRAM-ID. HELLO.
-
-          DATA DIVISION.
-            WORKING-STORAGE SECTION.
-            01 WS-NUM1 PIC 9(9) VALUE 10 .
-            01 WS-NUM2 PIC 9(9) VALUE 10.
-            01 WS-NUM3 PIC 9(9) VALUE 100.
-            01 WS-NUM4 PIC 9(9) VALUE 100.
-            01 WS-NUMA PIC 9(9) VALUE 10.
-            01 WS-NUMB PIC 9(9) VALUE 10.
-            01 WS-NUMC PIC 9(9) VALUE 10.
-            01 WS-NUMD PIC 9(9) VALUE 100.
-            01 WS-NUME PIC 9(9) VALUE 10.
-
-          PROCEDURE DIVISION.
-            SUBTRACT WS-NUM1 WS-NUM2 FROM WS-NUM3 WS-NUM4.  <-- WS-NUM3 = 000000080 , WS-NUM4 = 000000080
-            SUBTRACT WS-NUMA WS-NUMB WS-NUMC FROM WS-NUMD GIVING WS-NUME. <-- WS-NUME = 70 = 100 - (10+10+10)
-
-          STOP RUN.
-
-    [MULTIPLY] VERB : 乘法用
-      
-      MULTIPLY A BY B C.        <-- B = A*B , C = A*C
-      MULTIPLY A BY B GIVING E. <-- E = A*B
-
-        <SAMPLE CODE>
-          IDENTIFICATION DIVISION.
-          PROGRAM-ID. HELLO.
-
-          DATA DIVISION.
-            WORKING-STORAGE SECTION.
-            01 WS-NUM1 PIC 9(9) VALUE 10 .
-            01 WS-NUM2 PIC 9(9) VALUE 10.
-            01 WS-NUM3 PIC 9(9) VALUE 10.
-            01 WS-NUMA PIC 9(9) VALUE 10.
-            01 WS-NUMB PIC 9(9) VALUE 10.
-            01 WS-NUMC PIC 9(9) VALUE 10.
-
-          PROCEDURE DIVISION.
-            MULTIPLY WS-NUM1 BY WS-NUM2 WS-NUM3. <-- WS-NUM2 = 000000100 , WS-NUM3 = 000000100
-            MULTIPLY WS-NUMA BY WS-NUMB GIVING WS-NUMC. <-- WS-NUMC = 10 * 10 = 000000100
-
-    [DIVIDE] VERB : 除法用
-
-      DIVIDE A INTO B. <-- B = B/A.
-      DIVIDE A BY B GIVING C REMAINDER R <-- 注意(和上面的式子不同哦): C = A / B , R = 餘數
-
-        <SAMPLE CODE>
-          IDENTIFICATION DIVISION.
-          PROGRAM-ID. HELLO.
-
-          DATA DIVISION.
-            WORKING-STORAGE SECTION.
-            01 WS-NUM1 PIC 9(9) VALUE 5.
-            01 WS-NUM2 PIC 9(9) VALUE 250.
-            01 WS-NUMA PIC 9(9) VALUE 100.
-            01 WS-NUMB PIC 9(9) VALUE 15.
-            01 WS-NUMC PIC 9(9).
-            01 WS-REM PIC 9(9). 
-
-          PROCEDURE DIVISION.
-            DIVIDE WS-NUM1 INTO WS-NUM2. <-- WS-NUM2 = 250 / 5 = 000000050.
-            DIVIDE WS-NUMA BY WS-NUMB GIVING WS-NUMC REMAINDER WS-REM. <-- WS-NUMC = 100 / 15 = 000000006 | WS-REM = 0000010
-
-          STOP RUN.
-    
-    [COMPUTE] Statements : 四乘運算用, 使用 (+-*/) 符號作運算
-
-      COMPUTE WS-NUMC = (WS-NUM1 * WS-NUM2) - (WS-NUMA / WS-NUMB) + WS-NUM3.
-
-        <SAMPLE CODE>
-          IDENTIFICATION DIVISION.
-          PROGRAM-ID. HELLO.
-
-          DATA DIVISION.
-            WORKING-STORAGE SECTION.
-            01 WS-NUM1 PIC 9(9) VALUE 10 .
-            01 WS-NUM2 PIC 9(9) VALUE 10.
-            01 WS-NUM3 PIC 9(9) VALUE 10.
-            01 WS-NUMA PIC 9(9) VALUE 50.
-            01 WS-NUMB PIC 9(9) VALUE 10.
-            01 WS-NUMC PIC 9(9).
-
-          PROCEDURE DIVISION.
-            COMPUTE WS-NUMC = (WS-NUM1 * WS-NUM2) - (WS-NUMA / WS-NUMB) + WS-NUM3. <-- WS-NUMC = 100 - 5 + 10 = 000000105
-
-          STOP RUN.
-
-6. Data Layout
-    [REDEFINE] CLAUSE : 原變數 => 參考成 '新資料型態變數'. (兩者值永遠相同)
-      
-      01  WS-OLD PIC X(10).
-      01  WS-NEW1 REDEFINE WS-OLD PIC 9(8).
-      01  WS-NEW2 REDEFINE WS-OLD PIC A(10).
-
-      MOVE '1234567890' TO WS-OLD.
-      *> WS-NEW1 == 12345678
-      *> WS-NEW2 == '1234567890'
-
-      MOVE '5656' TO WS-OLD.
-      *> WS-NEW1 == 12345678
-      *> WS-NEW2 == '1234567890'
-
-      注意事項:
-      # Level numbers of redefined item and redefining item must be the same and it cannot be 66 or 88 level number. 
-      # Do not use VALUE clause with a redefining item. 
-      # In File Section, do not use a redefines clause with 01 level number. 
-      # Redefines definition must be the next data description you want to redefine. 
-      # A redefining item will always have the same value as a redefined item.
-      註: '原變數'改變時, '新資料型態變數'跟著變, 兩者值永遠相同.
-        
-    [RENAME] CLAUSE : 重新組合現有資料, 再命名. (Level 66 => RENAME專用)
-
-      注意事項: 
-      # RENAME 可以跨 GROUP OR Elementary Items 組合.
-      # RENAME 只能用於 same level.
-      # RENAME 必須緊接在 組合資料項目的後面.
-      # 不能針對 01, 77, 66 level number項目作 RENAME.
-      # RENAME 的項目必須依序排序.
-      # RENAME 不能針對 使用 OCCUR clause 的資料項目.
-
-      程式範例:
-        IDENTIFICATION DIVISION.
-        PROGRAM-ID. HELLO.
+      Picture Clause(資料型態)
+        9 數值
+        A 字元,空白
+        X 英數字,特殊字元
+        V implicit decimal(小數點)
+        S 正負號
+        P assumed decimal(假設是小數點)
 
         DATA DIVISION.
           WORKING-STORAGE SECTION.
-          01 WS-DESCRIPTION.
-          05 WS-NUM.
-          10 WS-NUM1 PIC 9(2) VALUE 20.
-          10 WS-NUM2 PIC 9(2) VALUE 56.
-          05 WS-CHAR.
-          10 WS-CHAR1 PIC X(2) VALUE 'AA'.
-          10 WS-CHAR2 PIC X(2) VALUE 'BB'.
-          66 WS-RENAME RENAMES WS-NUM2 THRU WS-CHAR2.
+          01 WS-NUM1 PIC S9(3)V9(2).              <-- +000.00
+          01 WS-NUM2 PIC PPP999.                  <-- .000000
+          01 WS-NUM3 PIC S9(3)V9(2) VALUE -123.45 <-- -123.45
+          01 WS-NAME PIC A(6) VALUE 'ABCDEF'.     <-- ABCDEF
+          01 WS-ID PIC X(5) VALUE 'A123$'.        <-- A123$
+      
+      VALUE Clause
+        OPTIONAL Clause , 可用於 GROUP Item AND Elementary Item
+        設定初值用
 
-        PROCEDURE DIVISION.
-          DISPLAY "WS-RENAME : " WS-RENAME.
-        *> 執行結果 => 'WS-RENAME : 56AABB'
-          
-        STOP RUN.
-
-    [USAGE] CLAUSE : 指定資料在os內的儲存大小
-
-      注意事項:
-      # 不能用在 level 66 OR 88.
-      # 若 USAGE CLAUSE指定在 GROUP上, 則下面的 Elementary ITEM 均相同.
-
-      種類:
-      1. DISPLAY: ASCII FORMAT, 每個字元 1 BYTE(預設值)
-        EX.
-          01 WS-NUM PIC S9(5)V9(3) USAGE IS DISPLAY. 
-         *> //需要 8 BYTES, SIGN & DECIMAL 不佔 BYTES.
-
-          01 WS-NUM PIC 9(5) USAGE IS DISPLAY.
-         *> //需要 5 BYTES
-
-      2. COMP: BINARY FORMAT, 算法比較特別.
-        
-        //這裡有加 S (有正負號,所以要2倍空間). 註: 均為 2的倍數, 2, 4, 8,..
-        01 WS-NUM PIC S9(n) USAGE IS COMP. 
-          If 'n' = 1 to 4, it takes 2 bytes.
-          If 'n' = 5 to 9, it takes 4 bytes.
-          If 'n' = 10 to 18, it takes 8 bytes.
-
-        01 WS-NUM PIC 9(n) USAGE IS COMP. //沒有加 S (正數).
-          Number of bytes = n/2 (If n is even)
-          Number of bytes = n/2 + 1(If n is odd, consider only integer part)
-
-        01 WS-NUM PIC 9(4) USAGE IS COMP-3 VALUE 21.
-          It requires 2 bytes of storage as each digit occupies half a byte.
-
-        01 WS-NUM PIC 9(5) USAGE IS COMP-3 VALUE 21.
-          It requires 3 bytes of storage as each digit occupies half a byte.
-
-    [COPYBOOKS] : 資料定義-共用, 可引入不同程式中的 DATA DIVISION.
-
-      程式範例:
         DATA DIVISION.
-        WORKING-STORAGE SECTION.
-       *> ABC 就是1個COPYBOOKS Name.
-        COPY ABC.
-       
-       *> ABC 定義在這裡
-        01 WS-DESCRIPTION.
-          05 WS-NUM.
+          WORKING-STORAGE SECTION.
+          01 WS-NUM1 PIC 99V9 VALUE IS 25.9.  <-- 25.9 OR 03.5 OR 00.5
+          01 WS-NAME PIC A(6) VALUE 'TAIWAN'. <-- TAIWAN OR USA OR JAPAN
+          01 WS-ID PIC 99 VALUE ZERO.         <-- 00
+
+    5.BASIC VERBS
+      INPUT/OUTPUT VERBS
+        [ACCEPT] VERBS
+          ACCEPT WS-STUDENT-NAME. <--GET DATA FROM JCL , USER INPUT
+          ACCEPT WS-DATE FROM SYSTEM-DATE.  <-- GET DATA FROM OS , NEED A "FROM" KEYWORD
+        
+        [DISPLAY] VERB
+          DISPLAY WS-STUDENT-NAME.
+          DISPLAY "SYSTEM DATE IS " WS-DATE.
+
+          <SAMPLE CODE>
+            IDENTIFICATION DIVISION.
+            PROGRAM-ID. HELLO.
+
+            DATA DIVISION.
+              WORKING-STORAGE SECTION.
+              01 WS-STUDENT-NAME PIC X(25).
+              01 WS-DATE PIC X(10).
+              
+            PROCEDURE DIVISION.
+              ACCEPT WS-STUDENT-NAME. <-- GET FROM JCL INPUT
+              ACCEPT WS-DATE FROM DATE.
+              DISPLAY "NAME : " WS-STUDENT-NAME.
+              DISPLAY "DATE : " WS-DATE.
+
+            STOP RUN.
+        
+        [INITIALIZE] VERB
+          RENAME Clause 不能被初始化
+          NUMERIC DATA Items 初始化後為 ZEROES.
+          ALPHANUMERIC OR ALPHABETIC 初始化後為 SPACES.
+          REPLACING term 以指定值作初始化
+
+          <SAMPLE CODE>
+            IDENTIFICATION DIVISION.
+            PROGRAM-ID. HELLO.
+
+            DATA DIVISION.
+              WORKING-STORAGE SECTION.
+              01 WS-NAME PIC A(30) VALUE 'ABCDEF'.
+              01 WS-ID PIC 9(5).
+              01 WS-ADDRESS.
+                05  WS-HOUSE-NUMBER PIC 9(3).
+                05  WS-COUNTRY PIC X(15).
+                05  WS-PINCODE PIC 9(6) VALUE 123456.
+                
+            PROCEDURE DIVISION.
+              A000-FIRST-PARA.
+              INITIALIZE WS-NAME , WS-ADDRESS.  <-- WS-NAME = '30個空白' , WS-ADDRESS = 000'15個空白'000000
+              INITIALIZE WS-ID REPLACING NUBERIC DATA BY 12345. <-- WS-ID = 12345
+
+            STOP RUN.
+        
+        [MOVE] VERB
+          MOVE(X:L) X = 起始位置(COBOL是從1起算) , L = 長度
+            ex. MOVE(3:6) , 第3個位置(含), 往後算6個字元
+          COPY DATA FROM SOURCE TO DESTINATION.
+          CAN BE USED BOTH <GROUP Items> AND <Elementary Items>
+            FOR GROP Items , [MOVE CORRESPONDING/CORR]
+          
+            <SAMPLE CODE>
+              IDENTIFICATION DIVISION.
+              PROGRAM-ID. HELLO.
+
+              DATA DIVISION.
+                WORKING-STORAGE SECTION.
+                01 WS-NUM1 PIC 9(9).
+                01 WS-NUM2 PIC 9(9).
+                01 WS-NUM3 PIC 9(5).
+                01 WS-NUM4 PIC 9(6).
+                01 WS-ADDRESS. 
+                  05 WS-HOUSE-NUMBER PIC 9(3).
+                  05 WS-COUNTRY PIC X(5).
+                  05 WS-PINCODE PIC 9(6).
+                01 WS-ADDRESS1. 
+                  05 WS-HOUSE-NUMBER1 PIC 9(3).
+                  05 WS-COUNTRY1 PIC X(5).
+                  05 WS-PINCODE1 PIC 9(6).
+
+              PROCEDURE DIVISION.
+                A000-FIRST-PARA.
+                MOVE 123456789 TO WS-NUM1.        <-- WS-NUM1 = 123456789
+                MOVE WS-NUM1 TO WS-NUM2 WS-NUM3.  <-- WS-NUM2 = 123456789 , WS-NUM3 = 56789(注意:是前面 1234 被截掉)
+                MOVE WS-NUM1(3:6) TO WS-NUM4.       <-- WS-NUM4 = 345678
+                MOVE 123 TO WS-HOUSE-NUMBER.      <-- WS-HOUSE-NUMBER = 123
+                MOVE 'TAIWAN' TO WS-COUNTRY.      <-- WS-COUNTRY = 'TAIWA' (注意:字元 N 被截掉)
+                MOVE 159753 TO WS-PINCODE.        <-- WS-PINCODE = 159753
+                MOVE WS-ADDRESS TO WS-ADDRESS1.   <-- GROUP ITEM IS OK
+
+              STOP RUN.
+        
+        [ADD] VERB : 加法用
+          
+          SAMPLE-1 : ADD A B TO C D.  <-- C = A+B+C , D = A+B+D
+          SAMPLE-2 : ADD A B C TO D GIVING E. <-- E = A+B+C+D (注意: E 原值被加總值取代 , 不會一起加進去)
+          SAMPLE-3 : ADD CORR WS-GROUP1 TO WS-GROUP2. <-- WS-GROUP2 = WS-GROUP1 + WS-GROUP2
+
+            <SAMPLE CODE>
+              IDENTIFICATION DIVISION.
+              PROGRAM-ID. HELLO.
+
+              DATA DIVISION.
+                WORKING-STORAGE SECTION.
+                01 WS-NUM1 PIC 9(9) VALUE 10 .
+                01 WS-NUM2 PIC 9(9) VALUE 10.
+                01 WS-NUM3 PIC 9(9) VALUE 10.
+                01 WS-NUM4 PIC 9(9) VALUE 10.
+                01 WS-NUMA PIC 9(9) VALUE 10.
+                01 WS-NUMB PIC 9(9) VALUE 10.
+                01 WS-NUMC PIC 9(9) VALUE 10.
+                01 WS-NUMD PIC 9(9) VALUE 10.
+                01 WS-NUME PIC 9(9) VALUE 10.
+
+              PROCEDURE DIVISION.
+                ADD WS-NUM1 WS-NUM2 TO WS-NUM3 WS-NUM4.  <-- WS-NUM3 = 000000030 , WS-NUM4 = 000000030
+                ADD WS-NUMA WS-NUMB WS-NUMC TO WS-NUMD GIVING WS-NUME. <-- WS-NUME = 000000040
+
+              STOP RUN.
+        
+        [SUBTRACT] VERB : 減法用
+          
+          SAMPLE-1 : SUBTRACT A B FROM C D.  <-- C = C-(A+B) , D = D-(A+B)
+          SAMPLE-2 : SUBTRACT A B C FROM D GIVING E. <-- E = D-(A+B+C) (注意: E原值被取代 , 不會一起作運算)
+          SAMPLE-3 : SUBTRACT CORR WS-GROUP1 TO WS-GROUP2. <-- WS-GROUP2 = WS-GROUP2 - WS-GROUP1
+
+            <SAMPLE CODE>
+              IDENTIFICATION DIVISION.
+              PROGRAM-ID. HELLO.
+
+              DATA DIVISION.
+                WORKING-STORAGE SECTION.
+                01 WS-NUM1 PIC 9(9) VALUE 10 .
+                01 WS-NUM2 PIC 9(9) VALUE 10.
+                01 WS-NUM3 PIC 9(9) VALUE 100.
+                01 WS-NUM4 PIC 9(9) VALUE 100.
+                01 WS-NUMA PIC 9(9) VALUE 10.
+                01 WS-NUMB PIC 9(9) VALUE 10.
+                01 WS-NUMC PIC 9(9) VALUE 10.
+                01 WS-NUMD PIC 9(9) VALUE 100.
+                01 WS-NUME PIC 9(9) VALUE 10.
+
+              PROCEDURE DIVISION.
+                SUBTRACT WS-NUM1 WS-NUM2 FROM WS-NUM3 WS-NUM4.  <-- WS-NUM3 = 000000080 , WS-NUM4 = 000000080
+                SUBTRACT WS-NUMA WS-NUMB WS-NUMC FROM WS-NUMD GIVING WS-NUME. <-- WS-NUME = 70 = 100 - (10+10+10)
+
+              STOP RUN.
+
+        [MULTIPLY] VERB : 乘法用
+          
+          MULTIPLY A BY B C.        <-- B = A*B , C = A*C
+          MULTIPLY A BY B GIVING E. <-- E = A*B
+
+            <SAMPLE CODE>
+              IDENTIFICATION DIVISION.
+              PROGRAM-ID. HELLO.
+
+              DATA DIVISION.
+                WORKING-STORAGE SECTION.
+                01 WS-NUM1 PIC 9(9) VALUE 10 .
+                01 WS-NUM2 PIC 9(9) VALUE 10.
+                01 WS-NUM3 PIC 9(9) VALUE 10.
+                01 WS-NUMA PIC 9(9) VALUE 10.
+                01 WS-NUMB PIC 9(9) VALUE 10.
+                01 WS-NUMC PIC 9(9) VALUE 10.
+
+              PROCEDURE DIVISION.
+                MULTIPLY WS-NUM1 BY WS-NUM2 WS-NUM3. <-- WS-NUM2 = 000000100 , WS-NUM3 = 000000100
+                MULTIPLY WS-NUMA BY WS-NUMB GIVING WS-NUMC. <-- WS-NUMC = 10 * 10 = 000000100
+
+        [DIVIDE] VERB : 除法用
+
+          DIVIDE A INTO B. <-- B = B/A.
+          DIVIDE A BY B GIVING C REMAINDER R <-- 注意(和上面的式子不同哦): C = A / B , R = 餘數
+
+            <SAMPLE CODE>
+              IDENTIFICATION DIVISION.
+              PROGRAM-ID. HELLO.
+
+              DATA DIVISION.
+                WORKING-STORAGE SECTION.
+                01 WS-NUM1 PIC 9(9) VALUE 5.
+                01 WS-NUM2 PIC 9(9) VALUE 250.
+                01 WS-NUMA PIC 9(9) VALUE 100.
+                01 WS-NUMB PIC 9(9) VALUE 15.
+                01 WS-NUMC PIC 9(9).
+                01 WS-REM PIC 9(9). 
+
+              PROCEDURE DIVISION.
+                DIVIDE WS-NUM1 INTO WS-NUM2. <-- WS-NUM2 = 250 / 5 = 000000050.
+                DIVIDE WS-NUMA BY WS-NUMB GIVING WS-NUMC REMAINDER WS-REM. <-- WS-NUMC = 100 / 15 = 000000006 | WS-REM = 0000010
+
+              STOP RUN.
+        
+        [COMPUTE] Statements : 四乘運算用, 使用 (+-*/) 符號作運算
+
+          COMPUTE WS-NUMC = (WS-NUM1 * WS-NUM2) - (WS-NUMA / WS-NUMB) + WS-NUM3.
+
+            <SAMPLE CODE>
+              IDENTIFICATION DIVISION.
+              PROGRAM-ID. HELLO.
+
+              DATA DIVISION.
+                WORKING-STORAGE SECTION.
+                01 WS-NUM1 PIC 9(9) VALUE 10 .
+                01 WS-NUM2 PIC 9(9) VALUE 10.
+                01 WS-NUM3 PIC 9(9) VALUE 10.
+                01 WS-NUMA PIC 9(9) VALUE 50.
+                01 WS-NUMB PIC 9(9) VALUE 10.
+                01 WS-NUMC PIC 9(9).
+
+              PROCEDURE DIVISION.
+                COMPUTE WS-NUMC = (WS-NUM1 * WS-NUM2) - (WS-NUMA / WS-NUMB) + WS-NUM3. <-- WS-NUMC = 100 - 5 + 10 = 000000105
+
+              STOP RUN.
+
+    6. Data Layout
+        [REDEFINE] CLAUSE : 原變數 => 參考成 '新資料型態變數'. (兩者值永遠相同)
+          
+          01  WS-OLD PIC X(10).
+          01  WS-NEW1 REDEFINE WS-OLD PIC 9(8).
+          01  WS-NEW2 REDEFINE WS-OLD PIC A(10).
+
+          MOVE '1234567890' TO WS-OLD.
+          *> WS-NEW1 == 12345678
+          *> WS-NEW2 == '1234567890'
+
+          MOVE '5656' TO WS-OLD.
+          *> WS-NEW1 == 12345678
+          *> WS-NEW2 == '1234567890'
+
+          注意事項:
+          # Level numbers of redefined item and redefining item must be the same and it cannot be 66 or 88 level number. 
+          # Do not use VALUE clause with a redefining item. 
+          # In File Section, do not use a redefines clause with 01 level number. 
+          # Redefines definition must be the next data description you want to redefine. 
+          # A redefining item will always have the same value as a redefined item.
+          註: '原變數'改變時, '新資料型態變數'跟著變, 兩者值永遠相同.
+            
+        [RENAME] CLAUSE : 重新組合現有資料, 再命名. (Level 66 => RENAME專用)
+
+          注意事項: 
+          # RENAME 可以跨 GROUP OR Elementary Items 組合.
+          # RENAME 只能用於 same level.
+          # RENAME 必須緊接在 組合資料項目的後面.
+          # 不能針對 01, 77, 66 level number項目作 RENAME.
+          # RENAME 的項目必須依序排序.
+          # RENAME 不能針對 使用 OCCUR clause 的資料項目.
+
+          程式範例:
+            IDENTIFICATION DIVISION.
+            PROGRAM-ID. HELLO.
+
+            DATA DIVISION.
+              WORKING-STORAGE SECTION.
+              01 WS-DESCRIPTION.
+              05 WS-NUM.
               10 WS-NUM1 PIC 9(2) VALUE 20.
               10 WS-NUM2 PIC 9(2) VALUE 56.
-          05 WS-CHAR.
+              05 WS-CHAR.
               10 WS-CHAR1 PIC X(2) VALUE 'AA'.
               10 WS-CHAR2 PIC X(2) VALUE 'BB'.
+              66 WS-RENAME RENAMES WS-NUM2 THRU WS-CHAR2.
 
-7. Conditional Statements
+            PROCEDURE DIVISION.
+              DISPLAY "WS-RENAME : " WS-RENAME.
+            *> 執行結果 => 'WS-RENAME : 56AABB'
+              
+            STOP RUN.
 
-    [IS], [NOT], [OR]
+        [USAGE] CLAUSE : 指定資料在os內的儲存大小
 
-    [IF] : 是否條件
-      
-      "IF ... THEN ... END-IF."
+          注意事項:
+          # 不能用在 level 66 OR 88.
+          # 若 USAGE CLAUSE指定在 GROUP上, 則下面的 Elementary ITEM 均相同.
 
-    [RELATION Condition] : 關係條件
+          種類:
+          1. DISPLAY: ASCII FORMAT, 每個字元 1 BYTE(預設值)
+            EX.
+              01 WS-NUM PIC S9(5)V9(3) USAGE IS DISPLAY. 
+            *> //需要 8 BYTES, SIGN & DECIMAL 不佔 BYTES.
 
-       " = (EQUAL TO) , > (GREATER THAN) , < (LESS THAN) , 
-       >= (GREATER THAN OR EQUAL) , <= (LESS THAN OR EQUAL) "
+              01 WS-NUM PIC 9(5) USAGE IS DISPLAY.
+            *> //需要 5 BYTES
 
-    [Sign Condition] : 正負數條件
-      
-      " positive, negative, zero "
+          2. COMP: BINARY FORMAT, 算法比較特別.
+            
+            //這裡有加 S (有正負號,所以要2倍空間). 註: 均為 2的倍數, 2, 4, 8,..
+            01 WS-NUM PIC S9(n) USAGE IS COMP. 
+              If 'n' = 1 to 4, it takes 2 bytes.
+              If 'n' = 5 to 9, it takes 4 bytes.
+              If 'n' = 10 to 18, it takes 8 bytes.
 
-    [CLASS Condition] : 資料型態條件, 數值 或 字元 或 大寫字元 或 小寫字元
-      
-      " numberic, alphabetic, alphabetic-lower, alphabetic-upper "
+            01 WS-NUM PIC 9(n) USAGE IS COMP. //沒有加 S (正數).
+              Number of bytes = n/2 (If n is even)
+              Number of bytes = n/2 + 1(If n is odd, consider only integer part)
 
-    [Condition-name Condition] : 使用者自訂條件.
+            01 WS-NUM PIC 9(4) USAGE IS COMP-3 VALUE 21.
+              It requires 2 bytes of storage as each digit occupies half a byte.
 
-      注意事項: 
-      # Condition-name, 可看作是 Boolean 變數.
-      # Condition-name, 使用 88 Level 作定義.
-      # Condition-name, 須定義 VALUE 值
-      # Condition-name, 不用加 PIC CLAUSE, 它是跟在 GROUP OR Elementary item 後面, 型態依上階DATA ITEM而定.
+            01 WS-NUM PIC 9(5) USAGE IS COMP-3 VALUE 21.
+              It requires 3 bytes of storage as each digit occupies half a byte.
 
-      語法:
-      88 [Condition-name] VALUE [IS, ARE] [LITERAL] [THRU LITERAL]
+        [COPYBOOKS] : 資料定義-共用, 可引入不同程式中的 DATA DIVISION.
 
-      ex.
-      01 WS-NUM PIC 9(3).
-        88 PASS VALUE ARE 041 THRU 100.
-        88 FAIL VALUE ARE 000 THRU 040.
+          程式範例:
+            DATA DIVISION.
+            WORKING-STORAGE SECTION.
+          *> ABC 就是1個COPYBOOKS Name.
+            COPY ABC.
+          
+          *> ABC 定義在這裡
+            01 WS-DESCRIPTION.
+              05 WS-NUM.
+                  10 WS-NUM1 PIC 9(2) VALUE 20.
+                  10 WS-NUM2 PIC 9(2) VALUE 56.
+              05 WS-CHAR.
+                  10 WS-CHAR1 PIC X(2) VALUE 'AA'.
+                  10 WS-CHAR2 PIC X(2) VALUE 'BB'.
+
+    7. Conditional Statements
+
+        [IS], [NOT], [OR]
+
+        [IF] : 是否條件
+          
+          "IF ... THEN ... END-IF."
+
+        [RELATION Condition] : 關係條件
+
+          " = (EQUAL TO) , > (GREATER THAN) , < (LESS THAN) , 
+          >= (GREATER THAN OR EQUAL) , <= (LESS THAN OR EQUAL) "
+
+        [Sign Condition] : 正負數條件
+          
+          " positive, negative, zero "
+
+        [CLASS Condition] : 資料型態條件, 數值 或 字元 或 大寫字元 或 小寫字元
+          
+          " numberic, alphabetic, alphabetic-lower, alphabetic-upper "
+
+        [Condition-name Condition] : 使用者自訂條件.
+
+          注意事項: 
+          # Condition-name, 可看作是 Boolean 變數.
+          # Condition-name, 使用 88 Level 作定義.
+          # Condition-name, 須定義 VALUE 值
+          # Condition-name, 不用加 PIC CLAUSE, 它是跟在 GROUP OR Elementary item 後面, 型態依上階DATA ITEM而定.
+
+          語法:
+          88 [Condition-name] VALUE [IS, ARE] [LITERAL] [THRU LITERAL]
+
+          ex.
+          01 WS-NUM PIC 9(3).
+            88 PASS VALUE ARE 041 THRU 100.
+            88 FAIL VALUE ARE 000 THRU 040.
+        
+        [NEGATIVE Condition] : NOT
+
+          語法:
+          IF NOT [CONDITION] 
+            COBOL Statements
+          END-IF.
+        
+        [COMBINED condition] : AND, OR
+
+          語法:
+          IF [CONDITION] AND [CONDITION]
+            COBOL Statements
+          END-IF.
+
+        [EVALUATE VERB] : 和 SWITCH CASE 功能相同, 多條件判斷, IF-ELSE 的另一選項.
+
+          語法:
+          EVALUATE TRUE
+            WHEN ..
+              ..
+            WHEN ..
+              ..
+            WHEN OTHER
+              ..
+          END-EVALUATE.
+
+    8. Loop Statements
+        [PERFORM THRU]
+          # IN-LINE PERFORM
+            PERFORM 
+              DISPLAY 'HELLO WORLD'
+            END-PERFORM.
+
+          # OUT-LINE PERFORM
+            PERFORM <PARAGRAPH1> THRU <PARAGRAPH4>
+          *> 從 PARAGRAPH1 -> PARAGRAPH2 -> PARAGRAPH3 執行到 PARAGRAPH4 結束.
+
+        [PERFORM UNTIL]
+          注意事項:
+          # WITH TEST BEFORE 是(預設值,先檢查再符合,則停止), 另一選項是 WITH TEST AFTER.
+          # 單純的 [PERFORM WITH TEST BEFORE UNTIL]結果 == [PERFORM WITH TEST AFTER UNTIL]結果
+          # 滿足 UNTIL 後的條件時, 則會停止執行.      
+
+        [PERFORM TIMES]
+          語法:
+            PERFORM paragraph Number? TIMES.
+
+        [PERFORM VARYING]
+          語法:
+            PERFORM paragraph VARYING A FROM 1 BY 1 UNTIL A = 5.
+
+          注意事項:
+            # WITH TEST BEFORE 是(預設值,先檢查再符合,則停止), 另一選項是 WITH TEST AFTER.
+            # 複雜 
+              [PERFORM WITH TEST BEFORE VARYING <variables> FROM 1 BY 1 UNTIL <variables> > 5 ]
+                先比條件,若符合停下來.
+              [PERFORM WITH TEST AFTER VARYING <variables> FROM 1 BY 1 UNTIL <variables> > 5 ]
+                先執行,再比條件.(會多作1次)
+
+        [GO TO]
+          
+          注意事項:
+            # GO TO 和 PERFORM 最大的差異在於 GO TO 不會返回, 而 PERFORM 會.
+            # GO TO 常用於 離開 paragraph.
+
+          語法1: Unconditional GO TO
+            GO TO paragraph.
+
+          語法2: Conditional GO TO
+            GO TO para-1 para-2 para-3 DEPENDING ON x.
+          *> 如果 x = 1, GO TO para-1....
+
+    9. String handling
+
+    10. Table PROCESSING
+
+    11. File handling
+
+    12. File Organization
+
+    13. File Access mode
+
+    14. File Handling VERBS
+
+    15. Subroutines
+
+    16. Database Interface
+
+  [COBOL Interview Questions-面試問題]
+
+    1. COBOL = common business oriented language, 是為了符合企業資料處理而發展的語言.
+
+    2. COBOL 的特性為何? 
+        易於閱讀, 易於偵錯. 可配合企業需求, 處理大量資料. 它是結構化語言.
+
+    3. COBOL 的DIVISION有哪些? 4大division.
+        IDENTIFICATION DIVISION.
+        ENVIRONMENT DIVISION.
+        DATA DIVISION.
+        PROCEDURE DIVSION.
     
-    [NEGATIVE Condition] : NOT
+    4. COBOL 的資料型態?
+        X - 英數字
+        A - 英文字
+        9 - 數值
 
-      語法:
-      IF NOT [CONDITION] 
-        COBOL Statements
-      END-IF.
+    5. 'IS NUMERIC' 的意義為何?
+        判斷變數是否為 數值(0 to 9), 數值可以是正或負數.
+
+    6. LEVEL 66 and LEVEL 88 的功能為何?
+        LEVEL 66 For REDEFINE data item, 可重新組合資料項目值並命名使用.
+        LEVEL 88 For Condition Name, 可視為BOOLEAN值, 作為資料判斷的依據.
+
+    7. Subscript 和 Index 的差異為何?
+        Subscript 是在 Array中的呈現(occurrence)
+        Index 是 Array從開始的移位(idsplacement)
+
+    8. SEARCH 和 SEARCH ALL 的差異為何?
+        SEARCH 是 SERIAL SEARCH(直線搜尋).
+        SEARCH ALL 則是 BINARY SEARCH(二分搜尋), 使用前必須先作排序.
+
+    9. PERFORM SECTION & PERFORM PARAGRAPH 的差異為何?
+        PERFORM SECTION 會 執行SECTION內包含的所有PARAGRAPH.
+        PERFORM PARAGRAPH 則只執行特定 PARAGRAPH.
+        結論: PERFORM SECTION 1次可執行多個 PARAGRAPH.
+
+    10. SCOPE TERMINATOR 代表的含意?
+          用來標註 VERB 的結束. 例: IF AND END-IF.
+
+    11. COBOL 的 FILE OPENING MODE有哪些?
+          OPEN INPUT fileVariable.  //讀取
+          OPEN OUTPUT fileVariable. //寫入模式
+          OPEN I-O fileVariable.    //可讀可寫
+          OPEN EXTEND fileVariable. //寫入模式
+
+    12. COBOL NUMERIC數值型態 最大長度?
+          PIC 9(18).
+
+    13. CONTINUE & NEXT SENTENCE 的差異為何?
+          CONTINUE : 將程式流移至VERB結束 的下一個指令.(TO THE NEXT STATEMENT AFTER THE SCOPE TERMINATOR)
+          NEXT SENTENCE : 將程式流移至最近1個句點(.) 的下一個指令. (TO THE STATEMENT AFTER THE FIRST PERIOND IS ENCOUNTERED.)
+
+    14. 為什麼不能在 01 LEVEL 上使用 OCCURS 子句?
+          01 LEVEL 是 紀錄層級(RECORD LEVEL), 我們重複紀錄內的欄位(FIELD), 而非紀錄本身.
+          所以 01 LEVEL 上不能使用 OCCURS 子句.
+
+    15. 開檔寫入要用什麼模式?
+          OPEN OUTPUT fileVariable.
+          OPEN EXTEND fileVariable.
+
+    16. CALL BY CONTENT & CALL BY REFERENCE 的差異為何?
+          CALL BY CONTENT, 保護傳入參數值不被異動.
+          CALL BY REFERENCE, 傳入參數值可被異動.
     
-    [COMBINED condition] : AND, OR
+    17. LINK SECTION. 用途為何?
+          在被呼叫端程式(CALLED PROGRAM)內定義 
+            用來與 
+          呼叫端程式(CALLING PROGRAM)內的 WORKING-STORAGE SECTIONS. 建立連接使用.
 
-      語法:
-      IF [CONDITION] AND [CONDITION]
-        COBOL Statements
-      END-IF.
+    18. 使用 'GO BACK' 來取代 'STOP RUN' 的結果是?
+          會產生無限迴圈(INFINITE LOOP)
 
-    [EVALUATE VERB] : 和 SWITCH CASE 功能相同, 多條件判斷, IF-ELSE 的另一選項.
+    19. 正負號(SIGN)如何儲存於COMP-3的欄位?
+          它會放在最後1個半位元組(LAST NIBBLE)
 
-      語法:
-      EVALUATE TRUE
-        WHEN ..
-          ..
-        WHEN ..
-          ..
-        WHEN OTHER
-          ..
-      END-EVALUATE.
+    20. COMP & COMP-3間的差異?
+          COMP, 使用 1 個BYTE來儲存(BINARY USAGE).
+          COMP-3, PACKED DECIMAL.
+    
+    21. IDENTIFICATION DIVISION 用途為何?
+          定義程式名稱. PROGRAM-ID. PGNAME.
+          定義開發者. AUTHOR. KL.
+          文件紀錄使用.
+          
+    22. STATIC CALL & DYNAMIC CALL 差異為何?
+          STATIC CALL, THE CALLED PROGRAM 是1個可被獨立呼叫的執行檔.
+          DYNAMIC CALL, THE CALLED PROGRAM 不是可執行檔, 它只能透過 CALLED PROGRAM 被執行.
 
-8. Loop Statements
-    [PERFORM THRU]
-      # IN-LINE PERFORM
-        PERFORM 
-          DISPLAY 'HELLO WORLD'
-        END-PERFORM.
+    23. REDEFINE 子句用途為何?
+          重新組合現有資料項目, 並可命名使用.
+          使用保留的 LEVEL 66 DATA ITEM.
+          允許相同的資料儲存項目, 被不同資料名稱所參考.
+    
+    24. STRING COMMAND中 POINTER PHRASE 的目的?
+          指定 LEFTMOST 位置
 
-      # OUT-LINE PERFORM
-        PERFORM <PARAGRAPH1> THRU <PARAGRAPH4>
-       *> 從 PARAGRAPH1 -> PARAGRAPH2 -> PARAGRAPH3 執行到 PARAGRAPH4 結束.
+    25. LEVEL 77 的用途為何?
+          它是 ELEMENTARY ITEM , 限定不能被分割(SUBdivided).
 
-    [PERFORM UNTIL]
-      注意事項:
-      # WITH TEST BEFORE 是(預設值,先檢查再符合,則停止), 另一選項是 WITH TEST AFTER.
-      # 單純的 [PERFORM WITH TEST BEFORE UNTIL]結果 == [PERFORM WITH TEST AFTER UNTIL]結果
-      # 滿足 UNTIL 後的條件時, 則會停止執行.      
+    26. 什麼是 BINARY SEARCH?
+          二元搜尋, 資料必須先排序, 再與中間值進行比較的搜尋方法.
 
-    [PERFORM TIMES]
-      語法:
-        PERFORM paragraph Number? TIMES.
+    27. EVALUATE 用途為何?
+          類似C#的SWITCH的評估語法, 可作為 IF..END-IF.的替代方案.
+          EVALUATE TRUE
+            WHEN ..
+              ..
+            WHEN ..
+              ..
+            WHEN OTHER
+              ..
 
-    [PERFORM VARYING]
-      語法:
-        PERFORM paragraph VARYING A FROM 1 BY 1 UNTIL A = 5.
+          END-EVALUATE.
 
-      注意事項:
-        # WITH TEST BEFORE 是(預設值,先檢查再符合,則停止), 另一選項是 WITH TEST AFTER.
-        # 複雜 
-          [PERFORM WITH TEST BEFORE VARYING <variables> FROM 1 BY 1 UNTIL <variables> > 5 ]
-            先比條件,若符合停下來.
-          [PERFORM WITH TEST AFTER VARYING <variables> FROM 1 BY 1 UNTIL <variables> > 5 ]
-            先執行,再比條件.(會多作1次)
+    28. 能否在 X(20) 中 REDEFINE 1個 X(10)?
+          可以
+    
+    29. COMP-1 & COMP-2
+          COMP-1 是單精度浮點數, 使用 4 BYTES儲存.
+          COMP-2 則是雙精度浮點數, 使用 8 BYTES儲存.
+    
+    30. ACCEPT 用途為何?
+          # 接收前端輸入值至變數內.
+          # 取得系統資訊至變數內. EX. ACCEPT WSDATE FROM DATE YYYYMMDD. ACCEPT WSTIME FROM TIME.
 
-    [GO TO]
-      
-      注意事項:
-        # GO TO 和 PERFORM 最大的差異在於 GO TO 不會返回, 而 PERFORM會.
-        # GO TO 常用於 離開 paragraph.
+    31. COMPUTE 用途為何?
+          進行四則運算使用, 可取代 ADD, MULTIPLY, SUBTRACT, DIVIDE.
+    
+    32. 如何定義檔案 被參考於 SUBROUTINE PROGRAM ?
+          Supply the DD cards in JCL just as you would for files referred to in the main program
+    
+    33. COBOL PROGRAM內, 強制區域有哪些?
+          IDENTIFICATION DIVISION. //REQUIRED
+          PROGRAM-ID. TEST. //REQUIRED
 
-      語法1: Unconditional GO TO
-        GO TO paragraph.
+          PROCEDURE DIVISION.
+          BEGIN.
+            STOP RUN.
 
-      語法2: Conditional GO TO
-        GO TO para-1 para-2 para-3 DEPENDING ON x.
-       *> 如果 x = 1, GO TO para-1....
+    34. AREA B 從哪開始?
+          01-06 LINE
+          07    COMMENT
+          08-11 AREA a
+          12-72 AREA b
+    
+    35. FILE-CONTROL 定義在哪裡?
+          定義在 ENVIROMENT DIVISION / INPUT-OUTPUT SECTION. 下面
 
-9. String handling
+          IDENTIFICATION DIVISION.
+          PROGRAM-ID. TEST.
 
-10. Table PROCESSING
-
-11. File handling
-
-12. File Organization
-
-13. File Access mode
-
-14. File Handling VERBS
-
-15. Subroutines
-
-16. Database Interface
-
+          ENVIRONMENT DIVISION.
+          INPUT-OUTPUT SECTION. //別忘了..
+          FILE-CONTROL.
+            SELECT fileVaraible ASSIGN TO "FILE.DAT"
+              ORGANIZATION IS LINE SEQUENTIAL
+              ACCESS MODE IS SEQUENTIAL.
+    
+    36. PERFORM WITH TEST AFTER & PERFORM WITH TEST BEFORE 的差異?
+          WITH TEST AFTER, 先作再檢查
+          WITH TEST BEFORE, 先檢查再作(預設值)
+          差異發生在 加入 VARYING FROM 1 BY 1 ,才會出現.
+    
+    37. 
