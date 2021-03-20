@@ -1609,6 +1609,8 @@
           
           " numberic, alphabetic, alphabetic-lower, alphabetic-upper "
 
+          Spaces are considered in ALPHABETIC, ALPHABETIC-LOWER, and ALPHABETIC-UPPER.
+
         [Condition-name Condition] : 使用者自訂條件.
 
           注意事項: 
@@ -1951,3 +1953,10 @@
     
     46. S9(7), 佔幾個BYTE?
           9(7) 佔 7 個 + S 佔 1 個 = 8個 BYTES.
+
+    47. COBOL 編譯工具?
+          'IGCRCTL' utility is used to compile a COBOL program.
+
+    48. PHYSICAL RECORD & LOGIC RECORD 間的差異?
+          Physical record is the information that exists on the external device and 
+          Logical record is the information which is used by the program.
