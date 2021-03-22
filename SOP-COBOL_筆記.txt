@@ -110,7 +110,7 @@
        BEGIN.
       *>   DISPLAY "ENTER FIRST NUMBER (1 DIGIT):" WITH NO ADVANCING.
       *>   DISPLAY + [WITH NO ADVANCING]. 表示不加換行符號; 
-      *>          沒+ [WITH NO ADVANCING]. 則會自動加換行符號.
+      *>        沒 + [WITH NO ADVANCING]. 則會自動加換行符號.
            DISPLAY "ENTER FIRST NUMBER (1 DIGIT):" WITH NO ADVANCING.
            ACCEPT Num1.
            DISPLAY "ENTER second NUMBER (1 DIGIT):" WITH NO ADVANCING.
@@ -157,7 +157,7 @@
   # 條件式(LEVEL 88 條件名稱[Condition Names], Condition, EVALUATE TRUE..WHEN..END-EVALUATE, PERFORM UNTIL NOT xx ...END-PERFORM.)
     1.LEVEL 88 條件名稱 + EVALUATE 合併使用.(範例寫法, 真的太美了..)      
     2.LEVEL 88 條件名稱, 可作為 EVALUATE WHEN 條件式使用.
-    3.LEVEL 88 不用定義類別, 直接給條件值.ex. 88 Vowel VALUE "XXX"
+    3.LEVEL 88 不能定義類別, 直接給條件值.ex. 88 Vowel VALUE "XXX"
     4.LEVEL 88 資料型態, 依上階定義為準.
     5.LEVEL 88 資料值, 可以給多值, 以 ',' 或 ' ' 隔開即可.
     6.LEVEL 88 可以用 'SET <LEVEL 88> TO TRUE'.
@@ -224,7 +224,7 @@
 
   # 執行多次(Type2: PERFORM ? TIMES .. END-PERFORM | PERFORM <paragraph-name> ? TIMES)
     
-    1.用法1: PERFORM <要執行的程式段落 xx-paragraph-name> Number? TIMES
+    1.用法1: PERFORM <paragraph-name> Number? TIMES
     2.用法2: PERFORM Number? TIMES <要執行的程式碼指令...> END-PERFORM.
        
        IDENTIFICATION DIVISION.
@@ -342,7 +342,7 @@
        DATA DIVISION.
        WORKING-STORAGE SECTION.
        01  LoopCount PIC 9 VALUE zeroes.
-       01  LoopCount2 PIC S9 value zeros.
+       01  LoopCount2 PIC S9 value zeros. //若未加上 S , 則 LoopCount2 永遠都是正數
 
        PROCEDURE DIVISION.
        Begin.
@@ -417,7 +417,6 @@
            DISPLAY "[End] Perform Multiple LOOP - inline code".
            
            STOP RUN.
-
 
        CountMilage.
            Move HundredsCount to PrnHunds
@@ -926,19 +925,309 @@
 
            CLOSE StudentFile.
 
-  # 合併:
+  # 合併: (MERGE)
+      注意事項
+        1. MERGE 無法排除重複項目, 只單純把資料合併
+        2. 如須排除重複項目, 請參考: '寫檔(插入資料, 比對是否存在, 匯出合併後新檔)'
 
-  ==先略過BEGIN==
-  # 案例1:
+      程式範例:
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. MERGEFILES.
+      *> MERGE 無法排除重複項目, 只單純把資料合併
+       
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT StudentFile ASSIGN TO "Student.DAT"
+             ORGANIZATION IS LINE SEQUENTIAL.
 
-  # 案例2:
+           SELECT TranFile ASSIGN TO "TRANS-forInsert.DAT"
+             ORGANIZATION IS LINE SEQUENTIAL.
 
-  # 案例3:
+           SELECT NewStudentFile ASSIGN TO "STUDENTs-Merged.dat"
+             ORGANIZATION IS LINE SEQUENTIAL.
 
-  # 案例4:
-  ==先略過BEGIN==
+           SELECT WorkFile ASSIGN TO "WORK.TMP".
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD  StudentFile.
+       01  StudentRec PIC X(30).
+
+       FD  TranFile.
+       01  TranRec PIC X(30).
+
+       FD  NewStudentFile.
+       01  NewStudentRec PIC X(30).
+
+       SD  WorkFile.
+       01  WorkRec.
+           03  wStudentId  PIC X(7).
+           03  FILLER      PIC X(23).
+
+       PROCEDURE DIVISION.
+       BEGIN.
+           MERGE WorkFile
+               ON ASCENDING KEY wStudentId
+               USING TranFile, StudentFile
+               GIVING NewStudentFile.
+           STOP RUN.
+
+  ==先略過 BEGIN ==
+  
+  # 案例1: AromaSalesRpt
+
+  # 案例2: CSISEmailDomain
+
+  # 案例3: BestSellers
+
+  # 案例4: DueSubRpt
+
+  ==先略過 END ==
 
   [Direct Access Files]
+  
+  # 新增 Relative File from Sequential File: (核心觀念: Relative files, Sequential fiels, access mode, relative key, file status, read..at end, write..invalid key.)
+    重點:
+      1. Relative File 不是標準ASCII檔, 它無法直接用編輯器產生.
+      2. 語法1(relative , random , relative key , file status)
+        SELECT RelativeFile ASSIGN TO "RelativeFile-IsHere.dat"
+             ORGANIZATION IS RELATIVE
+             ACCESS MODE IS RANDOM
+             RELATIVE KEY IS SupplierKey
+             FILE STATUS IS SupplierStatus.
+      3. 語法2
+        WRITE SupplierRecord
+                   INVALID KEY DISPLAY "SUPPLIER STATUS = " SupplierStatus
+               END-WRITE
+
+    程式範例:
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SEQUENTIALFILE-TO-RELATIVEFILE.
+
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT RelativeFile ASSIGN TO "RelativeFile-IsHere.dat"
+             ORGANIZATION IS RELATIVE
+             ACCESS MODE IS RANDOM
+             RELATIVE KEY IS SupplierKey
+             FILE STATUS IS SupplierStatus.
+
+           SELECT SequentialFile ASSIGN TO "RelativeFileData.dat"
+             ORGANIZATION IS LINE SEQUENTIAL.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD  RelativeFile.
+       01  SupplierRecord.
+           03  SupplierCode PIC 99.
+           03  SupplierName PIC X(20).
+           03  SupplierAddress PIC X(50).
+
+       FD  SequentialFile.
+       01  SupplierRecord-Seq.
+           88  EndOfFile   VALUE HIGH-VALUE.
+           03  SupplierCode-Seq PIC 99.
+           03  SupplierName-Seq PIC X(20).
+           03  SupplierAddress-Seq PIC X(50).
+
+       WORKING-STORAGE SECTION.
+       01  SupplierStatus PIC X(2).
+       01  SupplierKey    PIC 99.
+
+       PROCEDURE DIVISION.
+       BEGIN.
+           OPEN OUTPUT RelativeFile.
+           OPEN INPUT SequentialFile.
+
+           READ SequentialFile
+               AT END SET EndOfFile TO TRUE
+           END-READ
+
+           PERFORM UNTIL EndOfFile
+               MOVE SupplierRecord-Seq TO SupplierRecord
+               MOVE SupplierCode-Seq TO SupplierKey
+               WRITE SupplierRecord
+                   INVALID KEY DISPLAY "SUPPLIER STATUS = " SupplierStatus
+               END-WRITE
+               READ SequentialFile
+                   AT END SET EndOfFile TO TRUE
+               END-READ
+           END-PERFORM
+
+           CLOSE RelativeFile, SequentialFile.
+
+           STOP RUN.
+
+  # 讀取 Relative File: (核心觀念: Relative files, ACCESS MODE, RELATIVE KEY, file STATUS, READ..NEXT RECORD, READ..INVALID KEY, Condition Names, IF)
+      重點:
+        # Relative File != SequentialFile
+        # Relative File 存取方式有兩種:
+          1. DirectRead, 
+              利用 Relative KEY 抓出 MATCH DATAs.
+              另有 FILE STATUS 判斷是否 找到資料(FILE STATUS = 23, 表示沒有找到)
+          2. SequentialRead, 比照Sequential File讀取方式,
+              由頭讀到尾.
+
+      程式範例:
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. RELATIVEFILE-READ.
+        *> Read a relative file directly or in sequence.
+        *> 資料來源必須是 'Relative File', 可以從上一範例取得.
+
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT RelativeFile ASSIGN TO "RelativeFile-IsHere.dat"
+              ORGANIZATION IS RELATIVE
+              ACCESS MODE IS DYNAMIC
+              RELATIVE KEY IS SupplierKey
+              FILE STATUS IS SupplierStatus.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD  RelativeFile.
+        01  SupplierRecord.
+            88  EndOfFile   VALUE HIGH-VALUE.
+            03  SupplierCode    PIC 99.
+            03  SupplierName    PIC X(20).
+            03  SupplierAddress PIC X(50).
+            
+        WORKING-STORAGE SECTION.
+        01  SupplierStatus  PIC X(2).
+            88  RECORDFOUND VALUE "00".
+
+        01  SupplierKey PIC 99.
+
+        01  PRNSUPPLIERRECORD.
+            03  PRNSUPPLIERCODE     PIC BB99.
+            03  PRNSUPPLIERNAME     PIC BBX(20).
+            03  PRNSUPPLIERADDRESS  PIC BBX(50).
+        
+        01  READTYPE    PIC 9.
+            88  DIRECTREAD  VALUE 1.
+            88  SEQUENTIALREAD  VALUE 2.
+            
+        PROCEDURE DIVISION.
+        BEGIN.
+            OPEN INPUT RelativeFile.
+            DISPLAY "CHOOSE READ TYPE : DIRECT READ = 1, SEQUENTIAL READ = 2 ? "
+              WITH NO ADVANCING
+            ACCEPT READTYPE.
+
+            IF DIRECTREAD
+                DISPLAY "ENTER KEY(2 DIGITS) TO SHOW : " WITH NO ADVANCING
+                ACCEPT SupplierKey
+                READ RelativeFile
+                    INVALID KEY DISPLAY "STATUS = ", SupplierStatus
+                END-READ
+                PERFORM DISPLAYrECORD
+            END-IF
+
+            IF SEQUENTIALREAD
+                READ RelativeFile NEXT RECORD
+                    AT END SET EndOfFile TO TRUE
+                END-READ
+                PERFORM UNTIL EndOfFile
+                    PERFORM DISPLAYrECORD
+                    READ RelativeFile NEXT RECORD
+                        AT END SET EndOfFile TO TRUE
+                    END-READ
+                END-PERFORM
+            END-IF
+
+            CLOSE RelativeFile.
+            STOP RUN.
+
+        DISPLAYrECORD.
+            IF RECORDFOUND
+                MOVE SupplierCode TO PRNSUPPLIERCODE
+                MOVE SupplierName TO PRNSUPPLIERNAME
+                MOVE SupplierAddress TO PRNSUPPLIERADDRESS
+                DISPLAY PRNSUPPLIERRECORD
+            END-IF.
+
+  # 產生 Indexed File: (核心觀念: Indexed files, Sequential files, RECORD KEY, ALTERNATE KEY, READ..AT END, WRITE..INVALID KEY)
+      重點:
+        # RELATIVE FILE, ORGANIZATION IS RELATIVE.
+        # SEQUENTIAL FILE, ORGANIZATION IS LINE SEQUENTIAL.
+        # INDEXED FILE, ORGANIZATION IS INDEXED.
+        # INDEXED FILE, 兩個檔案算1組.
+          1. 資料檔, 內容和資料來源檔一樣.
+          2. 索引檔, 資料檔的索引結果.
+
+      程式範例:
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. INDEXEDFILE-CREATE.
+        *> Create an indexed file from a sequential file.
+
+        ENVIRONMENT DIVISION.
+        input-output section.
+        file-control.
+            select VideoFile assign to "IndexedFile-IsHere.dat"
+              organization is indexed
+              access mode is RANDOM
+              record key is VideoCode
+              alternate record key is VideoTitle
+                with duplicates
+              file status is VideoStatus.
+
+            select SeqVideoFile assign to "IndexedFileData.dat"
+              organization is line SEQUENTIAL.
+        
+        DATA DIVISION.
+        file section.
+        FD  VideoFile.
+        01  VideoRecord.
+            03  VideoCode   PIC 9(5).
+            03  VideoTitle  PIC X(40).
+            03  VideoSupplierCode   PIC 99.
+
+        FD  SeqVideoFile.
+        01  SeqVideoRecord.
+            88  EndOfFile value high-value.
+            03  SeqVideoCode    PIC 9(5).
+            03  SeqVideoTitle   PIC X(40).
+            03  SeqVideoSupplierCode    PIC 99.
+
+        WORKING-STORAGE SECTION.
+        01  VideoStatus PIC X(2).
+
+        PROCEDURE DIVISION.
+        begin.
+            open input SeqVideoFile.
+            open output VideoFile.
+
+            READ SeqVideoFile
+                AT END SET EndOfFile TO TRUE
+            END-READ.
+            PERFORM UNTIL EndOfFile
+                WRITE VideoRecord FROM SeqVideoRecord
+                    INVALID KEY DISPLAY "(INVALID KEY) Record Status = ", VideoStatus
+                END-WRITE
+                READ SeqVideoFile
+                    AT END SET EndOfFile TO TRUE
+                END-READ
+            END-PERFORM.
+
+            close SeqVideoFile, VideoFile.
+            stop run.
+       
+  # 讀取 Indexed File(direct access): (核心觀念: Indexed files, READ..KEY IS)
+      重點:
+        1. 長度宣告前面加上 'B' 用途為何, 留出空格
+          01  PRNSUPPLIERRECORD.
+            03  PRNSUPPLIERCODE     PIC BB99. //這裡會留 2個空白在99前面.
+            03  PRNSUPPLIERNAME     PIC BBX(20).
+            03  PRNSUPPLIERADDRESS  PIC BBX(50).
+
+      程式範例(2021-03-22 沒寫成功, 再練習1次):
+
+
+  # 讀取 Indexed File(sequential access): (核心觀念: Indexed files, READ..NEXT RECORD, START)
+
+
 
   [CALLing sub-programs]
 
@@ -1960,3 +2249,12 @@
     48. PHYSICAL RECORD & LOGIC RECORD 間的差異?
           Physical record is the information that exists on the external device and 
           Logical record is the information which is used by the program.
+
+    49. THEN & THAN 間的差異?
+          THEN 用於然後, IF...THEN...END-IF.
+          THAN 用於兩者間的比較, GREATER THAN, LESS THAN,...
+
+    50. 9(3) & S9(3) 間的差異為何?
+          9(3) 放正數 => 存正數 ; 放負數 => 存正數(因為它沒有地方放正負號)
+          S9(3) 放入數值, 並正確呈現 +100 , -250.
+    
