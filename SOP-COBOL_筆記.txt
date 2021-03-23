@@ -38,1360 +38,1591 @@
   http://www.csis.ul.ie/cobol/examples/default.htm#SimplePrograms
 
   [Beginners Programs]
-  # 最短程式(DISPLAY, STOP RUN & PROGRAM-ID 兩個基本要素)
-       $set sourceformat "FREE"
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. SHORTEST.
+    # 最短程式(DISPLAY, STOP RUN & PROGRAM-ID 兩個基本要素)
+        $set sourceformat "FREE"
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. SHORTEST.
 
-       PROCEDURE DIVISION.
-       DisplayPrompt.
-           DISPLAY "I did it.".
-           stop run.
+        PROCEDURE DIVISION.
+        DisplayPrompt.
+            DISPLAY "I did it.".
+            stop run.
 
-  # 使用者輸入(ACCEPT, DISPLAY, ACCEPT FROM DATE, ACCEPT FROM DAY, ACCEPT FROM TIME)
-       *> $set sourceformat "FREE"
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. AcceptAndDisplay.
-       
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01  StudentDetails.
-           02  StudentId   PIC 9(7).
-           02  StudentName.
-               03  FirstName PIC X(8).
-               03  LastName  PIC XX.
-           02  CourseCode  PIC X(4).
-           02  Gender  PIC X.
-      
-      *> YYYYMMDD
-       01  CurrentDate.
-           03  CurrentYear PIC 9(4).
-           03  CurrentMonth PIC 99.
-           03  CurrentDay  PIC 99.
-      
-      *> YYDDD
-       01  DayOfYear.
-           03  FILLER PIC 9(4).
-           03  YearDay PIC 9(3).
-      
-      *> HHMMSSss  s = S/100
-       01  CurrentTime.
-           03  CurrentHour PIC 99.
-           03  CurrentMinute PIC 99.
-           03  FILLER PIC 9(4).
+    # 使用者輸入(ACCEPT, DISPLAY, ACCEPT FROM DATE, ACCEPT FROM DAY, ACCEPT FROM TIME)
+        *> $set sourceformat "FREE"
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. AcceptAndDisplay.
+        
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01  StudentDetails.
+            02  StudentId   PIC 9(7).
+            02  StudentName.
+                03  FirstName PIC X(8).
+                03  LastName  PIC XX.
+            02  CourseCode  PIC X(4).
+            02  Gender  PIC X.
+        
+        *> YYYYMMDD
+        01  CurrentDate.
+            03  CurrentYear PIC 9(4).
+            03  CurrentMonth PIC 99.
+            03  CurrentDay  PIC 99.
+        
+        *> YYDDD
+        01  DayOfYear.
+            03  FILLER PIC 9(4).
+            03  YearDay PIC 9(3).
+        
+        *> HHMMSSss  s = S/100
+        01  CurrentTime.
+            03  CurrentHour PIC 99.
+            03  CurrentMinute PIC 99.
+            03  FILLER PIC 9(4).
 
-       PROCEDURE DIVISION.
-       Begin.
-           DISPLAY "Enter student details using template below".
-           DISPLAY "Enter - ID(7),FirstName(8),LastName(2),CourseCode(4),Gender(1)".
-           DISPLAY "==Please Input Your Data==".
-           ACCEPT StudentDetails.
-           ACCEPT CurrentDate FROM DATE YYYYMMDD.
-           ACCEPT DayOfYear FROM DAY YYYYDDD.
-           ACCEPT CurrentTime FROM TIME.
-           DISPLAY "Name is ", FirstName SPACE LastName.
-           DISPLAY "Date is " CurrentDay Space CurrentMonth Space CurrentYear.
-           DISPLAY "Today is " YearDay " of the year".
-           DISPLAY "The time is " CurrentHour ":" CurrentMinute.
-           STOP RUN.    
+        PROCEDURE DIVISION.
+        Begin.
+            DISPLAY "Enter student details using template below".
+            DISPLAY "Enter - ID(7),FirstName(8),LastName(2),CourseCode(4),Gender(1)".
+            DISPLAY "==Please Input Your Data==".
+            ACCEPT StudentDetails.
+            ACCEPT CurrentDate FROM DATE YYYYMMDD.
+            ACCEPT DayOfYear FROM DAY YYYYDDD.
+            ACCEPT CurrentTime FROM TIME.
+            DISPLAY "Name is ", FirstName SPACE LastName.
+            DISPLAY "Date is " CurrentDay Space CurrentMonth Space CurrentYear.
+            DISPLAY "Today is " YearDay " of the year".
+            DISPLAY "The time is " CurrentHour ":" CurrentMinute.
+            STOP RUN.    
 
-  # 基本運算(ACCEPT, DISPLAY, MULTIPLY)
-       
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. MULTIPLIER.
+    # 基本運算(ACCEPT, DISPLAY, MULTIPLY)
+        
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. MULTIPLIER.
 
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01  Num1 PIC 9 VALUES ZEROES.
-       01  Num2 PIC 9 VALUES ZEROES.
-       01  Result PIC 99 VALUES ZEROES.
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01  Num1 PIC 9 VALUES ZEROES.
+        01  Num2 PIC 9 VALUES ZEROES.
+        01  Result PIC 99 VALUES ZEROES.
 
-       PROCEDURE DIVISION.
-       BEGIN.
-      *>   DISPLAY "ENTER FIRST NUMBER (1 DIGIT):" WITH NO ADVANCING.
-      *>   DISPLAY + [WITH NO ADVANCING]. 表示不加換行符號; 
-      *>        沒 + [WITH NO ADVANCING]. 則會自動加換行符號.
-           DISPLAY "ENTER FIRST NUMBER (1 DIGIT):" WITH NO ADVANCING.
-           ACCEPT Num1.
-           DISPLAY "ENTER second NUMBER (1 DIGIT):" WITH NO ADVANCING.
-           ACCEPT Num2.
-           MULTIPLY Num1 BY Num2 GIVING Result.
-           DISPLAY "Result is = ", Result.
-           STOP RUN.
+        PROCEDURE DIVISION.
+        BEGIN.
+        *>   DISPLAY "ENTER FIRST NUMBER (1 DIGIT):" WITH NO ADVANCING.
+        *>   DISPLAY + [WITH NO ADVANCING]. 表示不加換行符號; 
+        *>        沒 + [WITH NO ADVANCING]. 則會自動加換行符號.
+            DISPLAY "ENTER FIRST NUMBER (1 DIGIT):" WITH NO ADVANCING.
+            ACCEPT Num1.
+            DISPLAY "ENTER second NUMBER (1 DIGIT):" WITH NO ADVANCING.
+            ACCEPT Num2.
+            MULTIPLY Num1 BY Num2 GIVING Result.
+            DISPLAY "Result is = ", Result.
+            STOP RUN.
 
   [Selection and Interation]
-  # 迴圈 & IF(PERFORM..TIMES, IF)
-    1.注意: 放在 PERFORM..END PERFORM 區域內指令, 不用加句點(.).
-    2.注意: PERFORM..END PERFORM 區域的句點(.), 放在END PERFORM.後即可.
-    3.注意: IF..THEN..END-IF. 使用IF時, 要有 "THEN", 不然會錯.
-  
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. ITERATIONIF.
-
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01  Num1 PIC 9 VALUE ZEROS.
-       01  Num2 PIC 9 VALUE ZEROS.
-       01  Result PIC 99 VALUE ZEROS.
-       01  Operator PIC X VALUE SPACE.
-
-       PROCEDURE DIVISION.
-       Calculator.
-           PERFORM 3 TIMES
-               DISPLAY "Enter First Number(1 digit):" WITH NO ADVANCING
-               ACCEPT Num1
-               DISPLAY "Enter Second Number(1 digit):" WITH NO ADVANCING
-               ACCEPT Num2
-               DISPLAY "Enter Operator(+ or *):" WITH NO ADVANCING
-               ACCEPT Operator
-               IF Operator = "+" THEN
-                 Add Num1, Num2 Giving Result
-               END-IF
-               IF Operator = "*" THEN
-                 Multiply Num1 By Num2 Giving Result
-               END-IF
-               Display "Result is = ", Result
-           END-PERFORM.
-           STOP RUN.
-       
-  # 條件式(LEVEL 88 條件名稱[Condition Names], Condition, EVALUATE TRUE..WHEN..END-EVALUATE, PERFORM UNTIL NOT xx ...END-PERFORM.)
-    1.LEVEL 88 條件名稱 + EVALUATE 合併使用.(範例寫法, 真的太美了..)      
-    2.LEVEL 88 條件名稱, 可作為 EVALUATE WHEN 條件式使用.
-    3.LEVEL 88 不能定義類別, 直接給條件值.ex. 88 Vowel VALUE "XXX"
-    4.LEVEL 88 資料型態, 依上階定義為準.
-    5.LEVEL 88 資料值, 可以給多值, 以 ',' 或 ' ' 隔開即可.
-    6.LEVEL 88 可以用 'SET <LEVEL 88> TO TRUE'.
-    7.LEVEL 88 不能用 'SET <LEVEL 88> TO FALSE'. (ERROR).
-    8.LEVEL 88 可以放在 LEVEL 01 - 49 下面.
-
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. CONDITIONS.
-
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01  Char PIC X.
-           88 Vowel VALUE "a", "e", "i", "o", "u".
-           88 Consonant VALUE "b", "c", "d", "f", "g", "h",
-                               "j" THRU "n", "p" THRU "t",
-                               "v" THRU "z".
-           88 Digit VALUE "0" THRU "9".
-           88 ValidCharacter VALUE "a" THRU "z", "0" THRU "9".
-       
-       PROCEDURE DIVISION.
-       Begin.
-           DISPLAY "Enter lower case character or digit. No Data ends.".
-           ACCEPT Char.
-           PERFORM UNTIL NOT ValidCharacter
-               EVALUATE TRUE
-                   WHEN Vowel Display "The letter '" Char "' is a vowel."
-                   WHEN Consonant DISPLAY "The letter '" Char "' is a consonant."
-                   WHEN Digit DISPLAY "The letter '" Char "' is a digit."
-                   WHEN OTHER
-                      DISPLAY "No Match, Problems Found."
-               END-EVALUATE
-           END-PERFORM.
-           STOP RUN.
-       
-  # 呼叫副程式,再返回(Type1: PERFORM <paragraph>.)
-    1. 注意: PERFORM 特點 == 呼叫副程式, 副程式執行完畢, 程式流會返回呼叫處, 再往下執行.
-
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. PERFORMFORMAT1.
-
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       
-       PROCEDURE DIVISION.
-       TopLevel.
-           DISPLAY "[TopLevel]-In. Starting to run program.".
-           PERFORM OneLevelDown.
-           DISPLAY "[TopLevel]-Back".
-           STOP RUN.
-       
-       TwoLevelDown.
-           DISPLAY "[22-TwoLevel]-In"
-           PERFORM ThreeLevelDown
-           DISPLAY "[22-TwoLevel]-Back".
-           
-       OneLevelDown.
-           DISPLAY "[1-OneLevel]-In"
-           PERFORM TwoLevelDown
-           DISPLAY "[1-OneLevel]-Back".
-           
-       ThreeLevelDown.
-           DISPLAY "[333-ThreeLevel]-In"
-           DISPLAY "[333-ThreeLevel]-Back".
-
-  # 執行多次(Type2: PERFORM ? TIMES .. END-PERFORM | PERFORM <paragraph-name> ? TIMES)
+    # 迴圈 & IF(PERFORM..TIMES, IF)
+      1.注意: 放在 PERFORM..END PERFORM 區域內指令, 不用加句點(.).
+      2.注意: PERFORM..END PERFORM 區域的句點(.), 放在END PERFORM.後即可.
+      3.注意: IF..THEN..END-IF. 使用IF時, 要有 "THEN", 不然會錯.
     
-    1.用法1: PERFORM <paragraph-name> Number? TIMES
-    2.用法2: PERFORM Number? TIMES <要執行的程式碼指令...> END-PERFORM.
-       
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. PERFORMFORMAT2.
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. ITERATIONIF.
 
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01  NumOfTimes PIC 9 VALUE 5.
-       
-       PROCEDURE DIVISION.
-       Begin.
-           DISPLAY "Program Begin.".
-      *>     用法1
-           PERFORM 3 TIMES
-               DISPLAY ">> In line Perform <<"
-           END-PERFORM
-           DISPLAY "Finished In line Perform".
-      *>     用法2
-           PERFORM OutOfLineEG NumOfTimes TIMES
-           DISPLAY "Back to Program Begin. Program Stop."
-           STOP RUN.
-       
-       OutOfLineEG.
-           DISPLAY ">> Out of line Perform <<".
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01  Num1 PIC 9 VALUE ZEROS.
+        01  Num2 PIC 9 VALUE ZEROS.
+        01  Result PIC 99 VALUE ZEROS.
+        01  Operator PIC X VALUE SPACE.
 
-  # 執行結束(Type3: PERFORM UNTIL <Stop-Condition> .. END-PERFORM | PERFORM <paragraph-name> UNTIL <Stop-Condition>)  
-    1. 常用於 'Process a stream of data讀檔(不定行數)', UNTIL行數結束時, 也是程式結束點.
-    2. 'ON SIZE ERROR', 用於偵測數值超出上下限時.
-    3. 'NOT ON SIZE ERROR', 當數值未超出上下限時.
-    4. 'INITIALIZE', 用於資料項目(data-Item)設為'初始值' 或 '起始值'.
+        PROCEDURE DIVISION.
+        Calculator.
+            PERFORM 3 TIMES
+                DISPLAY "Enter First Number(1 digit):" WITH NO ADVANCING
+                ACCEPT Num1
+                DISPLAY "Enter Second Number(1 digit):" WITH NO ADVANCING
+                ACCEPT Num2
+                DISPLAY "Enter Operator(+ or *):" WITH NO ADVANCING
+                ACCEPT Operator
+                IF Operator = "+" THEN
+                  Add Num1, Num2 Giving Result
+                END-IF
+                IF Operator = "*" THEN
+                  Multiply Num1 By Num2 Giving Result
+                END-IF
+                Display "Result is = ", Result
+            END-PERFORM.
+            STOP RUN.
+        
+    # 條件式(LEVEL 88 條件名稱[Condition Names], Condition, EVALUATE TRUE..WHEN..END-EVALUATE, PERFORM UNTIL NOT xx ...END-PERFORM.)
+      1.LEVEL 88 條件名稱 + EVALUATE 合併使用.(範例寫法, 真的太美了..)      
+      2.LEVEL 88 條件名稱, 可作為 EVALUATE WHEN 條件式使用.
+      3.LEVEL 88 不能定義類別, 直接給條件值.ex. 88 Vowel VALUE "XXX"
+      4.LEVEL 88 資料型態, 依上階定義為準.
+      5.LEVEL 88 資料值, 可以給多值, 以 ',' 或 ' ' 隔開即可.
+      6.LEVEL 88 可以用 'SET <LEVEL 88> TO TRUE'.
+      7.LEVEL 88 不能用 'SET <LEVEL 88> TO FALSE'. (ERROR).
+      8.LEVEL 88 可以放在 LEVEL 01 - 49 下面.
 
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. PERFORMFORMAT3.
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. CONDITIONS.
 
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01  IterCount PIC 99 VALUE ZEROS.
-           88  MaxCountReached VALUE 99.
-       01  UserInput PIC 99 VALUE ZEROS.
-           88  EndOfUserInput VALUE ZEROS.
-       01  RunningTotal PIC 999 VALUE ZEROS.
-       01  AverageValue PIC 99 VALUE ZEROS.
-       
-       PROCEDURE DIVISION.
-       Begin.
-           PERFORM UNTIL IterCount = 5
-               DISPLAY "IterCount = ", IterCount
-               ADD 1 TO IterCount
-           END-PERFORM
-           DISPLAY "FINISH In Line Perform.".
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01  Char PIC X.
+            88 Vowel VALUE "a", "e", "i", "o", "u".
+            88 Consonant VALUE "b", "c", "d", "f", "g", "h",
+                                "j" THRU "n", "p" THRU "t",
+                                "v" THRU "z".
+            88 Digit VALUE "0" THRU "9".
+            88 ValidCharacter VALUE "a" THRU "z", "0" THRU "9".
+        
+        PROCEDURE DIVISION.
+        Begin.
+            DISPLAY "Enter lower case character or digit. No Data ends.".
+            ACCEPT Char.
+            PERFORM UNTIL NOT ValidCharacter
+                EVALUATE TRUE
+                    WHEN Vowel Display "The letter '" Char "' is a vowel."
+                    WHEN Consonant DISPLAY "The letter '" Char "' is a consonant."
+                    WHEN Digit DISPLAY "The letter '" Char "' is a digit."
+                    WHEN OTHER
+                        DISPLAY "No Match, Problems Found."
+                END-EVALUATE
+            END-PERFORM.
+            STOP RUN.
+        
+    # 呼叫副程式,再返回(Type1: PERFORM <paragraph>.)
+      1. 注意: PERFORM 特點 == 呼叫副程式, 副程式執行完畢, 程式流會返回呼叫處, 再往下執行.
 
-           INITIALIZE IterCount.
-           DISPLAY "After INITIALIZE, IterCount Value = " IterCount.
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. PERFORMFORMAT1.
 
-           DISPLAY "Enter a stream of up to 99 numbers."
-           DISPLAY "Each number must be in the range 1-99. Enter 0 to stop"
-           DISPLAY "Enter Number: " WITH NO ADVANCING.
-           ACCEPT UserInput.
-           PERFORM GetUserInput UNTIL EndOfUserInput OR MaxCountReached.
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        
+        PROCEDURE DIVISION.
+        TopLevel.
+            DISPLAY "[TopLevel]-In. Starting to run program.".
+            PERFORM OneLevelDown.
+            DISPLAY "[TopLevel]-Back".
+            STOP RUN.
+        
+        TwoLevelDown.
+            DISPLAY "[22-TwoLevel]-In"
+            PERFORM ThreeLevelDown
+            DISPLAY "[22-TwoLevel]-Back".
+            
+        OneLevelDown.
+            DISPLAY "[1-OneLevel]-In"
+            PERFORM TwoLevelDown
+            DISPLAY "[1-OneLevel]-Back".
+            
+        ThreeLevelDown.
+            DISPLAY "[333-ThreeLevel]-In"
+            DISPLAY "[333-ThreeLevel]-Back".
 
-           DISPLAY "RunningTotal is ", RunningTotal.
-           DISPLAY "IterCount is ", IterCount.
-           COMPUTE AverageValue = RunningTotal / IterCount.
-           DISPLAY "AverageValue is ", AverageValue.
-           STOP RUN.
+    # 執行多次(Type2: PERFORM ? TIMES .. END-PERFORM | PERFORM <paragraph-name> ? TIMES)
+      
+      1.用法1: PERFORM <paragraph-name> Number? TIMES
+      2.用法2: PERFORM Number? TIMES <要執行的程式碼指令...> END-PERFORM.
+        
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. PERFORMFORMAT2.
 
-       GetUserInput.
-           ADD UserInput TO RunningTotal
-               ON SIZE ERROR DISPLAY "(Error): New Total is too large"
-               NOT ON SIZE ERROR ADD 1 TO IterCount END-ADD
-           END-ADD
-           
-           DISPLAY "Enter a stream of up to 99 numbers."
-           DISPLAY "Each number must be in the range 1-99. Enter 0 to stop"
-           DISPLAY "Enter Number: " WITH NO ADVANCING.
-           ACCEPT UserInput.
-       
-  # 執行條件-(多重迴圈)(Type4: PERFORM..VARYING..AFTER)
-    1. PERFORM <PARAGRAPH-NAME> WITH TEST BEFORE 
-        VARYING <VARIABLE-NAME> FROM 1 BY 2
-        UNITL <VARIABLE-NAME> GREATER THAN 5.
-    2. PERFOMR <PARAGRAPH-NAME> WITH TEST AFTER
-        VARYING <VARIABLE-NAME> FROM 1 BY 2
-        UNITL <VARIABLE-NAME> GREATER THAN 5.
-    3. 兩者差別在於
-        [WITH TEST BEFORE] => (預設)執行前, 先測試是否符合 UNITL 條件式(不會超出限制)
-        [WITH TEST AFTER] => 執行後, 再測試是否符合 UNITL 條件式(會多作1次)
-    
-    <單迴圈>
-    4. PERFORM VARYING <VARIABLE-NAME> FROM 1 BY 1 UNTIL <VARIABLE-NAME> GREATER THAN 5
-        ...Inline 程式邏輯及演算法...
-       END-PERFORM.
-    5. PERFORM <PARAGRAPH-NAME> 
-        VARYING <VARIABLE-NAME> FROM 1 BY 1 UNTIL <VARIABLE-NAME> GERATER THAN 10.
-    
-    <多重迴圈>
-    6. PERFORM VARYING <VARIABLE-1> FROM 1 BY 1 UNTIL <VARIABLE-1> = 5
-        PERFORM VARYING <VARIABLE-2> FROM 1 BY 1 UNTIL <VARIABLE-2> = 6
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01  NumOfTimes PIC 9 VALUE 5.
+        
+        PROCEDURE DIVISION.
+        Begin.
+            DISPLAY "Program Begin.".
+        *>     用法1
+            PERFORM 3 TIMES
+                DISPLAY ">> In line Perform <<"
+            END-PERFORM
+            DISPLAY "Finished In line Perform".
+        *>     用法2
+            PERFORM OutOfLineEG NumOfTimes TIMES
+            DISPLAY "Back to Program Begin. Program Stop."
+            STOP RUN.
+        
+        OutOfLineEG.
+            DISPLAY ">> Out of line Perform <<".
+
+    # 執行結束(Type3: PERFORM UNTIL <Stop-Condition> .. END-PERFORM | PERFORM <paragraph-name> UNTIL <Stop-Condition>)  
+      1. 常用於 'Process a stream of data讀檔(不定行數)', UNTIL行數結束時, 也是程式結束點.
+      2. 'ON SIZE ERROR', 用於偵測數值超出上下限時.
+      3. 'NOT ON SIZE ERROR', 當數值未超出上下限時.
+      4. 'INITIALIZE', 用於資料項目(data-Item)設為'初始值' 或 '起始值'.
+
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. PERFORMFORMAT3.
+
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01  IterCount PIC 99 VALUE ZEROS.
+            88  MaxCountReached VALUE 99.
+        01  UserInput PIC 99 VALUE ZEROS.
+            88  EndOfUserInput VALUE ZEROS.
+        01  RunningTotal PIC 999 VALUE ZEROS.
+        01  AverageValue PIC 99 VALUE ZEROS.
+        
+        PROCEDURE DIVISION.
+        Begin.
+            PERFORM UNTIL IterCount = 5
+                DISPLAY "IterCount = ", IterCount
+                ADD 1 TO IterCount
+            END-PERFORM
+            DISPLAY "FINISH In Line Perform.".
+
+            INITIALIZE IterCount.
+            DISPLAY "After INITIALIZE, IterCount Value = " IterCount.
+
+            DISPLAY "Enter a stream of up to 99 numbers."
+            DISPLAY "Each number must be in the range 1-99. Enter 0 to stop"
+            DISPLAY "Enter Number: " WITH NO ADVANCING.
+            ACCEPT UserInput.
+            PERFORM GetUserInput UNTIL EndOfUserInput OR MaxCountReached.
+
+            DISPLAY "RunningTotal is ", RunningTotal.
+            DISPLAY "IterCount is ", IterCount.
+            COMPUTE AverageValue = RunningTotal / IterCount.
+            DISPLAY "AverageValue is ", AverageValue.
+            STOP RUN.
+
+        GetUserInput.
+            ADD UserInput TO RunningTotal
+                ON SIZE ERROR DISPLAY "(Error): New Total is too large"
+                NOT ON SIZE ERROR ADD 1 TO IterCount END-ADD
+            END-ADD
+            
+            DISPLAY "Enter a stream of up to 99 numbers."
+            DISPLAY "Each number must be in the range 1-99. Enter 0 to stop"
+            DISPLAY "Enter Number: " WITH NO ADVANCING.
+            ACCEPT UserInput.
+        
+    # 執行條件-(多重迴圈)(Type4: PERFORM..VARYING..AFTER)
+      1. PERFORM <PARAGRAPH-NAME> WITH TEST BEFORE 
+          VARYING <VARIABLE-NAME> FROM 1 BY 2
+          UNITL <VARIABLE-NAME> GREATER THAN 5.
+      2. PERFOMR <PARAGRAPH-NAME> WITH TEST AFTER
+          VARYING <VARIABLE-NAME> FROM 1 BY 2
+          UNITL <VARIABLE-NAME> GREATER THAN 5.
+      3. 兩者差別在於
+          [WITH TEST BEFORE] => (預設)執行前, 先測試是否符合 UNITL 條件式(不會超出限制)
+          [WITH TEST AFTER] => 執行後, 再測試是否符合 UNITL 條件式(會多作1次)
+      
+      <單迴圈>
+      4. PERFORM VARYING <VARIABLE-NAME> FROM 1 BY 1 UNTIL <VARIABLE-NAME> GREATER THAN 5
           ...Inline 程式邏輯及演算法...
-          DISPLAY VARIABLE-1 , VARIABLE-2
-        END-PERFORM
-       END-PERFORM.
-    7. PERFORM <PARAGRAPH-NAME>
-        VARYING <VARIABLE-1> FROM 10 BY -1 UNTIL <VARIABLE-1> LESS THAN 0
-        AFTER <VARIABLE-2> FROM 5 BY -1 UNTIL <VARIABLE-2> LESS THAN 0.
+        END-PERFORM.
+      5. PERFORM <PARAGRAPH-NAME> 
+          VARYING <VARIABLE-NAME> FROM 1 BY 1 UNTIL <VARIABLE-NAME> GERATER THAN 10.
+      
+      <多重迴圈>
+      6. PERFORM VARYING <VARIABLE-1> FROM 1 BY 1 UNTIL <VARIABLE-1> = 5
+          PERFORM VARYING <VARIABLE-2> FROM 1 BY 1 UNTIL <VARIABLE-2> = 6
+            ...Inline 程式邏輯及演算法...
+            DISPLAY VARIABLE-1 , VARIABLE-2
+          END-PERFORM
+        END-PERFORM.
+      7. PERFORM <PARAGRAPH-NAME>
+          VARYING <VARIABLE-1> FROM 10 BY -1 UNTIL <VARIABLE-1> LESS THAN 0
+          AFTER <VARIABLE-2> FROM 5 BY -1 UNTIL <VARIABLE-2> LESS THAN 0.
 
-       <PARAGRAPH-NAME>.
-        DISPLAY VARIABLE-1 , VARIABLE-2.
+        <PARAGRAPH-NAME>.
+          DISPLAY VARIABLE-1 , VARIABLE-2.
 
-    8. 程式範例:            
-       
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. PERFORMFORMAT4.
-       
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01  LoopCount PIC 9 VALUE zeroes.
-       01  LoopCount2 PIC S9 value zeros. //若未加上 S , 則 LoopCount2 永遠都是正數
+      8. 程式範例:            
+        
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. PERFORMFORMAT4.
+        
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01  LoopCount PIC 9 VALUE zeroes.
+        01  LoopCount2 PIC S9 value zeros. //若未加上 S , 則 LoopCount2 永遠都是正數
 
-       PROCEDURE DIVISION.
-       Begin.
-           DISPLAY "Start WHILE Iteration of LoopBody"
-           PERFORM LoopBody WIth TEST BEFORE
-               varying LoopCount From 1 by 2
-               until LoopCount greater than 5.
-           DISPLAY "Finished WHILE Iteration. LoopCount = " LoopCount.
-           
-           DISPLAY "Start Repeat Iteration of LoopBody"
-           PERFORM LoopBody With Test after
-               varying LoopCount From 1 by 2
-               until LoopCount greater than 5.
-           DISPLAY "Finished Repeat Iteration of LoopBody = " LoopCount.
-           
-           DISPLAY "Start inline loops"
-           PERFORM varying LoopCount From 0 By 1 until LoopCount > 3
-             PERFORM varying LoopCount2 from 3 by -1 until LoopCount2 < 0
-                DISPLAY "Inline loop " with no advancing
-                DISPLAY "LoopCount = " LoopCount " LoopCount2 = " LoopCount2
-             END-PERFORM
-           END-PERFORM.
-           DISPLAY "Finished inline loops".
-           
-           DISPLAY "Start Perform..varying..after"
-           PERFORM LoopBody varying LoopCount from 1 by 2 until LoopCount greater than 5
-               after LoopCount2 from 5 by -2 until LoopCount2 less than zero.
-           
-           DISPLAY "Finished Perform..varying..after".
+        PROCEDURE DIVISION.
+        Begin.
+            DISPLAY "Start WHILE Iteration of LoopBody"
+            PERFORM LoopBody WIth TEST BEFORE
+                varying LoopCount From 1 by 2
+                until LoopCount greater than 5.
+            DISPLAY "Finished WHILE Iteration. LoopCount = " LoopCount.
+            
+            DISPLAY "Start Repeat Iteration of LoopBody"
+            PERFORM LoopBody With Test after
+                varying LoopCount From 1 by 2
+                until LoopCount greater than 5.
+            DISPLAY "Finished Repeat Iteration of LoopBody = " LoopCount.
+            
+            DISPLAY "Start inline loops"
+            PERFORM varying LoopCount From 0 By 1 until LoopCount > 3
+              PERFORM varying LoopCount2 from 3 by -1 until LoopCount2 < 0
+                  DISPLAY "Inline loop " with no advancing
+                  DISPLAY "LoopCount = " LoopCount " LoopCount2 = " LoopCount2
+              END-PERFORM
+            END-PERFORM.
+            DISPLAY "Finished inline loops".
+            
+            DISPLAY "Start Perform..varying..after"
+            PERFORM LoopBody varying LoopCount from 1 by 2 until LoopCount greater than 5
+                after LoopCount2 from 5 by -2 until LoopCount2 less than zero.
+            
+            DISPLAY "Finished Perform..varying..after".
 
-           STOP RUN.
+            STOP RUN.
 
-       LoopBody.
-           DISPLAY "In LoopBody" with no advancing
-           DISPLAY "LoopCount = " LoopCount " LoopCount2 = " LoopCount2.
+        LoopBody.
+            DISPLAY "In LoopBody" with no advancing
+            DISPLAY "LoopCount = " LoopCount " LoopCount2 = " LoopCount2.
 
-  # 里程計數器-(迴圈)(Type4: PERFORM..VARYING..AFTER)
+    # 里程計數器-(迴圈)(Type4: PERFORM..VARYING..AFTER)
 
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. PERFORMFORMAT4-MILEAGECOUNTER.
-       
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01  Counter.
-           03 HundredsCount PIC 99 VALUE Zeros.
-           03 TensCount PIC 99 VALUE Zeros.
-           03 UnitsCount PIC 99 VALUE Zeros.
-       
-       01  DisplayItems.
-           03 PrnHunds PIC 9.
-           03 PrnTens  PIC 9.
-           03 PrnUnits PIC 9.
-       
-       PROCEDURE DIVISION.
-       Begin.
-           PERFORM CountMilage
-               varying HundredsCount from 0 by 1 until HundredsCount > 9
-               after TensCount from 0 by 1 until TensCount > 9
-               after UnitsCount from 0 by 1 until UnitsCount > 9.
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. PERFORMFORMAT4-MILEAGECOUNTER.
+        
+        DATA DIVISION.
+        WORKING-STORAGE SECTION.
+        01  Counter.
+            03 HundredsCount PIC 99 VALUE Zeros.
+            03 TensCount PIC 99 VALUE Zeros.
+            03 UnitsCount PIC 99 VALUE Zeros.
+        
+        01  DisplayItems.
+            03 PrnHunds PIC 9.
+            03 PrnTens  PIC 9.
+            03 PrnUnits PIC 9.
+        
+        PROCEDURE DIVISION.
+        Begin.
+            PERFORM CountMilage
+                varying HundredsCount from 0 by 1 until HundredsCount > 9
+                after TensCount from 0 by 1 until TensCount > 9
+                after UnitsCount from 0 by 1 until UnitsCount > 9.
 
-           DISPLAY "[Begin] Perform Multiple LOOP - inline code".
-           PERFORM varying HundredsCount from 0 by 1 until HundredsCount > 3
-               PERFORM varying TensCount from 0 by 1 until TensCount > 2
-                   PERFORM varying UnitsCount from 0 by 1 until UnitsCount > 1
-                       Move HundredsCount to PrnHunds
-                       Move TensCount to PrnTens
-                       Move UnitsCount to PrnUnits
-                       DISPLAY PrnHunds "-" PrnTens "-" PrnUnits
-                   END-PERFORM
-               END-PERFORM
-           END-PERFORM.
-           DISPLAY "[End] Perform Multiple LOOP - inline code".
-           
-           STOP RUN.
+            DISPLAY "[Begin] Perform Multiple LOOP - inline code".
+            PERFORM varying HundredsCount from 0 by 1 until HundredsCount > 3
+                PERFORM varying TensCount from 0 by 1 until TensCount > 2
+                    PERFORM varying UnitsCount from 0 by 1 until UnitsCount > 1
+                        Move HundredsCount to PrnHunds
+                        Move TensCount to PrnTens
+                        Move UnitsCount to PrnUnits
+                        DISPLAY PrnHunds "-" PrnTens "-" PrnUnits
+                    END-PERFORM
+                END-PERFORM
+            END-PERFORM.
+            DISPLAY "[End] Perform Multiple LOOP - inline code".
+            
+            STOP RUN.
 
-       CountMilage.
-           Move HundredsCount to PrnHunds
-           Move TensCount to PrnTens
-           Move UnitsCount to PrnUnits
-           DISPLAY PrnHunds "-" PrnTens "-" PrnUnits.
+        CountMilage.
+            Move HundredsCount to PrnHunds
+            Move TensCount to PrnTens
+            Move UnitsCount to PrnUnits
+            DISPLAY PrnHunds "-" PrnTens "-" PrnUnits.
 
   [Sequential Files]
-  # 寫檔: Sequential File, Write, Open OUTPUT, Close, File Description(FD), Select...ASSIGN TO...ORGANIZATION IS LINE SEQUENTIAL.
-    1. 使用 ACCEPT & WRITE 
-    2. Carriage Return (CR).
-    3. 寫檔多使用了 
-        
-      OPEN OUTPUT StudentFile
-        ACCEPT StudentDetails
-        WRITE StudentDetails
-      CLOSE StudentFile
-      
-      ENVIRONMENT DIVISION.
-      INPUT-OUTPUT SECTION.
-      FILE CONTROL.
-        SELECT <FD VARIABLE NAME> ASSIGN TO "<PHYSICAL FILE NAME>"
-          ORGANIZATION IS LINE SEQUENTIAL.
-      
-      DATA DIVISION.
-      FILE SECTION.
-      FD  StudentFile.
-      01  StudentDetails.
-          03  StudentId PIC 9(7).
-          03  StudentName.
-              05  FirstName PIC X(8).
-              05  LastName    PIC XX.
-          03  DateOfBirth.
-              05  YoBirth PIC 9(4).
-              05  MoBirth PIC 9(2).
-              05  DoBirth PIC 9(2).
-          03  CourseCode  PIC X(4).
-          03  Gender      PIC X.
-      
-      PROCEDURE DIVISION.
-      BEGIN.
+    # 寫檔: Sequential File, Write, Open OUTPUT, Close, File Description(FD), Select...ASSIGN TO...ORGANIZATION IS LINE SEQUENTIAL.
+      1. 使用 ACCEPT & WRITE 
+      2. Carriage Return (CR).
+      3. 寫檔多使用了 
+          
         OPEN OUTPUT StudentFile
-        PERFORM GetStudentDetails
-        PERFORM UNTIL StudentDetails = SPACE
+          ACCEPT StudentDetails
           WRITE StudentDetails
-          PERFORM GetStudentDetails
-        END-PERFORM
         CLOSE StudentFile
-        STOP RUN.
-      
-      GetStudentDetails.
-        ACCEPT StudentDetails.
-    4. 程式範例
-       
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. SEQUENTIALFILEWRITE.
-
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           SELECT StudentFile ASSIGN TO "Student.dat"
-             ORGANIZATION IS LINE SEQUENTIAL.
-
-       DATA DIVISION.
-       FILE SECTION.
-       FD  StudentFile.
-       01  StudentDetails.
-           03  StudentId PIC 9(7).
-           03  StudentName.
-               05  FirstName PIC X(8).
-               05  LastName    PIC XX.
-           03  DateOfBirth.
-               05  YoBirth PIC 9(4).
-               05  MoBirth PIC 9(2).
-               05  DoBirth PIC 9(2).
-           03  CourseCode  PIC X(4).
-           03  Gender      PIC X.
-
-       PROCEDURE DIVISION.
-       Begin.
-           OPEN OUTPUT StudentFile
-           DISPLAY "ENTER STUDENT DETAIL USING TEMPLATE BELOW. ENTER NO DATA TO END."
-           
-           PERFORM GetStudentDetails
-           PERFORM UNTIL StudentDetails = SPACE
-               WRITE StudentDetails
-               PERFORM GetStudentDetails
-           END-PERFORM
-           
-           CLOSE StudentFile
-           STOP RUN.
-       
-       GetStudentDetails.
-           DISPLAY "Enter => Id,FirstName,LastName,Year,Month,Day,CourseCode,Gender"
-           DISPLAY "1234567FFFFFFFFLLYYYYMMDDCodeG"
-           ACCEPT StudentDetails.
-    
-  # 讀檔(without LEVEL 88): Sequential File, Read, Open Input, Close, File Description(FD), Select..ASSIGN
-    4. 程式範例
-    
-      IDENTIFICATION DIVISION.
-      PROGRAM-ID. SEQUENTIALFILEREADNO88.
-      * An example showing how to read a sequential file without
-      * using condition names.
-      * See '讀檔(with LEVEL 88 Condition Name)' for the definitive example.
-
-      ENVIRONMENT DIVISION.
-      INPUT-OUTPUT SECTION.
-      FILE-CONTROL.
-          SELECT StudentFile ASSIGN TO "Student.dat"
-            Organization is line sequential.
-
-      DATA DIVISION.
-      FILE SECTION.
-      FD  StudentFile.
-      01  StudentDetails.
-      03  StudentId PIC 9(7).
-      03  StudentName.
-          05  FirstName PIC X(8).
-          05  LastName    PIC XX.
-      03  DateOfBirth.
-          05  YoBirth PIC 9(4).
-          05  MoBirth PIC 9(2).
-          05  DoBirth PIC 9(2).
-      03  CourseCode  PIC X(4).
-      03  Gender      PIC X.
-      
-      PROCEDURE DIVISION.
-      BEGIN.
-          OPEN INPUT StudentFile
-
-          READ StudentFile
-              AT END MOVE HIGH-VALUES TO StudentDetails
-          END-READ
-          PERFORM UNTIL StudentDetails = HIGH-VALUES
-              DISPLAY StudentId SPACE StudentName SPACE CourseCode SPACE YoBirth
-              READ StudentFile
-                  AT END MOVE HIGH-VALUE TO StudentDetails
-              END-READ
+        
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE CONTROL.
+          SELECT <FD VARIABLE NAME> ASSIGN TO "<PHYSICAL FILE NAME>"
+            ORGANIZATION IS LINE SEQUENTIAL.
+        
+        DATA DIVISION.
+        FILE SECTION.
+        FD  StudentFile.
+        01  StudentDetails.
+            03  StudentId PIC 9(7).
+            03  StudentName.
+                05  FirstName PIC X(8).
+                05  LastName    PIC XX.
+            03  DateOfBirth.
+                05  YoBirth PIC 9(4).
+                05  MoBirth PIC 9(2).
+                05  DoBirth PIC 9(2).
+            03  CourseCode  PIC X(4).
+            03  Gender      PIC X.
+        
+        PROCEDURE DIVISION.
+        BEGIN.
+          OPEN OUTPUT StudentFile
+          PERFORM GetStudentDetails
+          PERFORM UNTIL StudentDetails = SPACE
+            WRITE StudentDetails
+            PERFORM GetStudentDetails
           END-PERFORM
+          CLOSE StudentFile
+          STOP RUN.
+        
+        GetStudentDetails.
+          ACCEPT StudentDetails.
+      4. 程式範例
+        
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. SEQUENTIALFILEWRITE.
 
-          CLOSE StudentFile.
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT StudentFile ASSIGN TO "Student.dat"
+              ORGANIZATION IS LINE SEQUENTIAL.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD  StudentFile.
+        01  StudentDetails.
+            03  StudentId PIC 9(7).
+            03  StudentName.
+                05  FirstName PIC X(8).
+                05  LastName    PIC XX.
+            03  DateOfBirth.
+                05  YoBirth PIC 9(4).
+                05  MoBirth PIC 9(2).
+                05  DoBirth PIC 9(2).
+            03  CourseCode  PIC X(4).
+            03  Gender      PIC X.
+
+        PROCEDURE DIVISION.
+        Begin.
+            OPEN OUTPUT StudentFile
+            DISPLAY "ENTER STUDENT DETAIL USING TEMPLATE BELOW. ENTER NO DATA TO END."
+            
+            PERFORM GetStudentDetails
+            PERFORM UNTIL StudentDetails = SPACE
+                WRITE StudentDetails
+                PERFORM GetStudentDetails
+            END-PERFORM
+            
+            CLOSE StudentFile
+            STOP RUN.
+        
+        GetStudentDetails.
+            DISPLAY "Enter => Id,FirstName,LastName,Year,Month,Day,CourseCode,Gender"
+            DISPLAY "1234567FFFFFFFFLLYYYYMMDDCodeG"
+            ACCEPT StudentDetails.
+      
+    # 讀檔(without LEVEL 88): Sequential File, Read, Open Input, Close, File Description(FD), Select..ASSIGN
+      4. 程式範例
+      
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. SEQUENTIALFILEREADNO88.
+        * An example showing how to read a sequential file without
+        * using condition names.
+        * See '讀檔(with LEVEL 88 Condition Name)' for the definitive example.
+
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT StudentFile ASSIGN TO "Student.dat"
+              Organization is line sequential.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD  StudentFile.
+        01  StudentDetails.
+        03  StudentId PIC 9(7).
+        03  StudentName.
+            05  FirstName PIC X(8).
+            05  LastName    PIC XX.
+        03  DateOfBirth.
+            05  YoBirth PIC 9(4).
+            05  MoBirth PIC 9(2).
+            05  DoBirth PIC 9(2).
+        03  CourseCode  PIC X(4).
+        03  Gender      PIC X.
+        
+        PROCEDURE DIVISION.
+        BEGIN.
+            OPEN INPUT StudentFile
+
+            READ StudentFile
+                AT END MOVE HIGH-VALUES TO StudentDetails
+            END-READ
+            PERFORM UNTIL StudentDetails = HIGH-VALUES
+                DISPLAY StudentId SPACE StudentName SPACE CourseCode SPACE YoBirth
+                READ StudentFile
+                    AT END MOVE HIGH-VALUE TO StudentDetails
+                END-READ
+            END-PERFORM
+
+            CLOSE StudentFile.
+            STOP RUN.
+
+    # 讀檔(with LEVEL 88 Condition Name): Sequential File, Read, Open Input, Close, File Description(FD), Select..assign to ..organization is line sequential.
+      4. 程式範例:
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. SEQUENTIALFILEREADWITH88.
+        * An example program showing how to read a sequential file.
+        * This is the definitive example 
+
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT StudentFile ASSIGN TO "Student.dat"
+              ORGANIZATION IS LINE SEQUENTIAL.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD  StudentFile.
+        01  StudentDetails.
+            88  EndOfStudentFile value high-values.
+            03  StudentId   pic x(7).
+            03  StudentName.
+                05  FirstName pic x(8).
+                05  LastName pic xx.
+            03  DateOfBirth.
+                05  YoBirth pic 9(4).
+                05  MoBirth pic 9(2).
+                05  DoBirth pic 9(2).
+            03  CourseCode pic x(4).
+            03  Gender pic x.
+        
+        PROCEDURE DIVISION.
+        BEGIN.
+            OPEN INPUT StudentFile
+
+            READ StudentFile
+                AT END SET EndOfStudentFile TO TRUE
+            END-READ
+
+            PERFORM UNTIL EndOfStudentFile
+                DISPLAY StudentId space StudentName space DateOfBirth space Gender
+                READ StudentFile
+                    AT END SET EndOfStudentFile TO TRUE
+                END-READ
+            END-PERFORM
+            CLOSE StudentFile.
+            STOP RUN.
+        
+    # 寫檔(插入資料, 比對是否存在, 匯出合併後新檔): Sequential File, Condition Names(Level 88), Read, Write, access mode is sequential
+      4. 程式範例:
+        
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. SEQUENTIALFILE-INSERTRECORDS.
+        * This program updates the Students.Dat file with insertions
+        * taken from the Transins.Dat file to create a new file
+        * - Students.New - which contains the inserted records.
+
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT StudentRecords ASSIGN TO "STUDENTS-forInsert.dat"
+              ORGANIZATION IS LINE SEQUENTIAL
+              ACCESS MODE IS SEQUENTIAL.
+
+            SELECT TransRecords ASSIGN TO "TRANS-forInsert.DAT"
+              ORGANIZATION IS LINE SEQUENTIAL
+              ACCESS MODE IS SEQUENTIAL.
+
+            SELECT NewStudentRecords ASSIGN TO "STUDENTs-forInsert.new"
+              ORGANIZATION IS LINE SEQUENTIAL
+              ACCESS MODE IS SEQUENTIAL.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD  StudentRecords.
+        01  StudentRecord.
+            88  EndOfStudentFile value high-values.
+            03  StudentId pic x(7).
+            03  FILLER pic x(23).
+
+        FD  TransRecords.
+        01  TransRecord.
+            88  EndOfTransFile value high-values.
+            03  TransStudentId pic x(7).
+            03  FILLER pic x(23).
+
+        FD  NewStudentRecords.
+        01  NewStudentRecord PIC x(30).
+        
+        PROCEDURE DIVISION.
+        BEGIN.
+            OPEN INPUT StudentRecords.
+            OPEN INPUT TransRecords.
+            OPEN OUTPUT NewStudentRecords.
+
+            READ StudentRecords
+                AT END SET EndOfStudentFile TO TRUE
+            END-READ
+
+            READ TransRecords
+                AT END SET EndOfTransFile TO TRUE
+            END-READ
+
+            PERFORM UNTIL (EndOfStudentFile) AND (EndOfTransFile)
+                EVALUATE TRUE
+                    WHEN (TransStudentId > StudentId)
+                        WRITE NewStudentRecord FROM StudentRecord
+                        READ StudentRecords
+                            AT END SET EndOfStudentFile TO TRUE
+                        END-READ
+                    WHEN (TransStudentId < StudentId)
+                        WRITE NewStudentRecord FROM TransRecord
+                        READ TransRecords
+                            AT END SET EndOfTransFile TO TRUE
+                        END-READ
+                    WHEN (TransStudentId = StudentId)
+                        DISPLAY "ERROR - " TransStudentId " ALREADY EXISTS IN FILE"
+                        READ TransRecords
+                            AT END SET EndOfTransFile TO TRUE
+                        END-READ
+                END-EVALUATE
+            END-PERFORM
+
+            CLOSE StudentRecords.
+            CLOSE TransRecords.
+            CLOSE NewStudentRecords.
+            
+            STOP RUN.
+
+    # 讀檔(報表產出): Sequential Files, Condition Names(Level 88), Read, Write, Writing to a Report File.
+      4. 程式範例:
+        
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. SEQUENTIALFILE-REPORT.
+
+        *INPUT      The student record file Students.Dat  Records in this file 
+        *           are sequenced on ascending Student Number. 
+        *OUTPUT     Shows the number of student records in the file and the  
+        *           number of records for males and females. 
+        *PROCESSING For each record read; 
+        *               Adds one to the TotalStudents count 
+        *               IF the Gender is Male   adds one to TotalMales 
+        *               IF the Gender is Female adds one to TotalFemales 
+        *           At end of file writes the results to the report file.         
+
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            
+            SELECT StudentFile assign to "STUDENTS-reportData.DAT"
+              organization is line sequential
+              access mode is sequential.
+              
+            SELECT ReportFile ASSIGN TO "STUDENTS-reportOutput.dat"
+              ORGANIZATION IS LINE SEQUENTIAL
+              ACCESS MODE IS SEQUENTIAL.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD  StudentFile.
+        01  StudentDetails.
+            88  EndOfStudentFile VALUE HIGH-VALUES.
+            03  StudentId   PIC x(7).
+            03  StudentName PIC X(10).
+            03  DateOfBirth.
+                05  YoBirth PIC 9(4).
+                05  MoBirth PIC 9(2).
+                05  DoBirth PIC 9(2).
+            03  CourseCode  PIC X(4).
+            03  Gender      PIC X.
+                88  Male    Value "M","m".
+            
+        FD  ReportFile.
+        01  ReportLine  PIC X(40).
+
+        WORKING-STORAGE SECTION.
+        01  HeadingLine PIC X(21) VALUE "=Record Count Report=".
+
+        01  StudentTotalLine.
+            03  FILLER PIC X(17) VALUE "Total Students = ".
+            03  PrnStudentCount PIC Z,ZZ9.
+        
+        01  MaleTotalLine.
+            03  FILLER PIC X(17) VALUE "Total Males = ".
+            03  PrnMaleCount PIC Z,ZZ9.
+        
+        01  FemaleTotalLine.
+            03  FILLER PIC X(17) VALUE "Total Females = ".
+            03  PrnFemaleCount PIC Z,ZZ9.
+
+        01  WorkingTotal.
+            03  StudentCount    PIC 9(4) VALUE ZERO.
+            03  MaleCount       PIC 9(4) VALUE ZERO.
+            03  FemaleCount     PIC 9(4) VALUE ZERO.
+        
+        PROCEDURE DIVISION.
+        BEGIN.
+            OPEN INPUT StudentFile
+            OPEN OUTPUT ReportFile
+
+            READ StudentFile
+                AT END SET EndOfStudentFile TO TRUE
+            END-READ
+            PERFORM UNTIL EndOfStudentFile
+                ADD 1 TO StudentCount
+                IF Male ADD 1 TO MaleCount
+                    ELSE ADD 1 TO FemaleCount
+                END-IF
+                READ StudentFile
+                    AT END SET EndOfStudentFile TO TRUE
+                END-READ
+            END-PERFORM.
+
+            PERFORM PRINT-REPORT.
+
+            CLOSE StudentFile.
+            CLOSE ReportFile.
+            
+            STOP RUN.
+        
+        PRINT-REPORT.
+            MOVE StudentCount TO PrnStudentCount.
+            MOVE MaleCount TO PrnMaleCount.
+            MOVE FemaleCount TO PrnFemaleCount.
+
+            WRITE ReportLine FROM HeadingLine
+                AFTER ADVANCING PAGE
+            WRITE ReportLine FROM StudentTotalLine
+                AFTER ADVANCING 2 LINES
+            WRITE ReportLine FROM MaleTotalLine
+                AFTER ADVANCING 2 LINES
+            WRITE ReportLine FROM FemaleTotalLine
+                AFTER ADVANCING 2 LINES.
+          
+  [Sorting and Merging]
+    # 排序(使用WORKING FILE作排序, ACCEPT WORKFILE 暫存, RELEASE WORKFILE 確認寫入): SORT & INPUT PROCEDURE & 除了FD外, 又使用了SD
+      4. 程式範例:
+
+        $ SET SOURCEFORMAT"FREE"
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID.  InputSort.
+        AUTHOR.  Michael Coughlan.
+        * An example program using the SORT and an 
+        * INPUT PROCEDURE.  The program accepts records
+        * from the user and RELEASEs them to the work file
+        * where they are sorted.  This program
+        * allows student records to be entered in any order but
+        * produces a file sequenced on ascending StudentId.
+        
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT StudentFile ASSIGN TO "SORTSTUD.DAT"
+            ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT WorkFile ASSIGN TO "WORK.TMP".
+
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD StudentFile.
+        01 StudentDetails      PIC X(30).
+
+        * The StudentDetails record has the description shown below.
+        * But in this program we don't need to refer to any of the items in 
+        * the record and so we have described it as PIC X(32) 
+        * 01 StudentDetails
+        *    02  StudentId       PIC 9(7).
+        *    02  StudentName.
+        *        03 Surname      PIC X(8).
+        *        03 Initials     PIC XX.
+        *    02  DateOfBirth.
+        *        03 YOBirth      PIC 9(4).
+        *        03 MOBirth      PIC 9(2).
+        *        03 DOBirth      PIC 9(2).
+        *    02  CourseCode      PIC X(4).
+        *    02  Gender          PIC X.
+
+
+        SD WorkFile.
+        01 WorkRec.
+          02 WStudentId       PIC 9(7).
+          02 FILLER           PIC X(23).
+
+
+        PROCEDURE DIVISION.
+        Begin.
+          SORT WorkFile ON ASCENDING KEY WStudentId
+                INPUT PROCEDURE IS GetStudentDetails
+                GIVING StudentFile.
           STOP RUN.
 
-  # 讀檔(with LEVEL 88 Condition Name): Sequential File, Read, Open Input, Close, File Description(FD), Select..assign to ..organization is line sequential.
-    4. 程式範例:
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. SEQUENTIALFILEREADWITH88.
-       * An example program showing how to read a sequential file.
-       * This is the definitive example 
 
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           SELECT StudentFile ASSIGN TO "Student.dat"
-             ORGANIZATION IS LINE SEQUENTIAL.
+        GetStudentDetails.
+            DISPLAY "Enter student details using template below."
+            DISPLAY "Enter no data to end.".
+            DISPLAY "Enter - StudId, Surname, Initials, YOB, MOB, DOB, Course, Gender"
+            DISPLAY "NNNNNNNSSSSSSSSIIYYYYMMDDCCCCG"
+            ACCEPT  WorkRec.
+            PERFORM UNTIL WorkRec = SPACES
+              RELEASE WorkRec
+              ACCEPT WorkRec
+            END-PERFORM.
 
-       DATA DIVISION.
-       FILE SECTION.
-       FD  StudentFile.
-       01  StudentDetails.
-           88  EndOfStudentFile value high-values.
-           03  StudentId   pic x(7).
-           03  StudentName.
-               05  FirstName pic x(8).
-               05  LastName pic xx.
-           03  DateOfBirth.
-               05  YoBirth pic 9(4).
-               05  MoBirth pic 9(2).
-               05  DoBirth pic 9(2).
-           03  CourseCode pic x(4).
-           03  Gender pic x.
-       
-       PROCEDURE DIVISION.
-       BEGIN.
-           OPEN INPUT StudentFile
+    # 排序(使用WORKING FILE作排序, ACCEPT WORKFILE 暫存, RELEASE WORKFILE 確認寫入):
+      4. 程式範例
 
-           READ StudentFile
-               AT END SET EndOfStudentFile TO TRUE
-           END-READ
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. SORT-READDATAFILE.
+        * Uses the the SORT and an INPUT PROCEDURE to read
+        * the student masterfile (sorted on ascending Student Id)
+        * and from it to produce a file containing only the records of
+        * male students sorted on ascending student name.
 
-           PERFORM UNTIL EndOfStudentFile
-               DISPLAY StudentId space StudentName space DateOfBirth space Gender
-               READ StudentFile
-                   AT END SET EndOfStudentFile TO TRUE
-               END-READ
-           END-PERFORM
-           CLOSE StudentFile.
-           STOP RUN.
-       
-  # 寫檔(插入資料, 比對是否存在, 匯出合併後新檔): Sequential File, Condition Names(Level 88), Read, Write, access mode is sequential
-    4. 程式範例:
-       
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. SEQUENTIALFILE-INSERTRECORDS.
-       * This program updates the Students.Dat file with insertions
-       * taken from the Transins.Dat file to create a new file
-       * - Students.New - which contains the inserted records.
-
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           SELECT StudentRecords ASSIGN TO "STUDENTS-forInsert.dat"
-             ORGANIZATION IS LINE SEQUENTIAL
-             ACCESS MODE IS SEQUENTIAL.
-
-           SELECT TransRecords ASSIGN TO "TRANS-forInsert.DAT"
-             ORGANIZATION IS LINE SEQUENTIAL
-             ACCESS MODE IS SEQUENTIAL.
-
-           SELECT NewStudentRecords ASSIGN TO "STUDENTs-forInsert.new"
-             ORGANIZATION IS LINE SEQUENTIAL
-             ACCESS MODE IS SEQUENTIAL.
-
-       DATA DIVISION.
-       FILE SECTION.
-       FD  StudentRecords.
-       01  StudentRecord.
-           88  EndOfStudentFile value high-values.
-           03  StudentId pic x(7).
-           03  FILLER pic x(23).
-
-       FD  TransRecords.
-       01  TransRecord.
-           88  EndOfTransFile value high-values.
-           03  TransStudentId pic x(7).
-           03  FILLER pic x(23).
-
-       FD  NewStudentRecords.
-       01  NewStudentRecord PIC x(30).
-       
-       PROCEDURE DIVISION.
-       BEGIN.
-           OPEN INPUT StudentRecords.
-           OPEN INPUT TransRecords.
-           OPEN OUTPUT NewStudentRecords.
-
-           READ StudentRecords
-               AT END SET EndOfStudentFile TO TRUE
-           END-READ
-
-           READ TransRecords
-               AT END SET EndOfTransFile TO TRUE
-           END-READ
-
-           PERFORM UNTIL (EndOfStudentFile) AND (EndOfTransFile)
-               EVALUATE TRUE
-                   WHEN (TransStudentId > StudentId)
-                       WRITE NewStudentRecord FROM StudentRecord
-                       READ StudentRecords
-                           AT END SET EndOfStudentFile TO TRUE
-                       END-READ
-                   WHEN (TransStudentId < StudentId)
-                       WRITE NewStudentRecord FROM TransRecord
-                       READ TransRecords
-                           AT END SET EndOfTransFile TO TRUE
-                       END-READ
-                   WHEN (TransStudentId = StudentId)
-                       DISPLAY "ERROR - " TransStudentId " ALREADY EXISTS IN FILE"
-                       READ TransRecords
-                           AT END SET EndOfTransFile TO TRUE
-                       END-READ
-               END-EVALUATE
-           END-PERFORM
-
-           CLOSE StudentRecords.
-           CLOSE TransRecords.
-           CLOSE NewStudentRecords.
-           
-           STOP RUN.
-
-  # 讀檔(報表產出): Sequential Files, Condition Names(Level 88), Read, Write, Writing to a Report File.
-    4. 程式範例:
-       
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. SEQUENTIALFILE-REPORT.
-
-       *INPUT      The student record file Students.Dat  Records in this file 
-       *           are sequenced on ascending Student Number. 
-       *OUTPUT     Shows the number of student records in the file and the  
-       *           number of records for males and females. 
-       *PROCESSING For each record read; 
-       *               Adds one to the TotalStudents count 
-       *               IF the Gender is Male   adds one to TotalMales 
-       *               IF the Gender is Female adds one to TotalFemales 
-       *           At end of file writes the results to the report file.         
-
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           
-           SELECT StudentFile assign to "STUDENTS-reportData.DAT"
-             organization is line sequential
-             access mode is sequential.
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT StudentFile ASSIGN TO "STUDENTS.DAT"
+              ORGANIZATION IS LINE SEQUENTIAL.
             
-           SELECT ReportFile ASSIGN TO "STUDENTS-reportOutput.dat"
-             ORGANIZATION IS LINE SEQUENTIAL
-             ACCESS MODE IS SEQUENTIAL.
+            SELECT StudentFile-Male ASSIGN TO "STUDENTS-MALE.DAT"
+              ORGANIZATION IS LINE SEQUENTIAL.
 
-       DATA DIVISION.
-       FILE SECTION.
-       FD  StudentFile.
-       01  StudentDetails.
-           88  EndOfStudentFile VALUE HIGH-VALUES.
-           03  StudentId   PIC x(7).
-           03  StudentName PIC X(10).
-           03  DateOfBirth.
-               05  YoBirth PIC 9(4).
-               05  MoBirth PIC 9(2).
-               05  DoBirth PIC 9(2).
-           03  CourseCode  PIC X(4).
-           03  Gender      PIC X.
-               88  Male    Value "M","m".
-           
-       FD  ReportFile.
-       01  ReportLine  PIC X(40).
+            SELECT WorkFile ASSIGN TO "WORK.TEMP".
 
-       WORKING-STORAGE SECTION.
-       01  HeadingLine PIC X(21) VALUE "=Record Count Report=".
+        DATA DIVISION.
+        FILE SECTION.
+        FD  StudentFile.
+        01  StudentRec  PIC X(30).
+            88  EndOfStudentFile VALUE High-value.
 
-       01  StudentTotalLine.
-           03  FILLER PIC X(17) VALUE "Total Students = ".
-           03  PrnStudentCount PIC Z,ZZ9.
-       
-       01  MaleTotalLine.
-           03  FILLER PIC X(17) VALUE "Total Males = ".
-           03  PrnMaleCount PIC Z,ZZ9.
-       
-       01  FemaleTotalLine.
-           03  FILLER PIC X(17) VALUE "Total Females = ".
-           03  PrnFemaleCount PIC Z,ZZ9.
+        FD  StudentFile-Male.
+        01  StudentRec-Male PIC X(30).
 
-       01  WorkingTotal.
-           03  StudentCount    PIC 9(4) VALUE ZERO.
-           03  MaleCount       PIC 9(4) VALUE ZERO.
-           03  FemaleCount     PIC 9(4) VALUE ZERO.
-       
-       PROCEDURE DIVISION.
-       BEGIN.
-           OPEN INPUT StudentFile
-           OPEN OUTPUT ReportFile
+        SD  WorkFile.
+        01  WorkRec.
+            03  FILLER PIC X(7).
+            03  wStudentName PIC X(10).
+            03  FILLER PIC X(12).
+            03  wGender PIC X.
+                88  MaleStudent VALUE "M".
 
-           READ StudentFile
-               AT END SET EndOfStudentFile TO TRUE
-           END-READ
-           PERFORM UNTIL EndOfStudentFile
-               ADD 1 TO StudentCount
-               IF Male ADD 1 TO MaleCount
-                   ELSE ADD 1 TO FemaleCount
-               END-IF
-               READ StudentFile
-                   AT END SET EndOfStudentFile TO TRUE
-               END-READ
-           END-PERFORM.
+        PROCEDURE DIVISION.
+        BEGIN.
+            SORT WorkFile ON ASCENDING KEY wStudentName
+                INPUT PROCEDURE IS GetMaleStudent
+                GIVING StudentFile-Male.
+            STOP RUN.
 
-           PERFORM PRINT-REPORT.
+        GetMaleStudent.
+            OPEN INPUT StudentFile
+            
+            READ StudentFile
+                AT END SET EndOfStudentFile TO TRUE
+            END-READ
+            PERFORM UNTIL EndOfStudentFile
+                MOVE StudentRec TO WorkRec
+                IF MaleStudent
+                    RELEASE WorkRec
+                END-IF
+                READ StudentFile
+                    AT END SET EndOfStudentFile TO TRUE
+                END-READ
+            END-PERFORM
 
-           CLOSE StudentFile.
-           CLOSE ReportFile.
-           
-           STOP RUN.
-       
-       PRINT-REPORT.
-           MOVE StudentCount TO PrnStudentCount.
-           MOVE MaleCount TO PrnMaleCount.
-           MOVE FemaleCount TO PrnFemaleCount.
+            CLOSE StudentFile.
 
-           WRITE ReportLine FROM HeadingLine
-               AFTER ADVANCING PAGE
-           WRITE ReportLine FROM StudentTotalLine
-               AFTER ADVANCING 2 LINES
-           WRITE ReportLine FROM MaleTotalLine
-               AFTER ADVANCING 2 LINES
-           WRITE ReportLine FROM FemaleTotalLine
-               AFTER ADVANCING 2 LINES.
+    # 合併: (MERGE)
+        注意事項
+          1. MERGE 無法排除重複項目, 只單純把資料合併
+          2. 如須排除重複項目, 請參考: '寫檔(插入資料, 比對是否存在, 匯出合併後新檔)'
+
+        程式範例:
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. MERGEFILES.
+        *> MERGE 無法排除重複項目, 只單純把資料合併
         
-  [Sorting and Merging]
-  # 排序(使用WORKING FILE作排序, ACCEPT WORKFILE 暫存, RELEASE WORKFILE 確認寫入): SORT & INPUT PROCEDURE & 除了FD外, 又使用了SD
-    4. 程式範例:
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT StudentFile ASSIGN TO "Student.DAT"
+              ORGANIZATION IS LINE SEQUENTIAL.
 
-      $ SET SOURCEFORMAT"FREE"
-      IDENTIFICATION DIVISION.
-      PROGRAM-ID.  InputSort.
-      AUTHOR.  Michael Coughlan.
-      * An example program using the SORT and an 
-      * INPUT PROCEDURE.  The program accepts records
-      * from the user and RELEASEs them to the work file
-      * where they are sorted.  This program
-      * allows student records to be entered in any order but
-      * produces a file sequenced on ascending StudentId.
-      
-      ENVIRONMENT DIVISION.
-      INPUT-OUTPUT SECTION.
-      FILE-CONTROL.
-          SELECT StudentFile ASSIGN TO "SORTSTUD.DAT"
-          ORGANIZATION IS LINE SEQUENTIAL.
-          SELECT WorkFile ASSIGN TO "WORK.TMP".
+            SELECT TranFile ASSIGN TO "TRANS-forInsert.DAT"
+              ORGANIZATION IS LINE SEQUENTIAL.
 
+            SELECT NewStudentFile ASSIGN TO "STUDENTs-Merged.dat"
+              ORGANIZATION IS LINE SEQUENTIAL.
 
-      DATA DIVISION.
-      FILE SECTION.
-      FD StudentFile.
-      01 StudentDetails      PIC X(30).
+            SELECT WorkFile ASSIGN TO "WORK.TMP".
 
-      * The StudentDetails record has the description shown below.
-      * But in this program we don't need to refer to any of the items in 
-      * the record and so we have described it as PIC X(32) 
-      * 01 StudentDetails
-      *    02  StudentId       PIC 9(7).
-      *    02  StudentName.
-      *        03 Surname      PIC X(8).
-      *        03 Initials     PIC XX.
-      *    02  DateOfBirth.
-      *        03 YOBirth      PIC 9(4).
-      *        03 MOBirth      PIC 9(2).
-      *        03 DOBirth      PIC 9(2).
-      *    02  CourseCode      PIC X(4).
-      *    02  Gender          PIC X.
+        DATA DIVISION.
+        FILE SECTION.
+        FD  StudentFile.
+        01  StudentRec PIC X(30).
 
+        FD  TranFile.
+        01  TranRec PIC X(30).
 
-      SD WorkFile.
-      01 WorkRec.
-        02 WStudentId       PIC 9(7).
-        02 FILLER           PIC X(23).
+        FD  NewStudentFile.
+        01  NewStudentRec PIC X(30).
 
+        SD  WorkFile.
+        01  WorkRec.
+            03  wStudentId  PIC X(7).
+            03  FILLER      PIC X(23).
 
-      PROCEDURE DIVISION.
-      Begin.
-        SORT WorkFile ON ASCENDING KEY WStudentId
-              INPUT PROCEDURE IS GetStudentDetails
-              GIVING StudentFile.
-        STOP RUN.
+        PROCEDURE DIVISION.
+        BEGIN.
+            MERGE WorkFile
+                ON ASCENDING KEY wStudentId
+                USING TranFile, StudentFile
+                GIVING NewStudentFile.
+            STOP RUN.
 
+    ==先略過 BEGIN ==
+      # 課後練習1: AromaSalesRpt
 
-      GetStudentDetails.
-          DISPLAY "Enter student details using template below."
-          DISPLAY "Enter no data to end.".
-          DISPLAY "Enter - StudId, Surname, Initials, YOB, MOB, DOB, Course, Gender"
-          DISPLAY "NNNNNNNSSSSSSSSIIYYYYMMDDCCCCG"
-          ACCEPT  WorkRec.
-          PERFORM UNTIL WorkRec = SPACES
-            RELEASE WorkRec
-            ACCEPT WorkRec
-          END-PERFORM.
+      # 課後練習2: CSISEmailDomain
 
-  # 排序(使用WORKING FILE作排序, ACCEPT WORKFILE 暫存, RELEASE WORKFILE 確認寫入):
-    4. 程式範例
+      # 課後練習3: BestSellers
 
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. SORT-READDATAFILE.
-       * Uses the the SORT and an INPUT PROCEDURE to read
-       * the student masterfile (sorted on ascending Student Id)
-       * and from it to produce a file containing only the records of
-       * male students sorted on ascending student name.
-
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           SELECT StudentFile ASSIGN TO "STUDENTS.DAT"
-             ORGANIZATION IS LINE SEQUENTIAL.
-           
-           SELECT StudentFile-Male ASSIGN TO "STUDENTS-MALE.DAT"
-             ORGANIZATION IS LINE SEQUENTIAL.
-
-           SELECT WorkFile ASSIGN TO "WORK.TEMP".
-
-       DATA DIVISION.
-       FILE SECTION.
-       FD  StudentFile.
-       01  StudentRec  PIC X(30).
-           88  EndOfStudentFile VALUE High-value.
-
-       FD  StudentFile-Male.
-       01  StudentRec-Male PIC X(30).
-
-       SD  WorkFile.
-       01  WorkRec.
-           03  FILLER PIC X(7).
-           03  wStudentName PIC X(10).
-           03  FILLER PIC X(12).
-           03  wGender PIC X.
-               88  MaleStudent VALUE "M".
-
-       PROCEDURE DIVISION.
-       BEGIN.
-           SORT WorkFile ON ASCENDING KEY wStudentName
-               INPUT PROCEDURE IS GetMaleStudent
-               GIVING StudentFile-Male.
-           STOP RUN.
-
-       GetMaleStudent.
-           OPEN INPUT StudentFile
-           
-           READ StudentFile
-               AT END SET EndOfStudentFile TO TRUE
-           END-READ
-           PERFORM UNTIL EndOfStudentFile
-               MOVE StudentRec TO WorkRec
-               IF MaleStudent
-                   RELEASE WorkRec
-               END-IF
-               READ StudentFile
-                   AT END SET EndOfStudentFile TO TRUE
-               END-READ
-           END-PERFORM
-
-           CLOSE StudentFile.
-
-  # 合併: (MERGE)
-      注意事項
-        1. MERGE 無法排除重複項目, 只單純把資料合併
-        2. 如須排除重複項目, 請參考: '寫檔(插入資料, 比對是否存在, 匯出合併後新檔)'
-
-      程式範例:
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. MERGEFILES.
-      *> MERGE 無法排除重複項目, 只單純把資料合併
-       
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           SELECT StudentFile ASSIGN TO "Student.DAT"
-             ORGANIZATION IS LINE SEQUENTIAL.
-
-           SELECT TranFile ASSIGN TO "TRANS-forInsert.DAT"
-             ORGANIZATION IS LINE SEQUENTIAL.
-
-           SELECT NewStudentFile ASSIGN TO "STUDENTs-Merged.dat"
-             ORGANIZATION IS LINE SEQUENTIAL.
-
-           SELECT WorkFile ASSIGN TO "WORK.TMP".
-
-       DATA DIVISION.
-       FILE SECTION.
-       FD  StudentFile.
-       01  StudentRec PIC X(30).
-
-       FD  TranFile.
-       01  TranRec PIC X(30).
-
-       FD  NewStudentFile.
-       01  NewStudentRec PIC X(30).
-
-       SD  WorkFile.
-       01  WorkRec.
-           03  wStudentId  PIC X(7).
-           03  FILLER      PIC X(23).
-
-       PROCEDURE DIVISION.
-       BEGIN.
-           MERGE WorkFile
-               ON ASCENDING KEY wStudentId
-               USING TranFile, StudentFile
-               GIVING NewStudentFile.
-           STOP RUN.
-
-  ==先略過 BEGIN ==
-  
-  # 案例1: AromaSalesRpt
-
-  # 案例2: CSISEmailDomain
-
-  # 案例3: BestSellers
-
-  # 案例4: DueSubRpt
-
-  ==先略過 END ==
+      # 課後練習4: DueSubRpt
+    ==先略過 END ==
 
   [Direct Access Files]
-  
-  # 新增 Relative File from Sequential File: (核心觀念: Relative files, Sequential fiels, access mode, relative key, file status, read..at end, write..invalid key.)
-    重點:
-      1. Relative File 不是標準ASCII檔, 它無法直接用編輯器產生.
-      2. 語法1(relative , random , relative key , file status)
-        SELECT RelativeFile ASSIGN TO "RelativeFile-IsHere.dat"
-             ORGANIZATION IS RELATIVE
-             ACCESS MODE IS RANDOM
-             RELATIVE KEY IS SupplierKey
-             FILE STATUS IS SupplierStatus.
-      3. 語法2
-        WRITE SupplierRecord
-                   INVALID KEY DISPLAY "SUPPLIER STATUS = " SupplierStatus
-               END-WRITE
-
-    程式範例:
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. SEQUENTIALFILE-TO-RELATIVEFILE.
-
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           SELECT RelativeFile ASSIGN TO "RelativeFile-IsHere.dat"
-             ORGANIZATION IS RELATIVE
-             ACCESS MODE IS RANDOM
-             RELATIVE KEY IS SupplierKey
-             FILE STATUS IS SupplierStatus.
-
-           SELECT SequentialFile ASSIGN TO "RelativeFileData.dat"
-             ORGANIZATION IS LINE SEQUENTIAL.
-
-       DATA DIVISION.
-       FILE SECTION.
-       FD  RelativeFile.
-       01  SupplierRecord.
-           03  SupplierCode PIC 99.
-           03  SupplierName PIC X(20).
-           03  SupplierAddress PIC X(50).
-
-       FD  SequentialFile.
-       01  SupplierRecord-Seq.
-           88  EndOfFile   VALUE HIGH-VALUE.
-           03  SupplierCode-Seq PIC 99.
-           03  SupplierName-Seq PIC X(20).
-           03  SupplierAddress-Seq PIC X(50).
-
-       WORKING-STORAGE SECTION.
-       01  SupplierStatus PIC X(2).
-       01  SupplierKey    PIC 99.
-
-       PROCEDURE DIVISION.
-       BEGIN.
-           OPEN OUTPUT RelativeFile.
-           OPEN INPUT SequentialFile.
-
-           READ SequentialFile
-               AT END SET EndOfFile TO TRUE
-           END-READ
-
-           PERFORM UNTIL EndOfFile
-               MOVE SupplierRecord-Seq TO SupplierRecord
-               MOVE SupplierCode-Seq TO SupplierKey
-               WRITE SupplierRecord
-                   INVALID KEY DISPLAY "SUPPLIER STATUS = " SupplierStatus
-               END-WRITE
-               READ SequentialFile
-                   AT END SET EndOfFile TO TRUE
-               END-READ
-           END-PERFORM
-
-           CLOSE RelativeFile, SequentialFile.
-
-           STOP RUN.
-
-  # 讀取 Relative File: (核心觀念: Relative files, ACCESS MODE, RELATIVE KEY, file STATUS, READ..NEXT RECORD, READ..INVALID KEY, Condition Names, IF)
+    # 新增 Relative File from Sequential File: (核心觀念: Relative files, Sequential fiels, access mode, relative key, file status, read..at end, write..invalid key.)
       重點:
-        # Relative File != SequentialFile
-        # Relative File 存取方式有兩種:
-          1. DirectRead, 
-              利用 Relative KEY 抓出 MATCH DATAs.
-              另有 FILE STATUS 判斷是否 找到資料(FILE STATUS = 23, 表示沒有找到)
-          2. SequentialRead, 比照Sequential File讀取方式,
-              由頭讀到尾.
+        1. Relative File 不是標準ASCII檔, 它無法直接用編輯器產生.
+        2. 語法1(relative , random , relative key , file status)
+          SELECT RelativeFile ASSIGN TO "RelativeFile-IsHere.dat"
+              ORGANIZATION IS RELATIVE
+              ACCESS MODE IS RANDOM
+              RELATIVE KEY IS SupplierKey
+              FILE STATUS IS SupplierStatus.
+        3. 語法2
+          WRITE SupplierRecord
+                    INVALID KEY DISPLAY "SUPPLIER STATUS = " SupplierStatus
+                END-WRITE
 
       程式範例:
         IDENTIFICATION DIVISION.
-        PROGRAM-ID. RELATIVEFILE-READ.
-        *> Read a relative file directly or in sequence.
-        *> 資料來源必須是 'Relative File', 可以從上一範例取得.
+        PROGRAM-ID. SEQUENTIALFILE-TO-RELATIVEFILE.
 
         ENVIRONMENT DIVISION.
         INPUT-OUTPUT SECTION.
         FILE-CONTROL.
             SELECT RelativeFile ASSIGN TO "RelativeFile-IsHere.dat"
               ORGANIZATION IS RELATIVE
-              ACCESS MODE IS DYNAMIC
+              ACCESS MODE IS RANDOM
               RELATIVE KEY IS SupplierKey
               FILE STATUS IS SupplierStatus.
+
+            SELECT SequentialFile ASSIGN TO "RelativeFileData.dat"
+              ORGANIZATION IS LINE SEQUENTIAL.
 
         DATA DIVISION.
         FILE SECTION.
         FD  RelativeFile.
         01  SupplierRecord.
-            88  EndOfFile   VALUE HIGH-VALUE.
-            03  SupplierCode    PIC 99.
-            03  SupplierName    PIC X(20).
+            03  SupplierCode PIC 99.
+            03  SupplierName PIC X(20).
             03  SupplierAddress PIC X(50).
-            
+
+        FD  SequentialFile.
+        01  SupplierRecord-Seq.
+            88  EndOfFile   VALUE HIGH-VALUE.
+            03  SupplierCode-Seq PIC 99.
+            03  SupplierName-Seq PIC X(20).
+            03  SupplierAddress-Seq PIC X(50).
+
         WORKING-STORAGE SECTION.
-        01  SupplierStatus  PIC X(2).
+        01  SupplierStatus PIC X(2).
+        01  SupplierKey    PIC 99.
+
+        PROCEDURE DIVISION.
+        BEGIN.
+            OPEN OUTPUT RelativeFile.
+            OPEN INPUT SequentialFile.
+
+            READ SequentialFile
+                AT END SET EndOfFile TO TRUE
+            END-READ
+
+            PERFORM UNTIL EndOfFile
+                MOVE SupplierRecord-Seq TO SupplierRecord
+                MOVE SupplierCode-Seq TO SupplierKey
+                WRITE SupplierRecord
+                    INVALID KEY DISPLAY "SUPPLIER STATUS = " SupplierStatus
+                END-WRITE
+                READ SequentialFile
+                    AT END SET EndOfFile TO TRUE
+                END-READ
+            END-PERFORM
+
+            CLOSE RelativeFile, SequentialFile.
+
+            STOP RUN.
+
+    # 讀取 Relative File: (核心觀念: Relative files, ACCESS MODE, RELATIVE KEY, file STATUS, READ..NEXT RECORD, READ..INVALID KEY, Condition Names, IF)
+        重點:
+          # Relative File != SequentialFile
+          # Relative File 存取方式有兩種:
+            1. DirectRead, 
+                利用 Relative KEY 抓出 MATCH DATAs.
+                另有 FILE STATUS 判斷是否 找到資料(FILE STATUS = 23, 表示沒有找到)
+            2. SequentialRead, 比照Sequential File讀取方式,
+                由頭讀到尾.
+
+        程式範例:
+          IDENTIFICATION DIVISION.
+          PROGRAM-ID. RELATIVEFILE-READ.
+          *> Read a relative file directly or in sequence.
+          *> 資料來源必須是 'Relative File', 可以從上一範例取得.
+
+          ENVIRONMENT DIVISION.
+          INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+              SELECT RelativeFile ASSIGN TO "RelativeFile-IsHere.dat"
+                ORGANIZATION IS RELATIVE
+                ACCESS MODE IS DYNAMIC
+                RELATIVE KEY IS SupplierKey
+                FILE STATUS IS SupplierStatus.
+
+          DATA DIVISION.
+          FILE SECTION.
+          FD  RelativeFile.
+          01  SupplierRecord.
+              88  EndOfFile   VALUE HIGH-VALUE.
+              03  SupplierCode    PIC 99.
+              03  SupplierName    PIC X(20).
+              03  SupplierAddress PIC X(50).
+              
+          WORKING-STORAGE SECTION.
+          01  SupplierStatus  PIC X(2).
+              88  RECORDFOUND VALUE "00".
+
+          01  SupplierKey PIC 99.
+
+          01  PRNSUPPLIERRECORD.
+              03  PRNSUPPLIERCODE     PIC BB99.
+              03  PRNSUPPLIERNAME     PIC BBX(20).
+              03  PRNSUPPLIERADDRESS  PIC BBX(50).
+          
+          01  READTYPE    PIC 9.
+              88  DIRECTREAD  VALUE 1.
+              88  SEQUENTIALREAD  VALUE 2.
+              
+          PROCEDURE DIVISION.
+          BEGIN.
+              OPEN INPUT RelativeFile.
+              DISPLAY "CHOOSE READ TYPE : DIRECT READ = 1, SEQUENTIAL READ = 2 ? "
+                WITH NO ADVANCING
+              ACCEPT READTYPE.
+
+              IF DIRECTREAD
+                  DISPLAY "ENTER KEY(2 DIGITS) TO SHOW : " WITH NO ADVANCING
+                  ACCEPT SupplierKey
+                  READ RelativeFile
+                      INVALID KEY DISPLAY "STATUS = ", SupplierStatus
+                  END-READ
+                  PERFORM DISPLAYrECORD
+              END-IF
+
+              IF SEQUENTIALREAD
+                  READ RelativeFile NEXT RECORD
+                      AT END SET EndOfFile TO TRUE
+                  END-READ
+                  PERFORM UNTIL EndOfFile
+                      PERFORM DISPLAYrECORD
+                      READ RelativeFile NEXT RECORD
+                          AT END SET EndOfFile TO TRUE
+                      END-READ
+                  END-PERFORM
+              END-IF
+
+              CLOSE RelativeFile.
+              STOP RUN.
+
+          DISPLAYrECORD.
+              IF RECORDFOUND
+                  MOVE SupplierCode TO PRNSUPPLIERCODE
+                  MOVE SupplierName TO PRNSUPPLIERNAME
+                  MOVE SupplierAddress TO PRNSUPPLIERADDRESS
+                  DISPLAY PRNSUPPLIERRECORD
+              END-IF.
+
+    # 產生 Indexed File: (核心觀念: Indexed files, Sequential files, RECORD KEY, ALTERNATE KEY, READ..AT END, WRITE..INVALID KEY)
+        重點:
+          # RELATIVE FILE, ORGANIZATION IS RELATIVE.
+          # SEQUENTIAL FILE, ORGANIZATION IS LINE SEQUENTIAL.
+          # INDEXED FILE, ORGANIZATION IS INDEXED.
+          # INDEXED FILE, 兩個檔案算1組.
+            1. 資料檔, 內容和資料來源檔一樣.
+            2. 索引檔, 資料檔的索引結果.
+
+        程式範例:
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. INDEXEDFILE-CREATE.
+        *> Create an indexed file from a sequential file.
+
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT VideoFile ASSIGN TO "IDXVIDEO.DAT"
+              ORGANIZATION IS INDEXED
+              ACCESS MODE IS RANDOM
+              RECORD KEY IS VideoCode
+        *>     問題出在這裡, ALTERNATE RECORD 少寫關鍵字 KEY..
+              ALTERNATE RECORD KEY IS VideoTitle
+                WITH DUPLICATES
+              FILE STATUS IS VideoStatus.
+
+            SELECT SeqVideoFile ASSIGN TO "SEQVIDEO.DAT"
+              ORGANIZATION IS LINE SEQUENTIAL.
+        
+        DATA DIVISION.
+        FILE SECTION.
+        FD  VideoFile.
+        01  VideoRecord.
+            03  VideoCode   PIC 9(5).
+            03  VideoTitle  PIC X(40).
+            03  VideoSupplierCode   PIC 99.
+
+        FD  SeqVideoFile.
+        01  SeqVideoRecord.
+            88  EndOfFile VALUE HIGH-VALUE.
+            03  SeqVideoCode    PIC 9(5).
+            03  SeqVideoTitle   PIC X(40).
+            03  SeqVideoSupplierCode    PIC 99.
+
+        WORKING-STORAGE SECTION.
+        01  VideoStatus PIC X(2).
+
+        PROCEDURE DIVISION.
+        BEGIN.
+            OPEN INPUT SeqVideoFile.
+            OPEN OUTPUT VideoFile.
+
+            READ SeqVideoFile
+                AT END SET EndOfFile TO TRUE
+            END-READ.
+            PERFORM UNTIL EndOfFile
+                WRITE VideoRecord FROM SeqVideoRecord
+                    INVALID KEY DISPLAY "(INVALID KEY) Record Status = ", VideoStatus
+                END-WRITE
+                READ SeqVideoFile
+                    AT END SET EndOfFile TO TRUE
+                END-READ
+            END-PERFORM.
+
+            CLOSE SeqVideoFile, VideoFile.
+            STOP RUN.
+        
+    # 讀取 Indexed File(direct access): (核心觀念: Indexed files, READ <FileVariable> KEY IS <FileColumn>)
+        重點:
+          1. 長度宣告前面加上 'B' 用途為何, 留出空格
+            01  PRNSUPPLIERRECORD.
+              03  PRNSUPPLIERCODE     PIC BB99. //這裡會留 2個空白在99前面.
+              03  PRNSUPPLIERNAME     PIC BBX(20).
+              03  PRNSUPPLIERADDRESS  PIC BBX(50).
+
+        程式範例(2021-03-22 沒寫成功、2021-03-23 找出問題所在, 產生IndexedFile時有問題, 導致讀不到資料):
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. INDEXEDFILE-DIRECTREAD.
+
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT VideoFile ASSIGN TO "IDXVIDEO.DAT"
+              ORGANIZATION IS INDEXED
+              ACCESS MODE IS DYNAMIC
+              RECORD KEY IS VideoCode
+              ALTERNATE RECORD KEY IS VideoTitle
+                WITH DUPLICATES
+              FILE STATUS IS VideoStatus.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD  VideoFile.
+        01  VideoRecord.
+            03  VideoCode       PIC 9(5).
+            03  VideoTitle      PIC X(40).
+            03  SupplierCode    PIC 99.
+        
+        WORKING-STORAGE SECTION.
+        01  VideoStatus PIC X(2).
             88  RECORDFOUND VALUE "00".
 
-        01  SupplierKey PIC 99.
+        01  RequiredKey           PIC 9.
+            88 VideoCodeKey      VALUE 1.
+            88 VideoTitleKey     VALUE 2.
 
-        01  PRNSUPPLIERRECORD.
-            03  PRNSUPPLIERCODE     PIC BB99.
-            03  PRNSUPPLIERNAME     PIC BBX(20).
-            03  PRNSUPPLIERADDRESS  PIC BBX(50).
-        
-        01  READTYPE    PIC 9.
-            88  DIRECTREAD  VALUE 1.
-            88  SEQUENTIALREAD  VALUE 2.
+        01  Prn-VideoRecord.
+            03  Prn-VideoCode       PIC 9(5).
+            03  Prn-VideoTitle      PIC BBBBX(40).
+            03  Prn-SupplierCode    PIC BBBB99.
             
         PROCEDURE DIVISION.
         BEGIN.
-            OPEN INPUT RelativeFile.
-            DISPLAY "CHOOSE READ TYPE : DIRECT READ = 1, SEQUENTIAL READ = 2 ? "
-              WITH NO ADVANCING
-            ACCEPT READTYPE.
+            OPEN INPUT VideoFile.
 
-            IF DIRECTREAD
-                DISPLAY "ENTER KEY(2 DIGITS) TO SHOW : " WITH NO ADVANCING
-                ACCEPT SupplierKey
-                READ RelativeFile
-                    INVALID KEY DISPLAY "STATUS = ", SupplierStatus
+            DISPLAY "CHOOSE YOUR FAVORITE KEY VIDEOCODE = 1, VIDEOTITLE = 2:"
+              WITH NO ADVANCING.
+            ACCEPT RequiredKey.
+
+            IF VideoCodeKey
+                DISPLAY "ENTER VIDEO CODE(5 DIGITS) : " WITH NO ADVANCING
+                ACCEPT VideoCode
+                READ VideoFile
+                KEY IS VideoCode
+                INVALID KEY DISPLAY "(key=CODE)STATUS : " , VideoStatus
                 END-READ
-                PERFORM DISPLAYrECORD
             END-IF
 
-            IF SEQUENTIALREAD
-                READ RelativeFile NEXT RECORD
-                    AT END SET EndOfFile TO TRUE
-                END-READ
-                PERFORM UNTIL EndOfFile
-                    PERFORM DISPLAYrECORD
-                    READ RelativeFile NEXT RECORD
-                        AT END SET EndOfFile TO TRUE
-                    END-READ
-                END-PERFORM
+            IF VideoTitleKey
+                DISPLAY "ENTER VIDEO TITLE(40 CHARS) : " WITH NO ADVANCING
+                ACCEPT VideoTitle
+                READ VideoFile
+                KEY IS VideoTitle
+                INVALID KEY DISPLAY "(key=TITLE)STATUS : " , VideoStatus
+                END-READ              
             END-IF
 
-            CLOSE RelativeFile.
-            STOP RUN.
-
-        DISPLAYrECORD.
             IF RECORDFOUND
-                MOVE SupplierCode TO PRNSUPPLIERCODE
-                MOVE SupplierName TO PRNSUPPLIERNAME
-                MOVE SupplierAddress TO PRNSUPPLIERADDRESS
-                DISPLAY PRNSUPPLIERRECORD
+                MOVE VideoCode TO Prn-VideoCode
+                MOVE VideoTitle TO Prn-VideoTitle
+                MOVE SupplierCode TO Prn-SupplierCode
+                DISPLAY Prn-VideoRecord
+            ELSE
+                DISPLAY "..NOTHING FOUND.."
             END-IF.
 
-  # 產生 Indexed File: (核心觀念: Indexed files, Sequential files, RECORD KEY, ALTERNATE KEY, READ..AT END, WRITE..INVALID KEY)
-      重點:
-        # RELATIVE FILE, ORGANIZATION IS RELATIVE.
-        # SEQUENTIAL FILE, ORGANIZATION IS LINE SEQUENTIAL.
-        # INDEXED FILE, ORGANIZATION IS INDEXED.
-        # INDEXED FILE, 兩個檔案算1組.
-          1. 資料檔, 內容和資料來源檔一樣.
-          2. 索引檔, 資料檔的索引結果.
+            CLOSE VideoFile.
+            STOP RUN.
 
-      程式範例:
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. INDEXEDFILE-CREATE.
-      *> Create an indexed file from a sequential file.
-
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           SELECT VideoFile ASSIGN TO "IDXVIDEO.DAT"
-             ORGANIZATION IS INDEXED
-             ACCESS MODE IS RANDOM
-             RECORD KEY IS VideoCode
-      *>     問題出在這裡, ALTERNATE RECORD 少寫關鍵字 KEY..
-             ALTERNATE RECORD KEY IS VideoTitle
-               WITH DUPLICATES
-             FILE STATUS IS VideoStatus.
-
-           SELECT SeqVideoFile ASSIGN TO "SEQVIDEO.DAT"
-             ORGANIZATION IS LINE SEQUENTIAL.
-       
-       DATA DIVISION.
-       FILE SECTION.
-       FD  VideoFile.
-       01  VideoRecord.
-           03  VideoCode   PIC 9(5).
-           03  VideoTitle  PIC X(40).
-           03  VideoSupplierCode   PIC 99.
-
-       FD  SeqVideoFile.
-       01  SeqVideoRecord.
-           88  EndOfFile VALUE HIGH-VALUE.
-           03  SeqVideoCode    PIC 9(5).
-           03  SeqVideoTitle   PIC X(40).
-           03  SeqVideoSupplierCode    PIC 99.
-
-       WORKING-STORAGE SECTION.
-       01  VideoStatus PIC X(2).
-
-       PROCEDURE DIVISION.
-       BEGIN.
-           OPEN INPUT SeqVideoFile.
-           OPEN OUTPUT VideoFile.
-
-           READ SeqVideoFile
-               AT END SET EndOfFile TO TRUE
-           END-READ.
-           PERFORM UNTIL EndOfFile
-               WRITE VideoRecord FROM SeqVideoRecord
-                   INVALID KEY DISPLAY "(INVALID KEY) Record Status = ", VideoStatus
-               END-WRITE
-               READ SeqVideoFile
-                   AT END SET EndOfFile TO TRUE
-               END-READ
-           END-PERFORM.
-
-           CLOSE SeqVideoFile, VideoFile.
-           STOP RUN.
-       
-  # 讀取 Indexed File(direct access): (核心觀念: Indexed files, READ <FileVariable> KEY IS <FileColumn>)
-      重點:
-        1. 長度宣告前面加上 'B' 用途為何, 留出空格
-          01  PRNSUPPLIERRECORD.
-            03  PRNSUPPLIERCODE     PIC BB99. //這裡會留 2個空白在99前面.
-            03  PRNSUPPLIERNAME     PIC BBX(20).
-            03  PRNSUPPLIERADDRESS  PIC BBX(50).
-
-      程式範例(2021-03-22 沒寫成功、2021-03-23 找出問題所在, 產生IndexedFile時有問題, 導致讀不到資料):
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. INDEXEDFILE-DIRECTREAD.
-
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           SELECT VideoFile ASSIGN TO "IDXVIDEO.DAT"
-             ORGANIZATION IS INDEXED
-             ACCESS MODE IS DYNAMIC
-             RECORD KEY IS VideoCode
-             ALTERNATE RECORD KEY IS VideoTitle
-               WITH DUPLICATES
-             FILE STATUS IS VideoStatus.
-
-       DATA DIVISION.
-       FILE SECTION.
-       FD  VideoFile.
-       01  VideoRecord.
-           03  VideoCode       PIC 9(5).
-           03  VideoTitle      PIC X(40).
-           03  SupplierCode    PIC 99.
-       
-       WORKING-STORAGE SECTION.
-       01  VideoStatus PIC X(2).
-           88  RECORDFOUND VALUE "00".
-
-       01  RequiredKey           PIC 9.
-           88 VideoCodeKey      VALUE 1.
-           88 VideoTitleKey     VALUE 2.
-
-       01  Prn-VideoRecord.
-           03  Prn-VideoCode       PIC 9(5).
-           03  Prn-VideoTitle      PIC BBBBX(40).
-           03  Prn-SupplierCode    PIC BBBB99.
-           
-       PROCEDURE DIVISION.
-       BEGIN.
-           OPEN INPUT VideoFile.
-
-           DISPLAY "CHOOSE YOUR FAVORITE KEY VIDEOCODE = 1, VIDEOTITLE = 2:"
-             WITH NO ADVANCING.
-           ACCEPT RequiredKey.
-
-           IF VideoCodeKey
-              DISPLAY "ENTER VIDEO CODE(5 DIGITS) : " WITH NO ADVANCING
-              ACCEPT VideoCode
-              READ VideoFile
-               KEY IS VideoCode
-               INVALID KEY DISPLAY "(key=CODE)STATUS : " , VideoStatus
-              END-READ
-           END-IF
-
-           IF VideoTitleKey
-              DISPLAY "ENTER VIDEO TITLE(40 CHARS) : " WITH NO ADVANCING
-              ACCEPT VideoTitle
-              READ VideoFile
-               KEY IS VideoTitle
-               INVALID KEY DISPLAY "(key=TITLE)STATUS : " , VideoStatus
-              END-READ              
-           END-IF
-
-           IF RECORDFOUND
-               MOVE VideoCode TO Prn-VideoCode
-               MOVE VideoTitle TO Prn-VideoTitle
-               MOVE SupplierCode TO Prn-SupplierCode
-               DISPLAY Prn-VideoRecord
-           ELSE
-               DISPLAY "..NOTHING FOUND.."
-           END-IF.
-
-           CLOSE VideoFile.
-           STOP RUN.
-
-  # 讀取 Indexed File(sequential access): (核心觀念: Indexed files, READ..NEXT RECORD, START)
-      重點:
-        # 先新增 RECORD KEY BY START COMMAND.
-            MOVE SPACES TO VideoTitle
-            START VideoFile KEY IS GREATER THAN VideoTitle
-              INVALID KEY DISPLAY "Error Message: ", VideoStatus
-            END-START
-        # READ <FileVariable> NEXT RECORD..
-            READ VideoFile NEXT RECORD
-              AT END SET EndOfFile TO TRUE
-            END-READ.
-            PERFORM UNTIL EndOfFile
-              //GET DATA FROM VideoRecord...
-              READ VideoFile NEXT RECORD
-                AT END SET EndOfFile TO TRUE
-              END-READ
-            END-PERFORM.
-
-      程式範例:
-      
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. INDEXEDFILE-SEQUENTIALREAD.
-      *> 示範如何循序讀取 Indexed file
-      *> 在任1個索引鍵上.
-      *> DEFAULT KEY IS VideoCode.(不須另外新增KOR, key of reference.)
-      *> 若選擇VideoTitle, 則須另外新增KOR
-
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           SELECT VideoFile ASSIGN TO "IDXVIDEO.DAT"
-             ORGANIZATION IS INDEXED
-             ACCESS MODE IS DYNAMIC
-             RECORD KEY IS VideoCode
-             ALTERNATE RECORD KEY IS VideoTitle
-               WITH DUPLICATES
-             FILE STATUS IS VideoStatus.
-
-       DATA DIVISION.
-       FILE SECTION.
-       FD  VideoFile.
-       01  VideoRecord.
-           88  EndOfFile       VALUE HIGH-VALUE.
-           03  VideoCode       PIC 9(5).
-           03  VideoTitle      PIC X(40).
-           03  SupplierCode    PIC 99.
-       
-       WORKING-STORAGE SECTION.
-       01  VideoStatus PIC X(2).
-
-       01  RequireSequence PIC 9.
-           88  VideoCodeSequence   VALUE 1.
-           88  VideoTitleSequence  VALUE 2.
-       
-       01  Prn-VideoRecord.
-           03  Prn-VideoCode       PIC 9(5).
-           03  Prn-VideoTitle      PIC BBBBX(40).
-           03  Prn-SupplierCode    PIC BBBB99.
-       
-       PROCEDURE DIVISION.
-       BEGIN.
-           OPEN INPUT VideoFile.
-
-           DISPLAY "Enter Key : 1=VideoCode, 2=VideoTitleSequence -> " 
-             WITH NO ADVANCING.
-           ACCEPT RequireSequence.
-
-      *>   Create KOR for VideoTitle(alternate record key)
-           IF VideoTitleSequence
+    # 讀取 Indexed File(sequential access): (核心觀念: Indexed files, READ..NEXT RECORD, START)
+        重點:
+          # 先新增 RECORD KEY BY START COMMAND.
               MOVE SPACES TO VideoTitle
               START VideoFile KEY IS GREATER THAN VideoTitle
-                   INVALID KEY DISPLAY "(INVALID) STATUS:", VideoStatus
+                INVALID KEY DISPLAY "Error Message: ", VideoStatus
               END-START
-           END-IF
+          # READ <FileVariable> NEXT RECORD..
+              READ VideoFile NEXT RECORD
+                AT END SET EndOfFile TO TRUE
+              END-READ.
+              PERFORM UNTIL EndOfFile
+                //GET DATA FROM VideoRecord...
+                READ VideoFile NEXT RECORD
+                  AT END SET EndOfFile TO TRUE
+                END-READ
+              END-PERFORM.
 
-      *>   Read Indexed file sequentially by READ..NEXT RECORD
-           READ VideoFile NEXT RECORD
-               AT END SET EndOfFile TO TRUE
-           END-READ
-           PERFORM UNTIL EndOfFile
-               MOVE VideoCode TO Prn-VideoCode
-               MOVE VideoTitle TO Prn-VideoTitle
-               MOVE SupplierCode TO Prn-SupplierCode
-               DISPLAY Prn-VideoRecord
-               READ VideoFile NEXT RECORD
-                   AT END SET EndOfFile TO TRUE
-               END-READ
-           END-PERFORM
+        程式範例:
+        
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. INDEXEDFILE-SEQUENTIALREAD.
+        *> 示範如何循序讀取 Indexed file
+        *> 在任1個索引鍵上.
+        *> DEFAULT KEY IS VideoCode.(不須另外新增KOR, key of reference.)
+        *> 若選擇VideoTitle, 則須另外新增KOR
 
-           CLOSE VideoFile.
-           STOP RUN.
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT VideoFile ASSIGN TO "IDXVIDEO.DAT"
+              ORGANIZATION IS INDEXED
+              ACCESS MODE IS DYNAMIC
+              RECORD KEY IS VideoCode
+              ALTERNATE RECORD KEY IS VideoTitle
+                WITH DUPLICATES
+              FILE STATUS IS VideoStatus.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD  VideoFile.
+        01  VideoRecord.
+            88  EndOfFile       VALUE HIGH-VALUE.
+            03  VideoCode       PIC 9(5).
+            03  VideoTitle      PIC X(40).
+            03  SupplierCode    PIC 99.
+        
+        WORKING-STORAGE SECTION.
+        01  VideoStatus PIC X(2).
+
+        01  RequireSequence PIC 9.
+            88  VideoCodeSequence   VALUE 1.
+            88  VideoTitleSequence  VALUE 2.
+        
+        01  Prn-VideoRecord.
+            03  Prn-VideoCode       PIC 9(5).
+            03  Prn-VideoTitle      PIC BBBBX(40).
+            03  Prn-SupplierCode    PIC BBBB99.
+        
+        PROCEDURE DIVISION.
+        BEGIN.
+            OPEN INPUT VideoFile.
+
+            DISPLAY "Enter Key : 1=VideoCode, 2=VideoTitleSequence -> " 
+              WITH NO ADVANCING.
+            ACCEPT RequireSequence.
+
+        *>   Create KOR for VideoTitle(alternate record key)
+            IF VideoTitleSequence
+                MOVE SPACES TO VideoTitle
+                START VideoFile KEY IS GREATER THAN VideoTitle
+                    INVALID KEY DISPLAY "(INVALID) STATUS:", VideoStatus
+                END-START
+            END-IF
+
+        *>   Read Indexed file sequentially by READ..NEXT RECORD
+            READ VideoFile NEXT RECORD
+                AT END SET EndOfFile TO TRUE
+            END-READ
+            PERFORM UNTIL EndOfFile
+                MOVE VideoCode TO Prn-VideoCode
+                MOVE VideoTitle TO Prn-VideoTitle
+                MOVE SupplierCode TO Prn-SupplierCode
+                DISPLAY Prn-VideoRecord
+                READ VideoFile NEXT RECORD
+                    AT END SET EndOfFile TO TRUE
+                END-READ
+            END-PERFORM
+
+            CLOSE VideoFile.
+            STOP RUN.
+
+    ==先略過 BEGIN ==
+      # 課後練習1: StudFees
+
+      # 課後練習2: Aroma96
+
+      # 課後練習3: BookshopRpt91
+
+      # 課後練習4: LibRoyaltyRpt
+
+      # 課後練習5: TopSuppliersRpt
+    ==先略過 END ==
 
   [CALLing sub-programs]
+    # 呼叫 外部副程式(核心觀念: CALLing EXTERNAL SUB-PROGRAMS, CALL..BY REFERENCE, CALL..BY CONTENT, COMP, CANCEL)
+        重點: 
+          --(主程式-CALLING PROGRAM)
+            1. 使用 CALL 呼叫 外部副程式.
+            2. 副程式可接收, 也可回傳參數.
+            3. 記憶體狀態管理, 利用 IS INITIAL 避免 STATE MEMORY 的發生.
+            4. 指定宣告為 COMP 變數, 是無法被顯示的(DISPLAY), 除非搬到 DISPLAY 變數上.
+            5. (預設)宣告均為 DISPLAY 變數.
+            6. CALL <CALLED PROGRAM-NAME> USING <para1>, <para2>.. 子句用來 傳遞參數 給 外部副程式.
+            7. 參數順序 很重要, COBOL依據順序來決定參數項目.
+            8. USING BY CONTENT, 傳值.
+            9. USING BY REFERENCE, 傳址, 內容改變後, 外部副程式(CALLED)修改後, 主程式(CALLING)跟著變.
+            10. 主程式 & 外部副程式 是兩支獨立程式.
+            11. 外部副程式 != 內部PARAGRAPH OR SECTION.
+            12. 呼叫 外部副程式 使用, CALL...
+            13. 呼叫 內部PARAGRAPH OR SECTION 使用, PERFORM...
+          
+          --(外部副程式-CALLED PROGRAM)
+            1. 參數傳入(副程式), 在 LINKAGE SECTION 要有對應項目, 但宣告順序不限.
+            2. (VIP)重要: (副程式) PROCEDURE DIVSION USING 參數順序, 
+                  必須和 (主程式) CALL <SUB-PROGRAM-NAME> USING <para1>, <para2>..相同.
+            3. (副程式) 沒有 STOP RUN, 而是以 EXIT PROGRAM 取代.
+            4. (副程式) 不能 編譯為 執行檔, 
+                  編譯指令改為 => "cobc -free <SUB-PROGRAM-NAME>.cbl".
+                  記得把, "-x" 選項拿掉, 它會產生執行檔.
 
-  =2021-03-18 目標 END=
+          --清除 STATE MEMORY 的兩種方式--
+            1. 副程式內, 使用 'IS INITIAL' 子句, EX. PROGRAM-ID. <PRO-NAME> IS INITIAL.
+            2. 主程式內, 先取消(CANCEL)副程式, 再呼叫(CALL)副程式.
+            
+        主程式範例:
+          IDENTIFICATION DIVISION.
+          PROGRAM-ID. SU-MAIN-CALLSUBPROG.
+          
+          *> 示範如何使用 CALL 呼叫副程式.
+          *> 副程式-MultiplyNums, 有5個參數, 前4個是INPUT-PARAMETERS, 最後1個是OUTPUT-PARAMETER.
+          *> 副程式-Fickle, 展示 State Memory 情況.
+          *> 副程式-Steadfast, 使用 IS INITIAL 可避免 State Memory 的發生.
+          
+          ENVIRONMENT DIVISION.
+
+          DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01  UserNumber PIC 99.
+              88 InputStop VALUE 0.
+
+          *> DEFAULT IS DISPLAY, CAN BE DISPLAYED.
+          01  PrnResult PIC 9(6).
+
+          *> 參數可以是 01 LEVEL OR ELEMENTARY DATA-ITEMS.
+          01  Parameters.
+              03  Number1 PIC 9(3).
+              03  Number2 PIC 9(3).
+              03  FirstString PIC X(19) VALUE "First parameter".
+              03  SecondString PIC X(19) VALUE "Second parameter".
+              03  Result PIC 9(6) COMP.
+          *>     COMP 可作為參數, 但無法用來顯示, 必須搬至 DISPLAY 變數內.
+
+          PROCEDURE DIVISION.
+          BEGIN.
+              PERFORM CallMultiplyNums.
+              PERFORM CallFickle.
+              PERFORM CallSteadfast.
+
+              PERFORM MakeFickleSteadfast.
+
+              STOP RUN.
+
+          MakeFickleSteadfast.
+              DISPLAY SPACE
+              DISPLAY "-----Use 'CANCEL' VERB , Clear 'State memory'.-----".
+              DISPLAY "Input Number(2 digits, 0 TO STOP): " WITH NO ADVANCING.
+              ACCEPT UserNumber.
+              DISPLAY "-----Use 'CANCEL' VERB , Before Clear 'State memory'.-----".
+              CALL "Sub-Fickle" USING BY CONTENT UserNumber.
+              PERFORM UNTIL InputStop
+          *>       USE 'CANCEL' VERB TO clear STATE MEMORY.
+                  CANCEL "Sub-Fickle"
+                  CALL "Sub-Fickle" USING BY CONTENT UserNumber
+                  DISPLAY "Input Number(2 digits, 0 TO STOP): " WITH NO ADVANCING
+                  ACCEPT UserNumber
+              END-PERFORM.
+          
+          CallSteadfast.
+              DISPLAY SPACE
+              DISPLAY "-----Call Third Sub-Program(Steadfast).-----".
+              DISPLAY "Input Number(2 digits, 0 TO STOP): " WITH NO ADVANCING.
+              ACCEPT UserNumber.
+              PERFORM UNTIL InputStop
+          *>       USE 'IS INITIAL' IN "Sub-Steadfast" to clear STATE MEMORY.
+                  CALL "Sub-Steadfast" USING BY CONTENT UserNumber
+                  DISPLAY "Input Number(2 digits, 0 TO STOP): " WITH NO ADVANCING
+                  ACCEPT UserNumber
+              END-PERFORM.
+
+          CallFickle.
+              DISPLAY SPACE
+              DISPLAY "-----Call Second Sub-Program.-----".
+              DISPLAY "Input Number(2 digits, 0 TO STOP): " WITH NO ADVANCING.
+              ACCEPT UserNumber.
+              PERFORM UNTIL InputStop
+                  CALL "Sub-Fickle" USING BY CONTENT UserNumber
+                  DISPLAY "Input Number(2 digits, 0 TO STOP): " WITH NO ADVANCING
+                  ACCEPT UserNumber
+              END-PERFORM.
+
+          CallMultiplyNums.
+              DISPLAY "Input 2 numbers(3 digits each) to be multiplied"
+              DISPLAY "First Number: " WITH NO ADVANCING
+              ACCEPT Number1.
+              DISPLAY "Second Number: " WITH NO ADVANCING
+              ACCEPT Number2.
+              DISPLAY "First Number = ", Number1
+              DISPLAY "Second Number = ", Number2
+              DISPLAY ">>>> Calling sub-program Now...".
+
+              CALL "Sub-MultiplyNums" 
+                USING BY CONTENT Number1, Number2, FirstString,
+                      BY REFERENCE SecondString, Result.
+          *>     CALL "MultiplyNums" USING
+          *>         BY VALUE IDENTIFER
+          *>         RETURNING RETURN-CODE
+          *>     END-CALL
+              
+              DISPLAY "Back to main-program now <<<<<<<".
+              MOVE Result TO PrnResult.
+              DISPLAY Number1 " multiplied by " Number2 " is = " PrnResult.
+
+              DISPLAY "The first string is  " FirstString.
+              DISPLAY "The second string is " SecondString.
+
+        子程式1: USING BY CONTENT, BY REFERENCE
+
+          IDENTIFICATION DIVISION.
+          PROGRAM-ID. Sub-MultiplyNums.
+          *>   This sub-program is CALLed from a Cobol program.
+          *>   it requires 5 parameters.
+          *>       2 to contain the numbers to be multiplied
+          *>       2 to contain strings to be displayed
+          *>       1 to return the result of the multiplication.
+
+          ENVIRONMENT DIVISION.
+          
+          DATA DIVISION.
+          LINKAGE SECTION.
+          *> * Parameters passed to the subprogram must have corresponding 
+          *> * entries in the LINKAGE SECTION of the CALLed subprogram but 
+          *> * they don't have to be declared in any particular order in the
+          *> * LINKAGE SECTION.
+          *>   在LINKAGE SECTION內, 參數順序不重要.
+          
+          01  Num1    PIC 9(3).
+          01  Num2    PIC 9(3).
+          01  Answer  PIC 9(6) COMP.
+          01  StrA    PIC X(20).
+          01  StrB    PIC X(20).
+
+          *>   (VIP)在PROCEDURE DIVISION內, 參數順序必須和 CALL..USING <參數> 相同.
+          PROCEDURE DIVISION USING Num1, Num2, StrA, StrB, Answer.
+          BEGIN.
+              DISPLAY ">>> IN THE SUB-PROGRAM".
+              DISPLAY "num1 = " , num1.
+              DISPLAY "num2 = " , num2.
+              DISPLAY "stra = " , stra.
+              DISPLAY "strb = " , strb.
+
+              MULTIPLY Num1 BY Num2 GIVING Answer.
+
+              MOVE "NEW VALUE 123" TO StrA
+              MOVE "NEW VALUE 456" TO StrB
+              DISPLAY " LEAVING SUB-PROGRAM NOW. <<<".
+
+              END PROGRAM Sub-MultiplyNums.
+     
+        子程式2: KEEP STATE MEMORY(DEFAULT)
+
+          IDENTIFICATION DIVISION.
+          PROGRAM-ID. Sub-Fickle.
+          *>   (預設)示範 STATE MEMORY 功能, 它會保留上次呼叫的值      
+          
+          ENVIRONMENT DIVISION.
+
+          DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01  RunningTotal PIC 9(4) VALUE 150.
+
+          LINKAGE SECTION.
+          01  Num1 PIC 99.
+
+          PROCEDURE DIVISION USING Num1.
+          BEGIN.
+              ADD Num1 TO RunningTotal.
+              DISPLAY "The total (so far) is ", RunningTotal.
+              END PROGRAM Sub-Fickle.
+
+        子程式3: CLEAR STATE MEMORY(BY IS INITIAL)
+
+          IDENTIFICATION DIVISION.
+          program-id. Sub-Steadfast IS INITIAL.       
+          *>   (預設)STATE MEMORY 功能, 它會保留上次呼叫的值
+          *>   示範清除 STATE MEMORY 內容, 利用 IS INITIAL 子句.
+
+          ENVIRONMENT DIVISION.
+
+          DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01  RunningTotal PIC 9(4) VALUE 150.
+
+          LINKAGE SECTION.
+          01  Num1 PIC 99.
+
+          PROCEDURE DIVISION USING Num1.
+          BEGIN.
+              ADD Num1 TO RunningTotal.
+              DISPLAY "The total (so far) is ", RunningTotal.
+              END PROGRAM Sub-Steadfast.
+
+    
+
+    ==先略過 BEGIN ==
+      # 課後練習1: ACME99
+
+      # 課後練習2: SFbyMail
+    ==先略過 END ==
 
   [String handling]
 
@@ -1399,7 +1630,7 @@
 
   [COBOL Tables]
 
-  =2021-03-19 目標 END=
+  == ↑↑↑↑↑ 2021-04-01前, 目標進度 ↑↑↑↑↑ ==
 
 ===============================================================================
 資料來源：https://www.tutorialspoint.com/cobol
