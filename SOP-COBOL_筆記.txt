@@ -1399,36 +1399,57 @@
     ==先略過 END ==
 
   [CALLing sub-programs]
-    # 呼叫 外部副程式(核心觀念: CALLing EXTERNAL SUB-PROGRAMS, CALL..BY REFERENCE, CALL..BY CONTENT, COMP, CANCEL)
-        重點: 
-          --(主程式-CALLING PROGRAM)
-            1. 使用 CALL 呼叫 外部副程式.
-            2. 副程式可接收, 也可回傳參數.
-            3. 記憶體狀態管理, 利用 IS INITIAL 避免 STATE MEMORY 的發生.
-            4. 指定宣告為 COMP 變數, 是無法被顯示的(DISPLAY), 除非搬到 DISPLAY 變數上.
-            5. (預設)宣告均為 DISPLAY 變數.
-            6. CALL <CALLED PROGRAM-NAME> USING <para1>, <para2>.. 子句用來 傳遞參數 給 外部副程式.
-            7. 參數順序 很重要, COBOL依據順序來決定參數項目.
-            8. USING BY CONTENT, 傳值.
-            9. USING BY REFERENCE, 傳址, 內容改變後, 外部副程式(CALLED)修改後, 主程式(CALLING)跟著變.
-            10. 主程式 & 外部副程式 是兩支獨立程式.
-            11. 外部副程式 != 內部PARAGRAPH OR SECTION.
-            12. 呼叫 外部副程式 使用, CALL...
-            13. 呼叫 內部PARAGRAPH OR SECTION 使用, PERFORM...
-          
-          --(外部副程式-CALLED PROGRAM)
-            1. 參數傳入(副程式), 在 LINKAGE SECTION 要有對應項目, 但宣告順序不限.
-            2. (VIP)重要: (副程式) PROCEDURE DIVSION USING 參數順序, 
-                  必須和 (主程式) CALL <SUB-PROGRAM-NAME> USING <para1>, <para2>..相同.
-            3. (副程式) 沒有 STOP RUN, 而是以 EXIT PROGRAM 取代.
-            4. (副程式) 不能 編譯為 執行檔, 
-                  編譯指令改為 => "cobc -free <SUB-PROGRAM-NAME>.cbl".
-                  記得把, "-x" 選項拿掉, 它會產生執行檔.
+    # 重點: 
+      (主程式-CALLING PROGRAM)
+        1. 使用 CALL 呼叫 外部副程式.
+        2. 副程式可接收, 也可回傳參數.
+        3. 記憶體狀態管理, 利用 IS INITIAL 避免 STATE MEMORY 的發生.
+        4. 指定宣告為 COMP 變數, 是無法被顯示的(DISPLAY), 除非搬到 DISPLAY 變數上.
+        5. (預設)宣告均為 DISPLAY 變數.
+        6. CALL <CALLED PROGRAM-NAME> USING <para1>, <para2>.. 子句用來 傳遞參數 給 外部副程式.
+        7. 參數順序 很重要, COBOL依據順序來決定參數項目.
+        8. USING BY CONTENT, 傳值.
+        9. USING BY REFERENCE, 傳址, 內容改變後, 外部副程式(CALLED)修改後, 主程式(CALLING)跟著變.
+        10. 主程式 & 外部副程式 是兩支獨立程式.
+        11. 外部副程式 != 內部PARAGRAPH OR SECTION.
+        12. 呼叫 外部副程式 使用, CALL...
+        13. 呼叫 內部PARAGRAPH OR SECTION 使用, PERFORM...
+      
+      (內部副程式-Contained sub-program)
+        1. 內部副程式, 跟主程式寫在同1個檔案內.
+        2. 外部副程式, 則寫在另外一個檔案.
+        5. "END PROGRAM". 
+              要放在程式的最後1行, 所有 PARAGRAPH 都要寫在前面. 
+              寫在 "END PROGRAM". 後面會錯.
+              "END PROGRAM", 用在"內部副程式", 標示出這個副程式到這結束.
+              
+      (外部副程式-External sub-program)
+        1. 參數傳入, 在 LINKAGE SECTION 要有對應項目, 但宣告順序不限.
+        
+        2. (VIP)PROCEDURE DIVSION USING 參數順序, 
+              必須和 (主程式) CALL <SUB-PROGRAM-NAME> USING <para1>, <para2>..相同.
+        
+        3. 沒有 STOP RUN, 而是以 EXIT PROGRAM 取代.
+        
+        4. 不能編譯為 exe執行檔, 
+              編譯指令改為 => "cobc -free <SUB-PROGRAM-NAME>.cbl".
+              記得把, "-x" 選項拿掉, 它會產生執行檔.
+        
+        6. "END PROGRAM" != "EXIT PROGRAM",
+              副程式內, EXIT PROGRAM == 主程式內, STOP RUN
 
-          --清除 STATE MEMORY 的兩種方式--
-            1. 副程式內, 使用 'IS INITIAL' 子句, EX. PROGRAM-ID. <PRO-NAME> IS INITIAL.
-            2. 主程式內, 先取消(CANCEL)副程式, 再呼叫(CALL)副程式.
-            
+        7. "DATA DIVSION內, SECTION順序依下列規定撰寫, 反過來會錯".
+              1. WORKING-STORAGE SECTION.(前)
+              2. LINKAGE SECTION.(後)
+        
+        8. 若是共用副程式, 習慣都會加上 'IS INITIAL', 避免出現記憶體未清乾淨的問題.
+
+      (清除 STATE MEMORY 的兩種方式)
+        1. 副程式內, 使用 'IS INITIAL' 子句, EX. PROGRAM-ID. <PRO-NAME> IS INITIAL.
+        2. 主程式內, 先取消(CANCEL)副程式, 再呼叫(CALL)副程式.
+
+    # 呼叫 外部副程式
+    (核心觀念: CALLing EXTERNAL SUB-PROGRAMS, CALL..BY REFERENCE, CALL..BY CONTENT, COMP, CANCEL)    
         主程式範例:
           IDENTIFICATION DIVISION.
           PROGRAM-ID. SU-MAIN-CALLSUBPROG.
@@ -1616,6 +1637,199 @@
               DISPLAY "The total (so far) is ", RunningTotal.
               END PROGRAM Sub-Steadfast.
 
+    # 呼叫 副程式-日期檢查
+    (核心觀念1: EXTERNAL sub-programs, CALL, ACCEPT, DISPLAY, EVALUATE)
+    (核心觀念2: EXTERNAL sub-programs, IS INITIAL, LINKAGE SECTION, EVALUATE, IF..ELSE.., DIVIDE..REMAINDER, SET CONDITION-NAME, EXIT PROGRAM)
+        主程式範例:
+          IDENTIFICATION DIVISION.
+          PROGRAM-ID. SuMain-Call-DateValidate.
+
+          ENVIRONMENT DIVISION.
+
+          DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01  FILLER PIC 9 VALUE 0.
+              88  EndOfInput VALUE 1.
+          
+          01  InputDateIn PIC 9(8).
+
+          01  ValidationResult PIC 9.
+              88  DateIsValid VALUE 0.
+              88  DateNotNumeric VALUE 1.
+              88  YearContainsZeros VALUE 2.
+              88  MonthContainsZeros VALUE 3.
+              88  DayContainsZeros VALUE 4.
+              88  MonthGreaterThan12 VALUE 5.
+              88  DayTooGreatForMonth VALUE 6.
+          
+          PROCEDURE DIVISION.
+          BEGIN.
+              DISPLAY "Input Date as YYYYMMDD:" WITH No Advancing.
+              ACCEPT InputDateIn.
+              
+              DISPLAY "(BEFORE CALL SUB) INPUTDATEIN = ", InputDateIn
+          *>     CALL "Sub-DateValidate-V1"
+          *>       USING InputDateIn, ValidationResult.
+
+              CALL "Sub-DateValidate-V2"
+                USING InputDateIn, ValidationResult.
+
+              DISPLAY "InputDate : ", InputDateIn
+              DISPLAY "ValidResult : ", ValidationResult
+              EVALUATE TRUE
+                  WHEN DateIsValid    DISPLAY "Date is valid."
+                  WHEN DateNotNumeric DISPLAY "Date is not numeric."
+                  WHEN YearContainsZeros DISPLAY "Year contains all zeros."
+                  WHEN MonthContainsZeros DISPLAY "Month contains all zeros."
+                  WHEN DayContainsZeros   DISPLAY "Day contains all zeros."
+                  WHEN MonthGreaterThan12 DISPLAY "Month too great."
+                  WHEN DayTooGreatForMonth DISPLAY "Day too great for month"
+                  WHEN OTHER DISPLAY "(Error) unable to valid..."
+              END-EVALUATE
+              
+              STOP RUN.
+
+        子程式(陽春版-自行開發 -> Sub-DateValidate-V1):
+          IDENTIFICATION DIVISION.
+          PROGRAM-ID. Sub-DateValidate-V1.
+          *> 自行開發版.(不錯了, 但有改善空間.)
+          *>   ValidResult:
+          *>   0 : valid
+          *>   1 : not numeric
+          *>   2 : year(yyyy) all zeros
+          *>   3 : month(mm) all zeros
+          *>   4 : day(dd) all zeros.
+          *>   5 : month greater than 12.
+          *>   6 : max day number not match the month has.
+
+          ENVIRONMENT DIVISION.
+
+          DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01  DateToValidate.
+              03  YYYY    PIC 9(4).
+              03  MM      PIC 9(2).
+              88  BIG     VALUE 01,03,05,07,08,10,12.
+              88  SMALL   VALUE 04,06,09,11.
+              88  TWO     VALUE 02.
+              03  DD      PIC 9(2).
+          01  Result PIC 9.
+          
+          LINKAGE SECTION.
+          01  In-Date PIC 9(8).
+          01  Out-ValidResult PIC 9.
+
+          PROCEDURE DIVISION USING In-Date, Out-ValidResult.
+          BEGIN.
+              MOVE In-Date TO DateToValidate.
+              PERFORM CheckDate
+              MOVE Result TO Out-ValidResult.
+
+              EXIT PROGRAM.
+
+          CheckDate.
+              EVALUATE TRUE
+                  WHEN In-Date NOT NUMERIC
+                      MOVE 1 TO Result
+                  WHEN YYYY IS ZEROS
+                      MOVE 2 TO Result
+                  WHEN MM IS ZEROS
+                      MOVE 3 TO Result
+                  WHEN DD IS ZEROS
+                      MOVE 4 TO Result
+                  WHEN MM > 12
+                      MOVE 5 TO Result
+                  WHEN (BIG AND DD > 31) 
+                          OR (SMALL AND DD > 30) 
+                          OR (TWO AND DD > 29)
+                      MOVE 6 TO Result
+                  WHEN OTHER
+                      MOVE 0 TO Result
+              END-EVALUATE.
+
+        子程式(範例版 -> Sub-DateValidate-V2):
+          IDENTIFICATION DIVISION.
+          PROGRAM-ID. Sub-DateValidate-V2 IS INITIAL.
+          
+          DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01  MonthDayTable.
+              03  TableValues PIC X(24)
+                      VALUE "312831303130313130313031".
+              03  FILLER REDEFINES TableValues.
+                  05  DaysInMonth
+                      OCCURS 12 TIMES PIC 99.
+
+          01  CurruptDate PIC 9(8).
+
+          01  LeapQuot    PIC 9(4).
+          01  LeapRemain  PIC 9(4).
+
+          01  FILLER  PIC 9 VALUE ZERO.
+              88  LeapYear VALUE 1.
+          
+          LINKAGE SECTION.
+          01  InputDateLK.
+              03  YearLK PIC 9(4).
+              03  MonthLK PIC 99.
+                  88  MonthInvalid VALUE 13 THRU 99.
+                  88  MonthIsFebruary VALUE 2.
+              03  DayLK PIC 99.
+
+          01  ValidationResultLK PIC 9.
+              88  DateIsValid VALUE 0.
+              88  DateNotNumeric VALUE 1.
+              88  YearContainsZeros VALUE 2.
+              88  MonthContainsZeros VALUE 3.
+              88  DayContainsZeros VALUE 4.
+              88  MonthGreaterThan12 VALUE 5.
+              88  DayTooGreatForMonth VALUE 6.
+
+          PROCEDURE DIVISION USING InputDateLK, ValidationResultLK.
+          Begin.
+              EVALUATE TRUE
+                WHEN NOT InputDateLK NUMERIC SET DateNotNumeric TO TRUE
+                WHEN YearLK = 0 SET YearContainsZeros TO TRUE
+                WHEN MonthLK = 0 SET MonthContainsZeros TO TRUE
+                WHEN DayLK = 0 SET DayContainsZeros TO TRUE
+                WHEN MonthInvalid SET MonthGreaterThan12 TO TRUE
+                WHEN OTHER 
+                  PERFORM CheckValidDay
+              END-EVALUATE.
+              
+              EXIT PROGRAM.
+
+          CheckValidDay.
+          *>   閏年, 判斷規則:
+          *>   1. 年份可被400整除 = 閏年
+          *>   2. 年份不被100整除, 但被4整除 = 閏年 
+              DIVIDE YearLK BY 400 GIVING LeapQuot REMAINDER LeapRemain.
+              IF LeapRemain = 0
+                  SET LeapYear TO TRUE
+              ELSE
+                  DIVIDE YearLK BY 100 GIVING LeapQuot REMAINDER LeapRemain
+                  IF LeapRemain NOT = 0
+                  DIVIDE YearLK BY 4 GIVING LeapQuot REMAINDER LeapRemain
+                  IF LeapRemain = 0
+                      SET LeapYear TO TRUE
+                  END-IF
+                  END-IF
+              END-IF.
+
+          *>   閏年, 2月給29天
+              IF LeapYear AND MonthLK = 2
+                  MOVE 29 TO DaysInMonth(2)
+              END-IF.
+
+          *>   判斷合法日期
+              IF DayLK > DaysInMonth(MonthLK)
+                  SET DayTooGreatForMonth TO TRUE
+              ELSE
+                  SET DateIsValid TO TRUE
+              END-IF.
+
+    # 呼叫 副程式-日期檢查 + 日期比較
+    (核心觀念: CONTAINED SUB-PROGRAMS, CALL, LINKAGE SECTION, EXTERNAL SUB-PROGRAMS, INTRINSIC FUNCTION, EXIT PROGRAM, END PROGRAM, FUNCTION INTEGER-OF-DATE)
     
 
     ==先略過 BEGIN ==
@@ -1743,7 +1957,16 @@
 
         1.2.2.Categories of COBOL data => Variables , Literals , Figurative Constants.
           1.Variable 資料型態只有三種：numeric (數字) , alphanumeric (text/string 英數字) , alphabetic (字母無數字)
-          2.Variable 用錯 data type , 執行運算會讓程式直接掛掉.
+          2.Variable 用錯 data type , 
+              執行運算會讓程式直接掛掉.
+              或
+              產生讓你匪疑所思的結果(因為搬進去的不是數值, 它就給你預設值 0), 
+                例: 01 DATEIN PIC 9(8).
+                    MOVE 'ABCD1234' TO DATEIN.
+                    DISPLAY DATEIN.
+                    請問, 結果為何? 
+                答: 00000000, 卻不是 'ABCD1234'.
+
           3.Literals 指的常數(固定值) , 無法指定一個Name.
           4.Literals 有兩種型態: 
             > String/Alphanumeric Literals (ex.  "Michael Ryan", "-123", "123.45" )
@@ -2649,3 +2872,6 @@
           9(3) 放正數 => 存正數 ; 放負數 => 存正數(因為它沒有地方放正負號)
           S9(3) 放入數值, 並正確呈現 +100 , -250.
     
+    51. 01 DATE-NUM 9(8) & 01 DATE-STR A(8), 使用注意事項
+        MOVE 'ABCD1234' TO DATE-NUM. // 結果(無法轉型,全給0): 00000000
+        MOVE 'ABCD1234' TO DATE-STR. // 結果(全視為文字): 'ABCD1234'
