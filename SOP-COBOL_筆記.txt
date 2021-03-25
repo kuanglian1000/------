@@ -2028,6 +2028,188 @@
     ==先略過 END ==
 
   [String handling]
+    # 字串截取 / 字元定位
+    (核心觀念: Reference Modification, Intrinsic Function, INSPECT)
+    1. INSPECT xStr TALLYING StrSize FOR ALL CHARACTERS
+    2. INSPECT xStr TALLYING CharCount FOR ALL SPACES
+    3. INSPECT xStr TALLYING CharCount FOR LEADING SPACES
+    4. INSPECT xStr TALLYING CharCount FOR TRAILING SPACES
+    5. xStr(startPosition : getCharsLength)
+
+      程式範例:
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. STRING-INSPECT.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  xStr        PIC X(50) VALUE "    Tfis is the first source string".
+       01  xStr2       PIC X(32) VALUE "This is the second source string".
+       01  StrSize     PIC 99 VALUE 32.
+       01  CharCount   PIC 99 VALUE Zeros.
+       01  EndCount    PIC 99 VALUE Zeros.
+       01  yStr        PIC X(4) VALUE spaces.
+       01  CharPos     PIC 99 VALUE Zeros.
+       01  StrLength   PIC 99 VALUE Zeros.
+
+       PROCEDURE DIVISION.
+       BEGIN.
+           DISPLAY "Task1-[startPosition,Length] : " xStr(16:5).
+           DISPLAY "Task2-[startPosition,Length] : " xStr2(1:7).
+           
+           MOVE 13 TO StrLength
+           COMPUTE CharPos = (StrSize - StrLength) + 1
+           DISPLAY "Task3-Get last 13 chars : " xStr2(CharPos : StrLength).
+
+      *>     回傳字串長度
+           MOVE 0 TO StrSize
+           INSPECT xStr TALLYING StrSize FOR ALL CHARACTERS
+      
+      *>     找出所有空白字元(前+字串內+後)
+           MOVE 0 TO CharCount
+           INSPECT xStr TALLYING CharCount FOR ALL SPACES
+           DISPLAY "All Space Char Count = ", CharCount.
+      
+      *>     找出字首(LEADING)空白
+           MOVE 0 TO CharCount
+           INSPECT xStr TALLYING CharCount FOR LEADING SPACES
+           DISPLAY "LEADING Space Char Count = ", CharCount.
+
+      *>     找出字尾(trailing)空白
+           MOVE 0 TO CharCount
+           INSPECT xStr TALLYING CharCount FOR TRAILING SPACES
+           DISPLAY "TRAILING Space Char Count = ", CharCount.
+
+      *>     去除字尾(trailing)空白
+           DISPLAY "(Before)'" xStr "'".
+           COMPUTE StrLength = StrSize - CharCount.
+           DISPLAY "(AFTER)'" xStr(1 : StrLength) "'".
+
+      *>     去除字首(leading)空白
+           DISPLAY "(Before)'" xStr "'".
+           MOVE 0 to CharCount
+           INSPECT xStr TALLYING CharCount FOR LEADING SPACES
+           DISPLAY "(AFTER)'" xStr(CharCount + 1 : ) "'".
+           DISPLAY "(AFTER)'" xStr(CharCount + 1 : StrSize ) "'".
+
+      *>     找出特定字元位置(ex.找出特定字元,第1個出現位置)
+           DISPLAY "Str=" xStr2.
+           MOVE 1 to CharCount
+           INSPECT xStr2 TALLYING CharCount FOR CHARACTERS
+               BEFORE INITIAL "source"
+           DISPLAY "POSITION : " , CharCount.
+           
+      *>     找出"fred"中, 第1個出現的字元及位置
+           MOVE "fred" TO yStr
+           MOVE 51 TO EndCount
+           PERFORM VARYING CharPos FROM 1 BY 1 UNTIL CharPos > 4
+               MOVE 1 TO CharCount
+               INSPECT xStr TALLYING CharCount FOR CHARACTERS
+                   BEFORE INITIAL yStr(CharPos:1)
+               IF CharCount < EndCount
+                  MOVE CharCount TO EndCount
+               END-IF
+           END-PERFORM.
+           DISPLAY "FIRST OCCURRENCE IS IN CHAR POSITION,", EndCount
+           DISPLAY "THE CHAR IS, " xStr(EndCount : 1)
+           
+           STOP RUN.
+
+    # 字串分割:
+    (核心觀念: UNSTRING .. DELIMITED BY "," INTO .. COUNT IN ..)
+
+        程式範例 : 檢查資料內容是否符合規範(VIP:上班後,應該會用到).
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. STRING-UNSTRING.
+        *> 篩選出 "InsertSupplier"
+        ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT InputData ASSIGN TO "String-UnstringData.dat"
+              ORGANIZATION IS LINE SEQUENTIAL.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD  InputData.
+        *> 
+        01  SupplierAndVideoRecord.
+            88  EndOfFile   VALUE HIGH-VALUE.
+            03  TypeCode    PIC XX.
+                88  DeleteSupplier  VALUE "1,".
+                88  DeleteVideo     VALUE "2,".
+                88  InsertVideo     VALUE "3,".
+                88  InsertSupplier  VALUE "4,".
+                88  ValidTypeCode   VALUE "1,", "2,", "3,", "4,".
+            03  RemainRec   PIC X(78).
+
+        WORKING-STORAGE SECTION.
+        01  InsertSupplierRec.
+            03  TransType       PIC 9.
+            03  TransDate       PIC X(8).
+            03  SupplierCode    PIC XX.
+            03  SupplierName    PIC X(20).
+            03  SupplierAddress PIC X(50).
+        
+        *> 檢查欄位長度
+        01  InsertSupplierCount.
+            03  DateCount           PIC 99.
+                88  ValidDate       VALUE 8.
+            03  CodeCount           PIC 99.
+                88  ValidCode       VALUE 1 THRU 2.
+            03  NameCount           PIC 99.
+                88  ValidName       VALUE 1 THRU 20.
+            03  AddressCount        PIC 99.
+                88  ValidAddress    VALUE 1 THRU 50.
+        
+        *> 儲存每列實際長度
+        01  StringEnd   PIC 99.
+            
+        PROCEDURE DIVISION.
+        BEGIN.
+            OPEN INPUT InputData
+            READ InputData
+                AT END SET EndOfFile TO TRUE
+            END-READ
+            PERFORM UNTIL EndOfFile 
+
+        *>   計算每行實際長度
+                MOVE ZEROS TO InsertSupplierCount
+                MOVE 0 to StringEnd
+                INSPECT RemainRec TALLYING StringEnd FOR TRAILING SPACES
+                COMPUTE StringEnd = 78 - StringEnd
+                
+        *>   只抓"InsertSupplier"
+                IF InsertSupplier
+        *>             DISPLAY SupplierAndVideoRecord
+                    UNSTRING RemainRec(1:StringEnd) DELIMITED BY ","
+                      INTO TransDate COUNT IN DateCount
+                        SupplierCode COUNT IN CodeCount
+                        SupplierName COUNT IN NameCount
+                        SupplierAddress COUNT IN AddressCount
+                    END-UNSTRING
+                    PERFORM ShowErrorMsg
+                else
+                    IF NOT ValidTypeCode
+                        DISPLAY SPACES
+                        DISPLAY "Record = " RemainRec(1:70)
+                        DISPLAY "Type Code Error(" TypeCode ")"
+                    END-IF
+                END-IF
+
+                READ InputData
+                    AT END SET EndOfFile TO TRUE
+                END-READ
+            END-PERFORM
+
+            CLOSE InputData
+            STOP RUN.
+        
+        ShowErrorMsg.
+            DISPLAY SPACES
+            DISPLAY "Record = " RemainRec(1:70)
+            IF NOT ValidDate DISPLAY "TransDate Size Error(" TransDate ")" END-IF
+            IF NOT ValidCode DISPLAY "SupplierCode Size Error(" SupplierCode ")" END-IF
+            IF NOT ValidName DISPLAY "SupplierName Size Error(" SupplierName ")" END-IF
+            IF NOT ValidAddress DISPLAY "SupplierAddress Size Error(" SupplierAddress ")" END-IF.
 
   [The COBOL Report Writer]
 
