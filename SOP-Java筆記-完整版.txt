@@ -2623,7 +2623,7 @@
 
 			How to create a socket at a specific port?
 
-		* Threading
+		* Threading(It's really hard.)
     
 			1.How to check a thread is alive or not? (Thread.currentThread(); t.isAlive();)
 
@@ -3464,7 +3464,7 @@
 
 	Day2(Afternoon)
 
-		* JDBC
+		* JDBC(OK)
 
 			1.How to establishing a connection with Database?
 
