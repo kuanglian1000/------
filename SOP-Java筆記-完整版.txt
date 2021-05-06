@@ -3157,21 +3157,310 @@
 
 				}
 
-			How to set the priority of a thread?
+			8.How to set the priority of a thread? (thread.setPriority(Thread.MAX_PRIORITY))
 
-			How to stop a thread?
+				public class new_file {
+					public static void main(String[] args) throws Exception {
+							Thread thread1 = new Thread();
+							Thread thread2 = new Thread();
+							thread1.setPriority(Thread.MAX_PRIORITY);
+							thread2.setPriority(Thread.MIN_PRIORITY);
+							thread1.start();
+							thread2.start();
+							thread1.join();
+							thread2.join();
+							System.out.println("The priority has been set.");
+					}
+				}
 
-			How to suspend a thread for a while?
+			9.How to stop a thread?
+			(run()函式內, 放入FLAG, 由另一個函式來改變FLAG值, 讓run()偵測到FLAG改變時, 可以將THREAD停下來)
 
-			How to get the Id of the running thread?
+				import java.util.Timer;
+				import java.util.TimerTask;
 
-			How to check priority level of a thread?
+				class CanStop extends Thread {
+					private volatile boolean stop = false;
+					private int counter = 0;
+					
+					public void run() {
+							while (!stop && counter < 10000) {
+								System.out.println(counter++);
+							}
+							if (stop)
+							System.out.println("Detected stop"); 
+					}
+					public void requestStop() {
+							stop = true;
+					}
+				}
+				public class Stopping {
+					public static void main(String[] args) {
+							final CanStop stoppable = new CanStop();
+							stoppable.start();
+							
+							new Timer(true).schedule(new TimerTask() {
+								public void run() {
+										System.out.println("Requesting stop");
+										stoppable.requestStop();
+								}
+							}, 
+							350);
+					}
+				} 
 
-			How to display all running Thread?
+			10.How to suspend a thread for a while?
+			(暫停THREAD, 可以使用 sleep(XXX))
 
-			How to display thread status?
+				public class SleepingThread extends Thread {
+					private int countDown = 5;
+					private static int threadCount = 0;
+					
+					public SleepingThread() {
+							super("" + ++threadCount);
+							start();
+					}
+					public String toString() { 
+							return "#" + getName() + ": " + countDown;
+					}
+					public void run() {
+							while (true) {
+								System.out.println(this);
+								if (--countDown == 0) return;
+								try {
+										sleep(100); //重點在這
+								} catch (InterruptedException e) {
+										throw new RuntimeException(e);
+								}
+							}
+					}
+					public static void main(String[] args) throws InterruptedException {
+							for (int i = 0; i < 5; i++) new SleepingThread().join();
+							System.out.println("The thread has been suspened.");
+					}
+				}
 
-			How to interrupt a running Thread?
+			11.How to get the Id of the running thread? (難度高, 先略過)
+			(getThreadId())
+
+				public class Main extends Object implements Runnable {
+					private ThreadID var;
+					public Main(ThreadID v) {
+							this.var = v;
+					} 
+					public void run() {
+							try {
+								print("var getThreadID =" + var.getThreadID());
+								Thread.sleep(2000);
+								print("var getThreadID =" + var.getThreadID());
+							} catch (InterruptedException x) {}
+					} 
+					private static void print(String msg) {
+							String name = Thread.currentThread().getName();
+							System.out.println(name + ": " + msg);
+					} 
+					public static void main(String[] args) {
+							ThreadID tid = new ThreadID();
+							Main shared = new Main(tid);
+							try {
+								Thread threadA = new Thread(shared, "threadA");
+								threadA.start();
+								Thread.sleep(500);
+								
+								Thread threadB = new Thread(shared, "threadB");
+								threadB.start();
+								Thread.sleep(500);
+								
+								Thread threadC = new Thread(shared, "threadC");
+								threadC.start();
+							} catch (InterruptedException x) {}
+					}
+				}
+				class ThreadID extends ThreadLocal {
+					private int nextID;
+					public ThreadID() {
+							nextID = 10001;
+					} 
+					private synchronized Integer getNewID() {
+							Integer id = new Integer(nextID);
+							nextID++;
+							return id;
+					} 
+					protected Object initialValue() {
+							print("in initialValue()");
+							return getNewID();
+					} 
+					public int getThreadID() {
+							Integer id = (Integer) get();
+							return id.intValue();
+					} 
+					private static void print(String msg) {
+							String name = Thread.currentThread().getName();
+							System.out.println(name + ": " + msg);
+					}
+				}
+
+			12.How to check priority level of a thread?
+			(getPriority())
+
+				public class Main extends Object {
+					private static Runnable makeRunnable() {
+							Runnable r = new Runnable() {
+								public void run() {
+										for (int i = 0; i < 5; i++) {
+											Thread t = Thread.currentThread();
+											System.out.println("in run() - priority = " + t.getPriority()+ ", name = " + t.getName());
+											try {
+													Thread.sleep(2000);
+											} catch (InterruptedException x) {}
+										}
+								}
+							};
+							return r;
+					}
+					public static void main(String[] args) {
+							System.out.println(
+								"in main() - Thread.currentThread(). getPriority() = " + Thread.currentThread().getPriority());
+							System.out.println(
+								"in main() - Thread.currentThread().getName() = "+ Thread.currentThread().getName());
+							
+							Thread threadA = new Thread(makeRunnable(), "threadA");
+							threadA.start();
+							try {
+								Thread.sleep(3000);
+							} catch (InterruptedException x) {}
+							System.out.println("in main() - threadA.getPriority() = " + threadA.getPriority());
+					}
+				}
+
+			13.How to display all running Thread?
+			(getName())
+
+				public class Main extends Thread {
+					public static void main(String[] args) {
+							Main t1 = new Main();
+							t1.setName("thread1");
+							t1.start();
+							ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
+							int noThreads = currentGroup.activeCount();
+							Thread[] lstThreads = new Thread[noThreads];
+							currentGroup.enumerate(lstThreads);
+							
+							for (int i = 0; i < noThreads; i++) System.out.println("Thread No:" + i + " = " + lstThreads[i].getName());
+					}
+				}
+
+			14.How to display thread status?
+			(isAlive() & getStatus())
+
+				class MyThread extends Thread {
+					boolean waiting = true;
+					boolean ready = false;
+					MyThread() {
+					}
+					public void run() {
+							String thrdName = Thread.currentThread().getName();
+							System.out.println(thrdName + " starting.");
+							
+							while(waiting) System.out.println("waiting:"+waiting);
+							System.out.println("waiting...");
+							startWait();
+							try {
+								Thread.sleep(1000);
+							} catch(Exception exc) {
+								System.out.println(thrdName + " interrupted.");
+							}
+							System.out.println(thrdName + " terminating.");
+					}
+					synchronized void startWait() {
+							try {
+								while(!ready) wait();
+							} catch(InterruptedException exc) {
+								System.out.println("wait() interrupted");
+							}
+					}
+					synchronized void notice() {
+							ready = true;
+							notify();
+					}
+				}
+				public class Main {
+					public static void main(String args[]) throws Exception {
+							MyThread thrd = new MyThread();
+							thrd.setName("MyThread #1");
+							showThreadStatus(thrd);
+							
+							thrd.start();
+							Thread.sleep(50);
+							showThreadStatus(thrd);
+							
+							thrd.waiting = false;
+							Thread.sleep(50);
+							showThreadStatus(thrd);
+							
+							thrd.notice();
+							Thread.sleep(50);
+							showThreadStatus(thrd);
+							
+							while(thrd.isAlive())
+							System.out.println("alive");
+							showThreadStatus(thrd);
+					}
+					static void showThreadStatus(Thread thrd) {
+							System.out.println(thrd.getName()+" Alive:"+thrd.isAlive()+" State:" + thrd.getState() );
+					}
+				}
+
+			15.How to interrupt a running Thread?
+			(interrupt() & isInterrupted())
+
+				public class GeneralInterrupt extends Object implements Runnable {
+					public void run() {
+							try {
+								System.out.println("in run() - about to work2()");
+								work2();
+								System.out.println("in run() - back from work2()");
+							} catch (InterruptedException x) {
+								System.out.println("in run() - interrupted in work2()");
+								return;
+							}
+							System.out.println("in run() - doing stuff after nap");
+							System.out.println("in run() - leaving normally");
+					}
+					public void work2() throws InterruptedException {
+							while (true) {
+								if (Thread.currentThread().isInterrupted()) {
+										System.out.println("C isInterrupted()="+ Thread.currentThread().isInterrupted());
+										Thread.sleep(2000);
+										System.out.println("D isInterrupted()="+ Thread.currentThread().isInterrupted());
+								}
+							}
+					}
+					public void work() throws InterruptedException {
+							while (true) {
+								for (int i = 0; i < 100000; i++) {
+										int j = i * 2;
+								}
+								System.out.println("A isInterrupted()="+ Thread.currentThread().isInterrupted());
+								if (Thread.interrupted()) {
+										System.out.println("B isInterrupted()="+ Thread.currentThread().isInterrupted());
+										throw new InterruptedException();
+								}
+							}
+					}
+					public static void main(String[] args) {
+							GeneralInterrupt si = new GeneralInterrupt();
+							Thread t = new Thread(si);
+							t.start();
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException x) { }
+						
+							System.out.println("in main() - interrupting other thread");
+							t.interrupt();
+							System.out.println("in main() - leaving");
+					}
+				}
 
 	Day2(Afternoon)
 
