@@ -1,20 +1,181 @@
 [TODO]
-  ============
+  ==================================================================================
   110年度工作計劃
-    1.集保考試(03/21)
-    2.華南考試(04/10)
-      2.1. Java + SQL, 資料庫管理 + 資訊安全
-    3.鐵路特考-佐級-材料管理(04/11-06/19)
-      3.0. 考試科目               => 書目/考試準備材料
-      -----------------------------------
-      3.1. 國文 (包括公文格式用語) => 考選部考古題
-      3.2. 公民與英文             => 考選部考古題
-      3.3. 材料管理大意           => 考選部考古題 & 物料規劃相關書籍
-      3.4. 政府採購法大意         => 考選部考古題 & 政府採購法
+    1.(OK)集保筆試(03/21) => 通過筆試
+    2.(OK)華南考試(04/10) => 資格不符
+    3.(OK)集保面試(04/28) => 完成一面(沒上)
+    4.(OK)彰銀筆試+面試(05/06) => 沒上
+    4.(OK)合庫筆試(06/04報名),大型主機程式設計人員 => 不報名了, 每次筆試過, 到口試都被洗臉, 不參加了.
+    4.陽大醫院筆試+面試(05/27), 資訊維護人員
+    
+    5.鐵路特考-佐級-材料管理(06/01-06/19)
+      5.0. 考試科目               => 書目/考試準備材料
+      -----------------------------------------
+      5.1. 國文 (包括公文格式用語) => 考選部考古題
+      5.2. 公民與英文             => 考選部考古題
+      -----------------------------------------
+      5.3. 材料管理大意           => 考選部考古題 & 物料規劃
+      5.4. 政府採購法大意         => 考選部考古題 & 政府採購法
 
-  ============
-  教育訓練(個人)
-    1.(Web)COBOL技術 , http://www.csis.ul.ie/cobol/course/Default.htm & https://devdocs.io/gnu_cobol/
+    6.司法特考-五等-錄事(06/21-08/14)
+      6.0. 考試科目               => 書目/考試準備材料
+      -----------------------------------------
+      6.1. 國文 (包括公文格式用語) => 考選部考古題
+      6.2. 公民與英文             => 考選部考古題
+      -----------------------------------------
+      6.3. 民事訴訟法大意與刑事訴訟法大意 => 考選部考古題 & 刑事訴訟法(作者:林俊寬, ISBN:9789-5776-32241) 
+                                                      & 民事訴訟法(作者:姜世明, ISBN:9789-5751-10338)
+      6.4. 法學大意                     => 考選部考古題 & 法學概論(作者:劉振鯤, ISBN:9789-8625-59574)
+
+    7.特方特考-五等-土地行政(08/16-12/11)
+      7.0. 考試科目               => 書目/考試準備材料
+      -----------------------------------------
+      7.1. 國文 (包括公文格式用語) => 考選部考古題
+      7.2. 公民與英文             => 考選部考古題
+      -----------------------------------------
+      7.3. 土地法大意             => 考選部考古題 & 土地法
+      7.4. 土地行政大意           => 考選部考古題 & 土地行政
+
+  每日時間分配:
+    (上午): 寫考古題.
+    (下午): 製作筆記.
+    (晚上): 外出運動 | 購買生活用品
+
+  每日進度範本:
+    > 考古題
+        國文
+        公民與英文
+        政府採購法
+        材料管理
+    > 教材
+        國文
+        公民與英文
+        政府採購法
+        材料管理
+
+==================================================================================
+W26:2021/06/21-06/25 (放空週)
+
+==================================================================================
+W25:2021/06/14-06/18 (複習: 所有筆記)
+
+  06/19(六) - 考試日
+    > 搭第1班 9028 去台北考試, 考一整天.
+    > 考完, 去看一下羽謙. 之後, 回五結.
+
+==================================================================================
+W24:2021/06/07-06/11 (複習:材料管理大意)
+
+==================================================================================
+W23:2021/05/31-06/04 (複習:政府採購法大意)
+
+==================================================================================
+W22:2021/05/24-05/28 (抓重點:材料管理大意)
+
+  05/27(四)
+    > 上午: 快速瀏覽筆記 
+        (OK)閱讀泛型內容: https://docs.microsoft.com/zh-tw/dotnet/csharp/fundamentals/types/generics
+        閱讀匿名類型: https://docs.microsoft.com/zh-tw/dotnet/csharp/fundamentals/types/anonymous-types
+        閱讀C#基本觀念 + WebApi 開發: C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\SOP-C#.txt
+
+    > 下午: 1400 面試
+  
+  05/26(三)
+    > 一整天都在複習 C# 內容.
+    
+  05/25(二)
+    > 考古題
+        公民與英文, 105180_0207_公民與英文, 76分 (OK)
+        政府採購法, 109070_0410_政府採購法大意, 72分 (OK)
+        材料管理  , 109070_0311_材料管理大意, 72分 (TODO: 待檢討)
+        國文,       105120_0103_國文(包括公文格式用, 63.8分 (OK)
+        
+  05/24(一)
+    > 寄出宜蘭地院報名表. (OK)
+      註: 今天總算能收尾了, 上午寄出宜蘭地院報名表後, 休息一下.
+    > 教材: 政府採購法, 先快速瀏覽過1次. {寫到第 33 章}. (OK)
+    
+    > 考古題
+        
+        公民與英文, 105180_0207_公民與英文
+        政府採購法, 109070_0410_政府採購法大意
+        材料管理  , 109070_0311_材料管理大意
+    
+==================================================================================
+W20:2021/05/17-05/21 (抓重點:政府採購法大意)
+
+  05/23(日)
+    > 教材: 政府採購法, 先快速瀏覽過1次. {寫到第 31 章一半}.
+
+  05/22(六)
+    > 教材: 政府採購法, 先快速瀏覽過1次. {寫到第 23 章}.
+    > 寫考古題(至少要有 國文|公民與英文) + 檢討錯誤題目 + 作筆記.
+        國文,        
+        公民與英文, 
+        政府採購法, 
+        材料管理  , 
+
+  05/21(五)
+    > 教材: 
+        政府採購法, 先快速瀏覽過1次. {寫到第 18 章}.
+    > 寫考古題(至少要有 國文|公民與英文) + 檢討錯誤題目 + 作筆記.
+        國文,        
+        國文,        
+        公民與英文, 
+        公民與英文, 
+        政府採購法, 
+        材料管理  , 
+  
+  05/20(四)
+    > 教材: 
+        政府採購法, 先快速瀏覽過1次. {寫到第 14 章}.(OK)
+        國文參考書. (OK, 看了一點)
+        公民與英文, (OK, 看了一點)
+    
+  05/19(三)
+    > 教材: 政府採購法, 先快速瀏覽過1次. {寫到第 07 章}.(OK)
+    > 寫考古題(至少要有 國文|公民與英文) + 檢討錯誤題目 + 作筆記.
+        國文,       105070_0105, 74.4分(目標80以上).
+        公民與英文,  105120_0305, 80分(目標80以上).
+
+  05/18(二)
+    > 考古題
+        國文     , 107070_0104, 68分(目標80以上).
+        公民與英文, 107070_0205, 62分(目標80以上).
+        政府採購法, 108070_0510, 62分(目標80以上).
+        材料管理  , 108070_0406, 56分(目標80以上). 持續往上提昇
+    
+  05/17(一)
+    > 檢討05/16材料管理錯誤 & 重點.(OK)
+    > 考古題
+        國文, 105050_0103, 64分(目標70以上).(OK=已檢討)
+        公民與英文, 105070_0206, 62分(目標80以上).(OK=已檢討)
+        材料管理, 107070_0311, 68分(目標80以上).(OK=已檢討)
+        政府採購法, 107070_0412, 56分(目標70以上). 
+    
+  05/16(日)
+    > 考古題
+        國文 105010_0101, 58.09分(目標70以上)
+        公民與英文 105010_0103, 72分(目標80以上)
+        政府採購法 106070_0510, 54分(目標70以上)
+        材料管理 106070_0409, 64分(目標80以上) <- 05/17檢討錯誤.
+    
+  05/15(六)
+    加班趕進度中。
+
+==================================================================================
+W19:2021/05/10-05/14
+
+W18:2021/05/03-05/07
+  [TODO]
+    1.回台北, 準備彰銀筆試 + 面試
+    2.研究彰銀
+
+W17:2021/04/26-04/30
+  [TODO]
+    1.參加集保面試
+    教育訓練(個人)
+    1.(沒上不用說了, Web)COBOL技術 , http://www.csis.ul.ie/cobol/course/Default.htm & https://devdocs.io/gnu_cobol/
       1.Introduction to COBOL	
         The structure of COBOL programs (new may 2002)
         Declaring data in COBOL
@@ -62,87 +223,49 @@
       10.The COBOL Report Writer	
         Report Writer by example
         Report Writer syntax and semantics
+    2.(沒上不用說了) # 閱讀(SMART系統操作 & 業務手冊), 預先了解可能負責業務內容.
+    
+W16:2021/04/19-04/23
 
-  ============
-  教育訓練(APP開發) => 暫時不作了 <=
-    --首要工作(3門)--
-    TODO:1. Angular 程式開發
-      a. Add Service(將資料提供獨立成服務)(OK)
-      b. Add Navigation(新增畫面導覽切換)(OK)
-      c. Get Data from a Server(從固定資料來源, 改為多資料來源)(OK)
+  04/23(五)
+    # 閱讀敏捷式開發書籍. [敏捷解密 : 內行人的敏捷企業轉型指南，已預約, 沒什麼幫助, 已歸還]
+    # 練習SHELL SCRIPT
+  04/22(四)
+    # 練習SHELL SCRIPT
+    # 找台銀程一科-信璁吃飯, 諮詢帳務系統-存款類都在作什麼, 以及最常遇到問題 & 如何解決? 
+  04/21(三)
+    # 練習COBOL: 把課程全部完成, http://www.csis.ul.ie/cobol/course/Default.htm
+  04/20(二)
+    # 練習COBOL: 把課程全部完成, http://www.csis.ul.ie/cobol/course/Default.htm
+  04/19(一)
+    # 練習COBOL: 把課程全部完成, http://www.csis.ul.ie/cobol/course/Default.htm
 
-    TODO:2. IONIC APP開發
-      # 教育訓練:IONIC程式開發 => Developing(OK)
-      # 教育訓練:IONIC程式開發 => Layout(OK)
-      # 教育訓練:IONIC程式開發 => Theming(OK)
-      # Deep Link技術, 與外部廠商-APP資料傳遞用介面 => https://ionicframework.com/docs/native/deeplinks
-
-    TODO:3.(Web)Spring Boot WebApi開發 - 
-      # https://code.visualstudio.com/docs/java/java-spring-boot
-
-    --有空再看(7門)--
-      1.(Web)Android APP官方教材(觀念整理) - https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/index.html
-      2.(Web)Android APP官方教材(基礎課程) - https://developer.android.com/courses/fundamentals-training/toc-v2
-        Unit 1: Get started(75%)
-          Lesson 1: Build your first app(OK,第一週完成)
-            1.1: Android Studio and Hello World
-            1.2 Part A: Your first interactive UI
-            1.2 Part B: The layout editor
-            1.3: Text and scrolling views
-            1.4: Learn to help yourself
-          Lesson 2: Activities and intents(OK,第二週完成)
-            2.1: Activities and intents
-            2.2: Activity lifecycle and state
-            2.3: Implicit intents
-          Lesson 3: Testing, debugging, and using support libraries(第三週-工作重點)
-            3.1: The debugger(OK)
-            3.2: Unit tests(SKIPPED，先跳過)，https://developer.android.com/training/testing/fundamentals，須從最基本的設定學起
-            3.3: Support libraries
-        Unit 2: User experience(第三週-工作重點)
-          Lesson 4: User interaction(OK)
-            4.1: Clickable images
-            4.2: Input controls
-            4.3: Menus and pickers
-            4.4: User navigation 新作法請參考：https://developer.android.com/guide/navigation/navigation-swipe-view-2
-            4.5: RecyclerView
-          Lesson 5: Delightful user experience(先往後延)
-            5.1: Drawables, styles, and themes
-            5.2: Cards and colors
-            5.3: Adaptive layouts
-          Lesson 6:Testing your UI
-            6.1: Espresso for UI testing
-        Unit 3: Working in the background(第四週-工作重點)
-          Lesson 7: Background tasks
-            7.1: AsyncTask
-            7.2: AsyncTask and AsyncTaskLoader
-            7.3: Broadcast receivers
-          Lesson 8: Alarms and schedulers
-            8.1: Notifications
-            8.2: The alarm manager
-            8.3: JobScheduler
-          Lesson 9: Preferences and settings
-            9.1: Shared preferences
-            9.2: App settings
-          Lesson 10: Storing data with Room
-            10.1 Part A: Room, LiveData, and ViewModel
-            10.1 Part B: Deleting data from a Room database
-      3.(Web)Android APP官方教材(進階課程) - https://developer.android.com/courses/advanced-training/overview
-      4.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面 , https://developer.android.com/guide/navigation/navigation-deep-link
-      5.(Book)Android程式設計 入門、應用到精通(單元01-60 , 單元61-90)
-      6.(Book)學會Swift3程式設計的21堂課
-        => Part 1,2,3 ; Unit 01-25
-        => Part 4,5,6 ; Unit 20-37
-        => Part 7,8,9 ; Unit 38-53
-      7.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
-  
-==================================================================================
-W14:2021/04/12-04/16
+W15:2021/04/12-04/16
   [TODO]
-    1.回花蓮準備考試
+    1.回五結, 研究集保準備面試
+    2.閱讀面試書籍: 你可以不遷就(CH4-求職面試的16個小技巧)
 
+  04/16(五)
+    (OK)# 早上-去集保附近晃晃-中崙分館
+    (OK)# 下午-回新店看電影 or 找羽謙打球.
+    (OK)# 晚上-找集保玉鵬吃飯
+  
+  04/15(四)
+    (OK)# 閱讀(你可以不遷就), 從第5個小技巧開始.
+    (OK)# 閱讀集保數位轉型規劃, https://www.ithome.com.tw/people/142816
+    
+  04/14(三)
+    (OK)# 集保公司研究, 官網, SMART系統(證券劃撥主系統) => 系統操作手冊及業務手冊
+      C:\Users\p10154383\Documents\個人資料夾\筆記-圖書館\集保筆記\集保公司研究.txt
+    (OK)# 與前台銀同事-林玉鵬取得聯繫, 並約週五碰面, 了解集保內部狀況
 
-==================================================================================
-W13:2021/04/05-04/09
+  04/13(二)
+    # 閱讀面試書籍, 整理CH4-求職面試的16個小技巧(1-4個小技巧)
+
+  04/12(一) 
+    # 大腸鏡檢查 @ 新店慈濟
+
+W14:2021/04/05-04/09
   [TODO]
     1.休息一週, 坐火車回台南逛逛
     2.等放榜
@@ -255,7 +378,7 @@ W10:2021/03/08-03/12
         b. Add Navigation(新增畫面導覽切換)(OK)
         c. Get Data from a Server(從固定資料來源, 改為多資料來源)(OK)
 
-W9:2021/03/01-2021/03/05
+W09:2021/03/01-03/05
   [TODO]
     # 學習:Angular 程式開發
     # 專案:心蓮病房APP
@@ -310,7 +433,7 @@ W9:2021/03/01-2021/03/05
     2.教育訓練:IONIC程式開發 => Developing(OK)
     3.有一位護理要安裝 "行動巡房系統" , 已交由 資訊室-旭增 協助安裝APP , 但權限未開啟(OK)
 
-W8:2021/02/21-2021/02/27
+W08:2021/02/21-02/27
   [TODO]
     1.專案:心蓮病房APP
       1.1.安裝 ionic Fragment 開發環境
@@ -367,7 +490,7 @@ W8:2021/02/21-2021/02/27
           https://androidwave.com/viewpager2-with-tablayout-android-example/
         4.5: RecyclerView(OK,但作的不好..)
       
-W7:2021/02/14-2021/02/20
+W07:2021/02/14-02/20
   [TODO]
     1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2      
   
@@ -408,7 +531,7 @@ W7:2021/02/14-2021/02/20
       3.3: Support libraries(SKIPPED，先跳過)
     2.COBOL學習 => 1.Introduction to COBOL => 1.1.The structure of COBOL programs(OK)	
 
-W6:2021/02/07-2021/02/13
+W06:2021/02/07-02/13
   [TODO]
     1.(Web)Android APP官方教材 - https://developer.android.com/courses/fundamentals-training/toc-v2
       
@@ -434,7 +557,7 @@ W6:2021/02/07-2021/02/13
       1.4: Learn to help yourself(OK)
       2.1: Activities and intends(OK)
 
-W5:2021/01/31-2021/02/06
+W05:2021/01/31-02/06
   [TODO]
     1.新公司報到-(慈濟)(OK)
     2.Android APP開發(OK)
@@ -540,7 +663,7 @@ W5:2021/01/31-2021/02/06
     1.(上午)回五結
     2.(下午)回花蓮
   
-W4:2021/01/24-2021/01/30
+W04:2021/01/24-01/30
   [TODO]
     1.準備兆豐金面試資料(SQL Server DMVs IN ACTION)
     2.Read Book:Django Web Framework (Python) 
@@ -586,7 +709,7 @@ W4:2021/01/24-2021/01/30
     1.回花蓮 from 五結(OK)
     2.準備兆豐金面試資料(OK)
       
-W3:2021/01/17~2021/01/23
+W03:2021/01/17-01/23
   [TODO]
     1.測試驅動開發,使用PYTHON
   
@@ -620,3 +743,75 @@ W3:2021/01/17~2021/01/23
 
   01/17(日)
     1.搬家去花蓮(OK)
+
+  ============
+  教育訓練(APP開發) => 暫時不作了 <=
+    --首要工作(3門)--
+    (OK):1. Angular 程式開發
+      a. Add Service(將資料提供獨立成服務)(OK)
+      b. Add Navigation(新增畫面導覽切換)(OK)
+      c. Get Data from a Server(從固定資料來源, 改為多資料來源)(OK)
+
+    (OK):2. IONIC APP開發
+      # 教育訓練:IONIC程式開發 => Developing(OK)
+      # 教育訓練:IONIC程式開發 => Layout(OK)
+      # 教育訓練:IONIC程式開發 => Theming(OK)
+      # Deep Link技術, 與外部廠商-APP資料傳遞用介面 => https://ionicframework.com/docs/native/deeplinks
+
+    (OK):3.(Web)Spring Boot WebApi開發 - 
+      # https://code.visualstudio.com/docs/java/java-spring-boot
+
+    --有空再看(7門)--
+      1.(Web)Android APP官方教材(觀念整理) - https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/index.html
+      2.(Web)Android APP官方教材(基礎課程) - https://developer.android.com/courses/fundamentals-training/toc-v2
+        Unit 1: Get started(75%)
+          Lesson 1: Build your first app(OK,第一週完成)
+            1.1: Android Studio and Hello World
+            1.2 Part A: Your first interactive UI
+            1.2 Part B: The layout editor
+            1.3: Text and scrolling views
+            1.4: Learn to help yourself
+          Lesson 2: Activities and intents(OK,第二週完成)
+            2.1: Activities and intents
+            2.2: Activity lifecycle and state
+            2.3: Implicit intents
+          Lesson 3: Testing, debugging, and using support libraries(第三週-工作重點)
+            3.1: The debugger(OK)
+            3.2: Unit tests(SKIPPED，先跳過)，https://developer.android.com/training/testing/fundamentals，須從最基本的設定學起
+            3.3: Support libraries
+        Unit 2: User experience(第三週-工作重點)
+          Lesson 4: User interaction(OK)
+            4.1: Clickable images
+            4.2: Input controls
+            4.3: Menus and pickers
+            4.4: User navigation 新作法請參考：https://developer.android.com/guide/navigation/navigation-swipe-view-2
+            4.5: RecyclerView
+          Lesson 5: Delightful user experience(先往後延)
+            5.1: Drawables, styles, and themes
+            5.2: Cards and colors
+            5.3: Adaptive layouts
+          Lesson 6:Testing your UI
+            6.1: Espresso for UI testing
+        Unit 3: Working in the background(第四週-工作重點)
+          Lesson 7: Background tasks
+            7.1: AsyncTask
+            7.2: AsyncTask and AsyncTaskLoader
+            7.3: Broadcast receivers
+          Lesson 8: Alarms and schedulers
+            8.1: Notifications
+            8.2: The alarm manager
+            8.3: JobScheduler
+          Lesson 9: Preferences and settings
+            9.1: Shared preferences
+            9.2: App settings
+          Lesson 10: Storing data with Room
+            10.1 Part A: Room, LiveData, and ViewModel
+            10.1 Part B: Deleting data from a Room database
+      3.(Web)Android APP官方教材(進階課程) - https://developer.android.com/courses/advanced-training/overview
+      4.(Web)Deep Link技術 , 與外部廠商-全家寶APP資料傳遞用介面 , https://developer.android.com/guide/navigation/navigation-deep-link
+      5.(Book)Android程式設計 入門、應用到精通(單元01-60 , 單元61-90)
+      6.(Book)學會Swift3程式設計的21堂課
+        => Part 1,2,3 ; Unit 01-25
+        => Part 4,5,6 ; Unit 20-37
+        => Part 7,8,9 ; Unit 38-53
+      7.(Book)Read Book:完整學會Git,GitHub,Git Server的24堂課
