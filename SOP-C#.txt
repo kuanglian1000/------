@@ -1,3 +1,166 @@
+=考前問答=
+  1. System.ApplicationException & System.SystemException 的差別 ?
+    System.SystemException, 預先定義所有系統例外.
+    System.ApplicationException, 預先定義應用程式例外, 程式員應該要先從這個類別衍生.
+  
+  2. 所有例外的基底類別是 ?
+    System.Exception.
+
+  3. 什麼是 preprocessor directives ?
+    指示編譯器如何進行編譯.
+
+  4. 什麼是 interface (介面) ?
+    它像是一份契約, 定義標準結構或大綱. 繼承類別必須依循其定義結構, 進行設計.
+
+  5. 什麼是 virtual function ?
+    有一個方法希望在 繼承類別中被實作, 可以使用 virtual function.
+
+  6. 什麼是 sealed class ?
+    有一類別加上 sealed 修飾詞, 可防止其他類別繼承於該類別.
+      例: class A {}
+          sealed class B : A {} //B無法再被繼承.
+
+  7. C# 如何支援 動態多形 (dynamic polymorphism)?
+    透過 抽象類別(abstract class) & 虛擬方法(virtual function) 兩種方式進行實作.
+
+  8. 什麼是 函式多載 (function overloading) ?
+    同一個方法上有多種定義, 透過 {參數型態} 或 {參數個數} 等方式作區隔.
+
+  9. 什麼是 early binding ?
+    在編譯時, 就將函式與物件作連結, 又稱為 static binding.
+
+  10. C# 如何支援 靜態多形 (static polymorphism)?
+    透過 函式多載(function overloading) & 運算子多載(operator overloading) 兩種方式.
+
+  11. 靜態多形 & 動態多形 的差別是 ?
+    靜態多形: 編譯時, 就確定函式的回傳(response).
+    動態多形: 執行時, 才能確定.
+
+  12. 什麼是多形?
+    一個介面, 有多種方法.
+
+  13. C# 如何繼承/衍生?
+    一個類別可由多個類別或介面衍生出來, 也就是說 它能 繼承 來自於多個基底類別/介面的 資料和函式.
+  
+  14. C# 支援多重繼承嗎?
+    NO, 不支援多重繼承.
+
+  15. class member 的預設存取修飾子?
+    private (私有)
+
+  16. class 的預設存取修飾子?
+    internal (只開放給元件/組件間使用, 同一個DLL內使用)
+
+  17. 什麼是列舉(Enumeration)? 
+    它是1組被命名的數值常數, 視為 value data type.
+    它只包含它本身的數值, 無法被繼承或繼承間傳遞.
+
+  18. 類別(class)與結構(structure)間的差異?
+    1. 類別是參考型別, 結構是值型別.
+    2. 結構不支援繼承.
+    3. 結構不能有預設建構子.
+
+  19. 什麼是結構(structure) ?
+    1. 結構是值型別.
+    2. 讓你使用1個結構, 保留不同資料型態的相關資料.
+    3. struct keyword
+    4. 結構 通常用來 表示 1筆記錄(內有多個不同資料型態的值).
+
+  20. 如何反序排列 陣列?
+    1. 先用 Array.sort(array);
+    2. 再用 Array.reverse(array);
+
+  21. 如何正序排列 陣列?
+    用 Array.sort(array);
+
+  22. 所有 陣列的 基底類別是?
+    Array.
+    它被定義在 System 命名空間內.
+
+  21. Can you pass additional type of parameters after using params in function definition?
+    不行
+  
+  22. Can you create a function in C# which can accept varying number of arguments?
+    可以, 利用 params 關鍵字, 可讓 1個參數傳入多個值.
+
+  23. ?? 的用法?
+    if (val1 ?? val2)
+    if val1 is null , return val2.
+    if val1 is not null , return val1.
+   
+  24. 什麼是 nullable type?
+    除了原本資料型態值外, 亦能指定為 null
+    例: Nullable<Int32> money, 可指定 null or -2,147,483,648 to 2,147,483,647.
+    例: Nullable<bool> weather, 可指定 true or false or null.
+  
+  25. What is scope of a {Protected Internal} member variable of a C# class?
+    相同組件內的 別的類別物件都 {無法存取}, 除了子類別可以外.
+
+  26. What is scope of a {Internal} member variable of a C# class?
+    相同組件內的 別的類別物件 都{能存取}
+
+  27. What is scope of a {protected} member variable of a C# class?
+    只有子類別能存取
+  
+  28. What is scope of a {private} member variable of a C# class?
+    只有在同類別同函式內能存取.
+
+  29. What is scope of a public member variable of a C# class?
+    完全開放
+
+  30. What is the purpose of an {access specifier} in C#?
+    定義類別成員的範圍及可視性.
+
+  31. C#內, 如何實作封裝(encapsulation) ?
+    利用存取修飾子 (access specifier)
+
+  32. 什麼是封裝(encapsulation)?
+    避免被存取
+
+  33. C#內, as 運算子的用法?
+    轉型失敗時, 不會產生例外的作法.
+    Object obj = new StringReader("Hello");
+    StringReader r = obj as StringReader;
+
+  34. C#內, is 運算子的用法?
+    檢查物件是否為特定型態.
+    if (Ford is Car)
+
+  35. 什麼是 指標型態?
+    type* identifier.
+    char* cptr;
+
+  36. dynamic type variable & object type variable的差異?
+    object type variable, 編譯時確定.
+    dynamic type variable, 執行時才確定.
+
+  37. 什麼是 dynamic type variable?
+    dynamic d = 20; //執行時才確定.
+
+  38. unboxing 
+    物件型態 轉為 值型態.
+
+  39. boxing
+    值型態 轉為 物件型態.
+
+  40. 所有資料型態的基底類別?
+    Object Type = reference type + value type +....
+  
+  41. What is the difference between ref and out parameters?
+    ref 改變記憶體位置.
+    out 把值傳出.
+
+  42. 可否1次回傳多個值?
+    可以, 利用 output parameter.
+    return 只能回傳單1值.
+
+  43. In how many ways you can pass parameters to a method?
+    value parameter.
+    reference parameter.
+    output parameter.
+
+
+
 =匿名類型(annoymous type)=
   1. 一組{唯讀屬性}封裝成一個物件，而不需要事先明確定義類型.
   2. 也可利用 new + 物件初始化運算式, 產生 匿名型別.
