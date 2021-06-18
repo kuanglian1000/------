@@ -34,6 +34,112 @@
 ===============================================================================
 資料來源：COBOL Programming Course(初階版) http://www.csis.ul.ie/cobol/
 
+0.教材完整學習
+  [Introduction to COBOL]
+    <Introduction 簡介 & What is COBOL>
+      COBOL程式經常處理大量的資料量.
+      COBOL優勢在於程式可閱讀式性.
+      COBOL is Simple, 但進入OO-COBOL時代後, 增加了下列特性.
+        1. 使用者定義函式.
+        2. 物件導向.
+        3. 國際字元- 萬國碼(UNICODE)
+        4. 多個貨幣符號(multiple currency symbols)
+        5. Cultural Adaptability(Locales)
+        6. Dynamic Memory Allocaton (Pointers)
+        7. Data Validation Using New VALIDATE Verb
+        8. Binary and Floating Point Data Types
+        9. User Defined Data Types
+      COBOL是可攜性, 可在多種UNIX主機上運作.
+      COBOL是可維護的, 源自於它的可讀性, 四大結構, 轉換系統時會至ENVIRONMENT DIVISION內進行調整.
+    <Introduction to Programming>
+    <COBOL Basics>
+      * coding rules
+        1-6 7 8-11 12-72
+        行號專用
+            保留
+              Area A: 所有DIVISION名稱, SECTION名稱, PARAGRAPH名稱, FD & 01階層的定義 都必須落在Area A區段內.
+                   Area B: 其他程式語句則必須從Area B開始.
+      
+      * name construction 命名規則
+        1. 至少1個字元, 最多30個字元
+        2. 至少1個英文字
+        3. 開頭及結尾不能用連字號(-)
+        4. 必須由 A-Z, a-z, 0-9, - 所組成
+        5. 不能包含空白字元( )
+        6. 不分大小寫.例: TotalPay = totalpay = Totalpay = TOTALPAY.
+      
+      * structure of COBOL programs COBOL程式結構
+        COBOL Program.
+          Division.
+            Section.
+              Paragraph.
+                Sentence.
+                  Statement.
+    <Four Division 四大區域(順序固定, 但有些DIVISION可省略)>
+        1. IDENTIFICATION DIVISION. (程式資訊)
+          最基本型態
+            IDENTIFICATION DIVISION.
+            PROGRAM-ID. TESTPROGRAM.
+            AUTHOR. KL-CHENG.
+        
+        2. ENVIRONMENT DIVISION. (環境資訊)
+          所有跟程式執行環境相關的資訊 都定義在這裡.
+          例:主機, 實體檔案名稱, 裝置, collating sequence, the currency symbol and the decimal point symbol也都定義在這.
+
+        3. DATA DIVISION. (資料描述)
+          兩個主要SECTION是: 
+            FILE SECTION(檔案別名) & WORKING-STORAGE SECTION(暫存資料名稱).
+          額外SECTION是: 
+            LINKAGE SECTION(子程式用) & REPORT SECTION(REPORT WRITER用).
+          最基本型態:
+            IDENTIFICATION DIVISION.
+            PROGRAM-ID. TESTPROGRAM.
+            AUTHOR. KL-CHENG.
+
+            DATA DIVSION.
+            WORKING-STORAGE SECTION.
+            01 NUM1 PIC 9 VALUE ZEROS.
+            01 NUM2 PIC 9 VALUE ZEROS.
+            01 RESULT PIC 99 VALUE ZEROS.
+
+        4. PROCEDURE DIVISION. (程式邏輯及演算法)
+          由 SECTION, PARAGRAPH, SENTENCE & STATEMENT所組成.
+          只有 SECTION 是可有可無(OPTIONAL), 其他項目至少要有1個.
+          最基本型態:
+            IDENTIFICATION DIVSION.
+            PROGRAM-ID. TESTPROGRAM.
+            AUTHOR. KL-CHENG.
+
+            DATA DIVISION.
+            WORKING-STORAGE SECTION.
+            01 Num1 PIC 9 VALUE ZEROS.
+            01 Num2 PIC 9 VALUE ZEROS.
+            01 Result PIC 99 VALUE ZEROS.
+
+            PROCEDURE DIVISION.
+            CalcualteResult.
+              Accept Num1.
+              Accpet Num2.
+              Multiply Num1 By Num2 Giving Result.
+              Display "Result is = ", Result.
+              STOP RUN.
+
+          最小程式:
+            IDENTIFICATION DIVISION.
+            PROGRAM-ID. SmallestProgram.
+
+            PROCEDURE DIVISION.
+            DisplayGreeting.
+              DISPLAY "Hello World".
+              STOP RUN.
+
+    <Declaring data in COBOL>
+
+    <Basic Procedure Division commands>
+
+    02
+    
+     
 0.程式範例(超實用)
   http://www.csis.ul.ie/cobol/examples/default.htm#SimplePrograms
 

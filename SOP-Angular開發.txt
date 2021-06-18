@@ -486,7 +486,7 @@
 
   參考資訊:
     1.https://angular.io/guide/router-tutorial-toh#pathmatch
-    TODO:2.(多看幾次)https://vsavkin.tumblr.com/post/146722301646/angular-router-empty-paths-componentless-routes
+    2.(多看幾次)https://vsavkin.tumblr.com/post/146722301646/angular-router-empty-paths-componentless-routes
 
   A.重要[路由]基本觀念
     1. 新增1個可ROUTING ANGULAR APP  

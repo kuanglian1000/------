@@ -159,8 +159,6 @@
     reference parameter.
     output parameter.
 
-
-
 =匿名類型(annoymous type)=
   1. 一組{唯讀屬性}封裝成一個物件，而不需要事先明確定義類型.
   2. 也可利用 new + 物件初始化運算式, 產生 匿名型別.
@@ -223,6 +221,9 @@
 =.net core 常用指令=
   =指令:Create a new console app=
     dotnet new console
+
+    dotnet new console -n <專案名稱> -o .
+    dotnet new console -n files-module -o .
 
   =指令:run console app=
     dotnet run
@@ -489,8 +490,8 @@
       * 使用 tab 鍵，將程式碼區塊與相關聯的關鍵字對齊。
       * 將程式碼區塊內的程式碼縮排，以顯示擁有權。
 
-2. 使用 C# 建置 .NET 應用程式 (2021/05/26, 32%)
-  # 使用 ASP.NET Core 建立 Web API (CRUD)
+2. 使用 C# 建置 .NET 應用程式 
+  # 使用 ASP.NET Core 建立 Web API (CRUD) (2021/05/26, OK)
     1. REST in ASP.NET Core
       * REST 是 build web service的架構模式
       * GET - 從 Web service 存取資料.
@@ -606,8 +607,145 @@
 
       =總結=
 
-  # 處理 .NET 應用程式中的檔案與目錄
+  # 處理 .NET 應用程式中的檔案與目錄 (2021/06/01, OK)
+
+    {小結}
+      
+      * {Directory.EnumerateDirectories} and {Directory.EnumerateFiles} 
+        accept a parameter that enables you to specify a search condition for names to return, 
+        and a parameter to recursively traverse all child directories.
+        
+        註: 好用函式, 搜尋符合指定條件 & 是否遍尋子階資料夾 的資料夾及檔案.
+      
+      * {System.Environment.SpecialFolder} is an enumeration that enables you to access system-defined folders, 
+        such as the desktop or user profile, in a cross-platform manner without having to memorize the exact path for each operating system.
+
+        註: 指定專用資料夾, 且會依系統別自動對應.
+
+      * If you need to parse other file types, {check out the packages on nuget.org}. 
+        For example, you can use the {CsvHelper} package for .csv files.
+        You can use the {Newtonsoft} package for .json files.
+
+        註: 解析資料時, 可先至 nuget 尋找是否有合適的{解析器}.
+
+    {Work with the file system}
+      
+      using System.IO;
+
+      * 可利用此命名空間內的資料型態, 讀取、寫入、同步及非同步資料串流及檔案.
+      * 列出所有資料夾, Directory.EnumerateDirectories("folderPath");
+      * 列出資料夾的所有檔案, Directory,EnumerateFiles("folderPath");
+      * 列出資料夾(含子資料夾)特定檔案, Directory.EnumrateFiles("stores", "*.txt", SearchOption.AllDirectories);
+
+    {Clone the project}
+      
+      * 複製所需專案資料檔及資料夾.
+        git clone https://github.com/MicrosoftDocs/mslearn-dotnet-files && cd mslearn-dotnet-files
+      
+      * 指令: 新增Console專案
+        dotnet new console -n files-module -o .
+
+      * 複製範例資料夾(stores)到Console專案內.
+      
+    {Work with file paths in .NET}
+
+      * 確認目前資料夾路徑, Directory.GetCurrentDirectory()
+
+    {Work with special directories}
+
+      * 根據不同作業系統或環境, 自動調整對應參數,  System.Environment.SpecialFolder.*
+        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); //回傳微軟系統的"我的文件夾"
+
+    {Work with paths}
+
+      * Path 類別是放在 System.IO 內.
+      
+      * !!注意: Path 只會協助組合出路徑, 至少路徑是否存在, 還要實際測試才知道.
+      
+      * 組合正確路徑的兩種方法 => .NET 自動判別系統, 加上正確的分隔符號. ex. 微軟用 'stores/201' 蘋果用 'stores\201'.
+        
+        1. Path.DirectorySeparatorChar
+          string folderPath = $"stores{Path.DirectorySeparatorChar}201"; // output: stores/201
+
+        2. Path.Combine("stores","201");
+          string folderPath = Path.Combine("stores","201"); // same output: stores/201
+
+      * 取出檔案副檔名, Path.GetExtension("sales.json"); // output: .json {Determine filename extensions}
+
+      * 從檔案或資料夾取得任何你所知道的資訊. by Path.DirectoryInfo(<directoryPath>), by Path.FileInfo(<filePath>)
+
+        string fileName = $"stores{Path.DirectorySeparatorChar}201{Path.DirectorySeparatorChar}sales.json"; // stores/201/sales.json
+
+        FileInfo info = new FileInfo(fileName);
+        info.FullName
+        info.Directory
+        info.Extension
+        info.CreateTime...
+
+    {Create files and directories}
+
+      * Directory 類別, 用來新增、刪除、複製和移動 {資料夾}...
+      * File 類別, 用來新增、刪除、複製和移動 {檔案}...
+
+      * Create directories
+        
+        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "stores", "201", "newDir"));
+        
+        > Directory.CreateDirectory() 不會失敗, 如果全路徑或部分路徑不存在, 它會自動新增補足.
+
+      * 確認資料夾是否存在 ?
+
+        bool isDirExists = Directory.Exists(filePath);
+
+      * 新增檔案
+
+        File.WriteAllText(filePath, "data to be written.");
+
+        File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "stores", "201", "textOutput.txt"), "Hello 2021/06/01");
+
+        > 檔案不存在, 新增檔案並寫檔.
+        > 檔案已存在, 覆蓋檔案內容.
+
+    {Read and Write to files}
+
+      * Read data from files. 從檔案讀取資料
+
+        File.ReadAllText(Path.Combine("stores", "201", "sales.json"));
+      
+      * Parse data in files. 解析檔案內資料
+
+        > 解析 JSON 檔案, 常用 Json.NET
+        > 加入參考, dotnet add package Newtonsoft.Json
+
+        using Newtonsoft.Json;
+
+        class SalesTotal
+        {
+          public double Total {get;set;}
+        }
+
+        var salesJson = File.ReadAllText(Path.Combine("stores", "201", "sales.json"));
+        var salesData = JsonConvert.DeserializeObject<SalesTotal>(salesJson);
+
+        Console.WriteLine(salesData.Total);
+
+      * 檔案格式各式各樣, 可能會碰到 .csv, 固定寬度, 或其他格式. => 最好的方式去 nuget.org 上找適合的解析工具.
+
+      * Write data to files. 寫資料進檔.
+
+        > File.AppendAllText(<filePath>, <fileData>); // 附加檔案資料
+        > File.WriteAllText(<filePath>, <fileData>); // 寫檔案資料(直接覆蓋)
+
+        // 寫檔案資料(直接覆蓋)
+        var data = JsonConvert.DeserializeObject<SalesTotal>(Path.Combine("stores", "201", "sales.json"));
+        File.WriteAllText(Path.Combine("salestotalDir", "totals.txt"), data.Total.toString());
+
+        // 附加檔案資料
+        var data = JsonConvert.DeserializeObject<SalesTotal>(Path.Combine("stores", "201", "sales.json"));
+        File.AppendAllText($"salestotalDir{DirectorySeparatorChar}totals.txt", $"{data.Total}{Environment.NewLine}");
+
   # 使用 Visual Studio Code 偵錯工具對 .NET 應用程式進行互動式偵錯
+  
   # 建立新的 .NET 專案並使用相依性
   # .NET 簡介
   # 撰寫您的第一個 C# 程式碼

@@ -1,8 +1,0 @@
-C:\ANS.csf\CO01\COD01\bin\Debug\COD01.exe.config
-C:\ANS.csf\CO01\COD01\bin\Debug\COD01.exe
-C:\ANS.csf\CO01\COD01\bin\Debug\COD01.pdb
-C:\ANS.csf\CO01\COD01\obj\Debug\COD01.csprojResolveAssemblyReference.cache
-C:\ANS.csf\CO01\COD01\obj\Debug\COD01.Properties.Resources.resources
-C:\ANS.csf\CO01\COD01\obj\Debug\COD01.csproj.GenerateResource.Cache
-C:\ANS.csf\CO01\COD01\obj\Debug\COD01.exe
-C:\ANS.csf\CO01\COD01\obj\Debug\COD01.pdb
