@@ -23,14 +23,14 @@
       * 資料: COMP | Binary 指的是資料儲存大小, 和預設值不同.
   
   2.程式設計人員(資訊處)
-    工具:C# & SQL Server & RESTful API(JSON)
+    工具:C# & SQL Server & WebService
     負責業務:
-      * 中介層WebAPI程式開發作業
+      * 共用層WebService程式開發作業
         1.Request->撈資料->套表->產檔->送簽證
         2.Request->撈資料->Response To App/Web
     累積知識:
       * 溝通/協調/解決問題能力.
-      * RESTful API 開發能力.
+      * 程式開發能力.
 
   3.系統維護人員(資訊處)
     工具:C# & SQL Server

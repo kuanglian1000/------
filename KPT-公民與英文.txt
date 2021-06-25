@@ -1,5 +1,10 @@
 {政治}
 
+  總統制
+  
+  內閣制
+    O: 由國會多數黨(火月口田火)領袖出任國家行政首長。例: 德國總理梅克爾(一火月大)
+  
   選舉原則
     1. 普通, 所有人都有選舉權利, 不分男女老少富貧.
     2. 平等, 一人一票, 票票等值
@@ -51,10 +56,14 @@
 
   家庭暴力防治法
     O: 適用範圍很廣, 連舊情人也包括在內.
+    O: {暫時保護令} => {無法由當事人直接向法院提出}，須透過檢察官、警察機關或直轄市政府、縣(市)政府代為聲請。
   
   選罷法
     O(不得登記候選人規定): 現役軍人, 服替代役男, 軍校學生
     O(不得登記候選人規定): 與選舉相關的所有人員(選委會, 投開票所...)
+
+  選舉救濟(質疑選舉結果，或對開票票數有疑慮時，怎麼辦？)
+    O: 以 {當選人} 為被告，向 {地方法院民事庭} 提起當選無效之訴
 
   選舉年紀
     1. 總統/副總統: 40歳以上, 住6個月以上, 戶籍15年以上, 不得有外國籍.
@@ -62,19 +71,33 @@
     3. 全國不分區立委: 23歳以上, 具我國籍, 國內住4個月以上.
     4. 僑居國外立委:   23歳以上, 具我國籍, 曾在國內有戶籍, 已將戶籍遷出國外連續8年以上.
 
-  選舉(立法委員)
+  選舉(立法委員) !!重要!!
     X: 單一選區兩輪決選制
-    O: 比例代表制(不分區)  
+    O: 第七屆立委起，席次總數為 113 席，任期4年 (立委無連任限制)
+      > 區域立委 73 席，
+          1. 單一選區相對多數決
+          2. 一個選區只有一位票數最多的立委當選.
+          3. 每縣市至少有 1 席立委
+      > 原住民立委 6 席，
+          1. 複數選區單記不可讓渡投票制，
+          2. 只有兩個選區，分別是「平地原住民」及「山地原住民」
+          3. 每個選區得票前三名者當選。
+      > 全國不分區及僑居國外國民立委 34 席，
+          1. 政黨得票率逾 5% 可獲得不分區席次
+          2. 各黨當選名單中要有 1/2 婦女保障名額
+
+    O: 比例代表制(不分區)
     O: 單一選區相對多數決 (註: 第一大黨的得票率 36.1%，席次率 47.4%，
                              第二大黨的得票率 29.1%，席次率 39.9%，
                              第三大黨的得票率 23.0%，席次率 8.8%，以「得票率」及「席次率」推測, 最有可能是單一選區相對多數制)
         > (1) 該選區內只有1個名額
-    O: 複數選區相對多數決 (註: 該選區內有複數名額, 例:鄉鎮市議員)
+    O: 複數選區相對多數決 (註: 該選區內有複數名額, 例:鄉鎮市議員、原住民立委)
         > (1) 全額連記法(block vote) 提供選民與應選名額相同的選票數，目前我國人民團體內部的選舉方式，[ 以全額連記為原則，限制連記為例外 ]。
         > (2) 限制連記法(limited vote) 限制連記法則提供選民少於應選名額的選票數
 
         > (3) 單記不可讓渡投票制(multi - member district , single non - transferable vote , MMD _ SNTV) 
               不論應選名額為多少，選民只有一張選票，投票給一位候選人，且候選人不能把多餘的選票轉移給其他候選人。
+        > 原住民立委依平地原住民及山地原住民，各選出3席
 
   公民投票法
     # 原則
@@ -103,12 +126,22 @@
       1. 得為文字修正.
       2. 除{法律案}、{預算案}應經三讀外, 其餘議案僅須二讀會議決.
       3. 完成三讀之法律案及預算案由立法院咨請總統公布並函送行政院。
-         總統應於收到{10日內公布之}，或依{憲法增修條文第3條規定之程序}，由{行政院移請立法院覆議}。
+         總統應於收到
+          > {10日內} 公布之
+          > 或 {10日內} 依{憲法增修條文第3條規定之程序}，由{行政院移請立法院覆議}，
+            立院應於送達 {15日內} 作出決議，覆議案逾期未議決者，原決議失效。
+            覆議時，如經全體立法委員 {1/2} 以上決議維持原案，行政院院長應即接受該決議。
 
   立院對已過議案提出修改或補救作法
     O: {復議}
     X: 覆議
 
+  立院對行政院長提出不信任案 依{憲法增修條文第3條規定之程序}
+    1. 立院經全體立法委員 {1/3} 以上連署，得提出不信任案
+    2. 不信任案提出 {72小時} 後，應於 {48小時} 內以 {記名投票} 表決之
+    3. 如經全體立法委員 {1/2} 以上贊成，行政院長應於 {10日內} 請辭，並得同時呈請總統解散立法院
+    4. 如未獲通過，{1年內} 不得對同一行政院長再提不信任案
+  
   行政院認為立院通過法案, 作不到, 得經總統核可後, 移請立法院 {覆議} 的法案種類為:
     O: 預算案、修約案、法律案
     X: 大赦案、戒嚴案
@@ -261,6 +294,12 @@
     O: {彈劾公務員}是{監察院}的職權.
 
 {社會}
+  文化相對論
+    O: 不應以自己所了解文化內涵，用來對別國文化作評價。
+  
+  社會正義論
+    O: 依薪資高低繳納健保費，並由政府補助弱勢族群。
+  
   媒體接近權
     O: 媒體主動更正誤植的姓名.
 
@@ -283,7 +322,6 @@
     O: 國稅 -> 關稅、所得稅、遺產/贈與稅、貨物稅、證券交易稅、期貨交易稅、營業稅、菸酒稅、特種貨物稅及勞務稅.
     O: 地方稅 -> 田賦、地價稅、土地增值稅、房屋稅、契稅、牌照稅、娛樂稅、印花稅
     O: 使用規費 -> 燃料費. (註: 燃料費不是稅, 它是使用規費)
-
 
 {民法}
   
@@ -400,9 +438,23 @@
   告訴: {自己} 向警察或檢察官舉發犯罪.
   告發: {第三者} 向警察或檢察官舉發犯罪.
 
+  到哪提訴訟
+    O: 至 {被告人所住縣市} 之 {地檢署} 或 {法院} 提出
+
+  司法救濟
+    O: 抗告 => 被告對法官裁定，認有權利受損或不服裁定結果時，應提出抗告
+
+  訴願
+    O: 民眾不滿行政處分，向行政機關提出訴願
+
   不滿行政處分作法
     O: 向地方法院行政訴訟庭提請撤銷訴訟. (註: 行政訴訟 => 三級二審制; )
     X: 向地方法院交通法庭聲明異議, 向調解委員會申請調解, 向地方法院提出國家賠償訴訟
+
+  上訴
+    家事: 當事人不滿判決結果，向上級審法院提起上訴
+    刑事: 檢察官或被告不滿判決結果，向上級審法院提起上訴
+    民事: 當事人或訴訟關係人，在判決未確定前，向上級審法院聲明不服，請求廢棄或變更方法.
 
   上訴最高法院的限制(註: 民事 & 刑事 => 三級三審制)
     1. 民事訴訟: 金額 < 150萬
@@ -435,6 +487,16 @@
        若1審為高等行政法院, 2審為最高行政法院
 
 {經濟}
+  
+  貨幣供給曲線
+    O: 受控制貨幣，會呈現一條垂直線 (註: 因為一動也不動)
+    X: 受控制貨幣，會呈現一條水平線
+
+  企業型政府的缺點
+    O: 弱勢團體，長期處於社會最下層階級
+
+  自然失業率
+    O: 摩擦性失業 + 結構性失業
   
   季芬財 (註: 通常指貧窮人民迫於不得已買下價格上漲的劣等財, 如馬鈴薯. 因為好東西價格更高不可攀.)
     季芬財（英語：Giffen good）是經濟學中的一個名詞，是指在其他因素不變的情況下，
@@ -518,6 +580,8 @@
     X: 跨太平洋戰略經濟夥伴關係協議（Trans-Pacific Strategic Economic Partnership Agreement） 
     X: 世界衛生組織（World Health Organization） 
 
+  世界銀行(WB)
+    O: 貸款給發展中國家
 
 {英文-字義}
   # primitive:
@@ -565,3 +629,110 @@
   I often think of the school {that} I went to and the friends I made there.
 
   This time he took his medicine without {having been reminded} to do so.
+
+2021/06/23
+  virtual 擬真的, 近乎必要的, 接近真實的
+  augment 增強, 擴大(V); augmentation 擴大可能性
+  heads-up 注意, 提頭起來
+  giant 巨人= have a monopoly on the industry.
+  hold your head up high. 提起你的頭來(保持自信, 不要垂頭喪氣.)
+  artificial 人工的, 人造的 / 虛假的, 不真誠的
+  artificial colors(人工色素), artificial intelligence(人工智慧), artificial flavor(人工香精)
+  biological 生物的, 親生的, 生化的, 
+  not to be confused with A, B
+  field of vision 視野
+  peripheral vision 外圍視野
+  peripheral 膚淺的
+  head out 出去 = you are going to somewhere. 
+  daily news 
+  find time
+  
+
+2021/06/24
+  
+  
+  act 單字家族
+    ACTION
+      interaction
+      inter 埋藏
+      active 活躍的, 有活力的
+      Activity
+      passive 消極的
+      passion 熱情
+      emotion
+      emotional
+      enthusiasm
+    actual
+      actually
+      fact
+      factor
+      factory
+      virtual
+      virtually
+    actor
+      actress
+    exact
+      exactly
+    react 反應
+      reaction
+    agent 代理
+      agency
+      agenda
+    
+    {片語}
+      act on 奉行; 作用
+      
+      act up 出毛病; 搗蛋
+      
+      act for 代理
+        I act for our caption while he was in the hospital.
+      
+      out of ACTION 失去功能
+        My car is our of action because it has run our of gas.
+      
+      take action 採取行動
+        We must take quick action.
+      
+      as a matter of fact. 事實上
+        As a matter of fact, I don't know the truth.
+      
+      to be exact. 精確的說
+        It is seven o'clock now. To be more exact, it's seven three.
+      
+      not exactly. 並不全是
+      
+      by the agency of. 借助於...作用
+        I've got the job by the agency of my teacher.
+      
+      have a passion for 喜愛
+        I have a passion for badminton.
+      
+      on the agenda 在議程上
+        Now, let's come to the next item on the agenda.
+    
+    {同義詞}
+      act, action, activity.
+
+        Think well before you act.
+        The time has come for action.
+        There is a lot of activity in the town centre today.
+      
+      exact(依事實精確呈現, 未虛報), precise(強調範圍的精準, 算到角分)
+        To be exact the deficit(赤字) is NT$ 15,000.
+        To be precise the deficit is NT$ 15,000.258
+
+      passion(strong emotion), emotion, feelings
+        He was shocked with passion as such a scene of atrocity(暴行).
+        His speech had an effect on our emotions rather than on our reason(理智).
+        Her feelings were greatly hurt by what he said.
+
+
+
+
+    
+    
+
+
+
+
+
