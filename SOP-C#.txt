@@ -744,14 +744,284 @@
         var data = JsonConvert.DeserializeObject<SalesTotal>(Path.Combine("stores", "201", "sales.json"));
         File.AppendAllText($"salestotalDir{DirectorySeparatorChar}totals.txt", $"{data.Total}{Environment.NewLine}");
 
-  # 使用 Visual Studio Code 偵錯工具對 .NET 應用程式進行互動式偵錯
-  
-  # 建立新的 .NET 專案並使用相依性
-  # .NET 簡介
-  # 撰寫您的第一個 C# 程式碼
+  # .NET 簡介 (2021/06/28, OK)
+
+  # 撰寫您的第一個 C# 程式碼 (2021/06/28, OK)
+
+  # 建立新的 .NET 專案並使用相依性(套件) (2021/06/28, OK)
+    > 學習目標
+      1. .NET專案初始化
+      2. .NET專案, 加入套件及移除套件
+      3. 管理套件的相依件, 並更新這些套件
+    
+    > 評估你是否需要使用套件
+      1. 產出更好的程式碼, 例: 使用成熟的安全性驗證套件
+      2. 節省時間, 例: 利用套件可讓你更快完成目標
+      3. 可維護性, 例: 評估是否有必要自行維護或使用開放原始碼即可
+
+    (註): 安裝前, 通常會至 https://www.nuget.org/packages/<package name>了解套件功能.
+
+    > 安裝套件
+      1. 指令: {dotnet add package <name of package>}
+         例: {dotnet add package Humanizer}
+      2. 指令執行後, 套件檔案會放在 所有專案都能使用的 <cached Folder> 內.
+      3. 安裝 & 專案編譯後, 套件檔案會放在 <debug> 或 <release> 資料夾內.
+        -| bin/
+        ---| Debug/
+        ------| net3.1
+        --------| <files included in the dependency>
+
+    > 尋找套件
+      1. 套件可能放置在
+        a. Registries(儲存庫), 例: NuGet.org 放置自己套件, 私人或公開的; 例: GitHub and Azure DevOps, 通常是私有的
+        b. Files(本地檔案), 通常是自行開發&本地測試, 或是某些理由不公開.
+
+    > NuGet 儲存庫 和 dotnet tool
+    > .NET 指令工具(.NET Core CLI), 指令大致上可分為三類:
+      1. 管理套件相依性, 例: 安裝, 移除, 清除, 更新..
+      2. 執行程式, 協助管理程式開發流程, 例: 測試、編譯、升級移轉
+      3. 撰寫和發行套件, 例: 產生壓縮套件 & 發行至儲存庫
+      4. 查詢功能指令: {dotnet --help}, 列出所有指令清單
+
+    > 如何安裝套件相依性組件(part of package)
+      指令: {dotnet add package <dependency name>}
+
+    > 如何安裝指令工具
+      指令: {dotnet tool install <name of package>}
+
+    > 如何安裝程式範本(templates)
+      指令: {dotnet new -i <name of package>}
+      
+    > 安裝後, 列出專案內所有套件
+      1. 指令: {dotnet list package} (最上層)
+      1. 指令: {dotnet list package --include-transitive} (列出所有可轉移套件)
+      2. The installed packages are listed in the dependencies section of your {.csproj} file
+    
+    > 還原套件
+      0. 套件實際加入專案時間點在 {專案編譯後}.
+      1. 指令(明確地): dotnet restore
+      1. 指令(隱含地): dotnet new.. dotnet build.. dotnet run.., 都會將套件自動加入專案中.
+
+    > 清理(clean up)套件
+      0. 若不需要這個套件, 記得把它移除.
+      0. Doing so keeps things clean. Also, dependencies take up space.
+      1. 指令: {dotnet remove package <name of package>}
+
+    > 設定專案只會取得patch(bug fix)更新
+      Project檔案內, 使用下列設定
+      <PackageReference Include="<package>" Version="2.7.*">
+
+    > Semantic Version語意版本
+      <Major>.<Minor>.<Patch>
+
+      1. 套件<Major版本號>變更, 引用程式要改寫
+      2. 套件<Minor版本號>變更, 通常是套件功能新增, 引用程式毋須大改, 但程式仍有故障風險.
+      3. 套件<Patch版本號>變更, 通常是套件BUG修正, 引用程式毋須大改.
+
+    > 設定專案套件版本更新規則
+      0. 如果你使用很多套件, 最好先設套件更新規則. 當專案還原(restore), 編譯(build), 執行(run).
+      
+      {規則1} <==強烈建議使用==>
+        Notation 	    Applied rule 	Description
+        1.0 	            x >= 1.0 	Minimum version, inclusive
+        (1.0,) 	          x > 1.0 	Minimum version, exclusive
+        [1.0] 	          x == 1.0 	Exact version match
+        (,1.0] 	          x ≤ 1.0 	Maximum version, inclusive
+        (,1.0) 	          x < 1.0 	Maximum version, exclusive
+        [1.0,2.0] 	1.0 ≤ x ≤ 2.0 	Exact range, inclusive
+        (1.0,2.0) 	1.0 < x < 2.0 	Exact range, exclusive
+        [1.0,2.0) 	1.0 ≤ x < 2.0 	Mixed inclusive minimum and exclusive maximum version
+        (1.0) 	          invalid 	invalid(錯誤寫法)
+      
+      {規則2}
+        6.0.* , 表示自動套用6.0.x的最新版, 例: 來源有 6.0, 6.0.1, 6.1, 要求 Version >= 6.0.*, 實際取得 6.0.1
+        4.*   , 表示自動套用4.x的最新版
+
+      {套件版本設定範例}
+        <!-- Accepts any version 6.1 and later. -->
+        <PackageReference Include="ExamplePackage" Version="6.1" />
+
+        <!-- Accepts any 6.x.y version. -->
+        <PackageReference Include="ExamplePackage" Version="6.*" />
+        <PackageReference Include="ExamplePackage" Version="[6,7)" />
+
+        <!-- Accepts any later version, but not including 4.1.3. Could be
+            used to guarantee a dependency with a specific bug fix. -->
+        <PackageReference Include="ExamplePackage" Version="(4.1.3,)" />
+
+        <!-- Accepts any version earlier than 5.x, which might be used to prevent pulling in a later
+            version of a dependency that changed its interface. However, we don't recommend this form because determining the earliest version can be difficult. -->
+        <PackageReference Include="ExamplePackage" Version="(,5.0)" />
+
+        <!-- Accepts any 1.x or 2.x version, but not 0.x or 3.x and later. -->
+        <PackageReference Include="ExamplePackage" Version="[1,3)" />
+
+        <!-- Accepts 1.3.2 up to 1.4.x, but not 1.5 and later. -->
+        <PackageReference Include="ExamplePackage" Version="[1.3.2,1.5)" />
+
+    > 檢查套件是否有新版
+      1. 指令: {dotnet list package --outdated}
+      
+  # 使用 Visual Studio Code 偵錯工具對 .NET 應用程式進行互動式偵錯 (2021/06/29, OK)
+    > 學習目標      
+      1. 搭配 .NET 程式使用 Visual Studio Code 偵錯工具。
+      2. 建立中斷點並逐步執行程式碼，以找出問題。
+      3. 在執行的任何階段中檢查程式狀態。
+      4. 倒轉呼叫堆疊，以找出例外狀況的來源。
+
+    > 什麼是偵錯工具
+      1. 將程式裝載於其本身的執行處理序中，或作為獨立處理序連結至執行中的程式(例.NET)來執行
+      2. 類型: 從Command Line執行, 從圖形化使用者介面執行
+
+    > 偵錯工具的兩大重要功能
+      1. 對程式執行的控制。例: 暫停程式並逐步執行
+      2. 觀察程式的狀態。例:變數值和函式參數
+      3. 另外, 最適合用來觀察不同函式中特定變數目前的值, {監看面板}.
+      4. 另外, 顯示目前在範圍內的所有變數, {變數面板}.
+
+    > .NET 應用程式中的記錄與追蹤(使用情境)
+      1. 追蹤常用於監視應用程式執行狀況，在正式上線後。(分散式應用程式直接用偵錯功能，也不容易找錯)
+      2. 長期間出現的問題
+      3. 多緒行緒應用程式與分散式應用程式
+      4. 分散式應用程式的問題由許多元件間交互作用而產生
+      5. 服務不該停止，連接偵錯工具可能導致逾時失敗
+      6. 問題不一定經常發生。利用記錄和追蹤功能(低額外負荷)，在發生問題時，程式會記錄。
+
+    > 將資訊寫入至輸出視窗(方式有3種)      
+      1. System.Console (最簡單, 通常用於進行臨機操作的暫時性偵錯; 客戶用)
+          一律啟用且一律寫入到主控台。
+          適用於客戶可能需要在發行版本中看到的資訊。
+          此偵錯程式碼通常絕對不會簽入到原始程式碼控制。
+      
+      2. System.Diagnostics.Trace (已上線, 找問題用)
+          只有在定義 TRACE 時才會啟用。
+          寫入到已連結的接聽程式，預設為 DefaultTraceListener。
+          在建立將在大部分組建中啟用的記錄時，請使用此 API。
+      
+      3. System.Diagnostics.Debug (已上線, 程式員偵錯用)
+          只有在已定義 DEBUG 時才會啟用 (在偵錯模式中)。
+          寫入到已連結的偵錯工具。
+          在建立將只在偵錯組建中啟用的記錄時，請使用此 API。
+
+        Console.WriteLine("This message is readable by the end user.");
+        Trace.WriteLine("This is a trace message when tracing the app.");
+        Debug.WriteLine("This is a debug message just for developers.");
+
+      註: !!輸出格式的官方建議!!
+        1. 結合多個來源，產生單一資訊時 => 請使用多個 Write
+        2. 單一完整資訊 => 請使用 WriteLine
+
+    > 定義 TRACE & DEBUG 常數 (VIP, 可限定發行版本, 只有 Trace 語法生效)
+      1. 預設，偵錯時期執行，會定義 DEBUG 變數。
+      2. 指定，利用專案檔內屬性群組，新增 DefineConstants 項目控制。
+
+      <!-- Debug時, 開啟 DEBUG & TRACE -->
+      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+      </PropertyGroup>
+      <!-- Release時, 開啟 TRACE -->
+      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+          <DefineConstants>TRACE</DefineConstants>
+      </PropertyGroup>
+
+    > 條件式追蹤
+      1. 簡單, Write() & WriteLine();
+      2. 條件, WriteIf() & WriteLineIf();
+
+      範例1:
+        if (count == 0)
+        {
+          Debug.WriteLine("The count is 0 and this may cause an exception.");
+        }
+      範例2:
+        Debug.WriteLineIf(count == 0 , "The count is 0 and this may cause an exception.");
+      範例3:
+        bool errorFlag = false;
+        System.Diagnostics.Trace.WriteIf(errorFlag, "Error in AppendData procedure.");
+        System.Diagnostics.Debug.WriteIf(errorFlag, "Transaction abandoned.");
+        Trace.Write("Invalid value for data request");
+
+    > 確認特定條件是否存在
+      1. 利用 Assert 陳述式測試條件(放入正常值), 將條件放入 Assert 引數內.
+        若 判斷結果為 true, 則不會執行任何動作.
+        若 判斷結果為 false, 則判斷提示會失敗. (使用debug組建執行時, 程式會進入中斷模式.)
+      2. Debug.Assert(condition, message) & Trace.Assert(condition, message), 都能使用.
+        但 Debug.Assert程式碼不會放入 Relase版本 中, 故不會增加Relase版本程式碼大小或減緩程式執行速度.
+      3. Debug.Assert(condition, message)方法, 可用來測試程式碼正確的情況下, 判斷結果應為 True 的條件.
+        例:
+          static int IntDivide(int dividend, int divisor)
+          {
+              //除數不得為0
+              System.Diagnostics.Debug.Assert(divisor != 0, $"nameof(divisor) is 0 and will cause an exception.");
+              return dividend / divisor;
+          }
+
+      4. !!注意!! 
+        當您使用 System.Diagnostics.Debug.Assert 時，
+        請確定移除判斷提示時，判斷提示中的任何程式碼都不會變更程式的結果。 
+        否則，您可能會不小心引進了只會出現在程式發行版本中的錯誤 (Bug)。 
+        特別注意包含函式或程序呼叫的判斷提示。
+
+    > 練習- 記錄和追蹤(專案名稱: DotNetDebugging)
+      1. 寫入偵錯主控台 (常用於"觀察計算過程")
+        Debug.WriteLineIf(sum == 1, $"sum is 1, n1 is {n1}, n2 is {n2}");
+
+      2. 使用判斷提示(Assert)檢查條件 (常用於"條件是否如預期發生.", 不如預期時，停止執行中程式)
+        // If n2 is 5 continue, else break.
+        Debug.Assert(n2 == 5, "The return value is not 5 and it should be.");
+        return n == 0 ? n1 : n2;
+
+      3. 執行測試1, 在不進行偵錯情況執行程式{cmd: dotnet run} , 結果如何?
+        A: 請注意，在判斷提示失敗並將資訊記錄到應用程式輸出之後，應用程式即會終止。
+          Process terminated. Assertion failed.
+          The return value is not 5, actual return is 8
+            at DotNetDebugging.Program.Fibonacci(Int32 n) in C:\Projects_C#\DotNetDebugging\Program.cs:line 38
+            at DotNetDebugging.Program.Main(String[] args) in C:\Projects_C#\DotNetDebugging\Program.cs:line 10
+
+      4. 執行測試2, 在{發行設定}下執行程式{cmd: dotnet run --configuration Release}
+        A: 應用程式已成功執行到完成，因為我們已不再處於 Debug 設定中。
+        註: 重點在於 {定義 TRACE & DEBUG 常數 (VIP, 可限定發行版本, 只有 Trace 語法生效)}
 
 3. 在 C# 中處理資料
-  # 在您的 C# 程式碼中選擇正確資料類型
+  # 在您的 C# 程式碼中選擇正確資料類型 (2021/06/30, OK)
+
+    > 整數型別 (sbyte, short, int, long / byte, ushort, uint, ulong)
+      1. 整數型別是簡單的實值資料類型，可保存整數。
+      2. 其中有帶正負號及不帶正負號的資料類型，帶正負號的實值型別會使用1位元儲存其值為正數或負數。
+      3. 能利用數值類型的 MaxValue & MinValue 屬性來評估數值能否容納在資料型態內。
+
+    > 評估浮點數類型
+      1. float & double 以 2進位 格式儲存(取實際值的大約值); decimal 以 10進位 格式儲存(取精確值).
+      2. 案例1: 計算遊戲爆炸範圍，取大約值即可，所以用 float or double即可.
+      3. 案例2: 財務運算，取精確值才行，應使用 decimal.
+      4. E = 科學符號 = 乘於10的幾次方，例: 5E+2 = 5 * 10^2 = 5 * 10 * 10 = 5乘於10的2次方
+      5. 浮點數是實值資料類型，可保存小數。
+      6. 選擇正確的浮點數考慮項目: 最大值、最小值；2進位或10進位儲存；精確度要求
+      7. 浮點數十分龐大時，會利用 E 科學符號表示
+      8. 編譯器和執行階段處理 decimal 的方式，與處理 float 或 double 的方式有基本差異，尤其是在判斷數學運算所需的正確性程度時。
+
+    > 參考型別與實值型別的差異
+      0. 參考型別的類型: {陣列}, {類別}和{字串}都是.
+      1. 參考型別: 參考型別變數會將其值儲存在稱為「堆積」的不同記憶體區域中。 堆積是同時在作業系統上執行的許多應用程式所共用記憶體區域。
+      2. 參考型別 保存可較大的值，堆疊內放的是實際值的參考位址。
+      2. 使用 new 運算子來建立參考類別的新執行個體，並將其位址傳回至變數。
+      3. 實值型別: 實值型別變數會將其值直接儲存在稱為「堆疊」的儲存體區域。 堆疊是配置到目前正在 CPU 上執行程式碼的記憶體 (也稱為堆疊框架或啟用框架)。 當堆疊框架完成執行時，堆疊中的值便會移除。
+      4. 實值型別 保存可較小的值，它直接把值放在堆疊內。
+      5. 實值型別的類型: {整數}, {浮點數}, {字元char}, {結構}, {列舉}。所以實值型別只能儲存數字(X)
+      
+    > 資料類型的常用慣例
+      {一般}
+        1. int, 用於大多數的整數
+        2. decimal, 用於表示貨幣的數字
+        3. bool, 用於 True or False 值
+        4. string, 用於英數值
+      {特殊}
+        5. byte, 用於處理不同字元集的編碼資料
+        6. double, 用於幾何或科學用途, 例: 涉及動作的遊戲
+        7. System.StringBuilder, 用於從許多常數或其他變數建置單一字串
+        8. System.DateTime, 用於特定日期和時間值
+        9. System.TimeSpan, 用於一段範圍的年/月/日/時/分/秒/毫秒
+
   # 使 C# 中的轉型和轉換技術轉換資料類型
   # 使用 C# 中的協助程式方法在陣列上執行作業
   # 設定用於在 C# 中顯示之英數字元資料的格式
