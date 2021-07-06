@@ -251,7 +251,7 @@ ASP.NET Core MVC 概觀
       dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
       dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 
-  > 新增MODEL後, 產生對應的Controller & View (ORM套件要先裝, 不然程式碼生不出來)
+  > {新增Model後}, 產生對應的Controller & View (ORM套件要先裝, 不然程式碼生不出來)
       dotnet-aspnet-codegenerator controller 
       -name JobsController 
       -m Jobs 
@@ -311,3 +311,400 @@ ASP.NET Core MVC 概觀
 
 ASP.NET Core MVC with EF Core (加強資料庫工具應用.) - tutorial series
 https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
+
+  1. Create web app
+    ProjectName : ILanUniversity
+    dotnet new mvc --auth Individual //指令: 新增個人登錄驗證功能網站(MVC)
+
+    dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
+
+  2. Set up the site style (調整網站風格, 修改名稱, 新增選單...)
+
+  3. 安裝ORM套件(EntityFrameworkCore)
+      dotnet tool install --global dotnet-ef
+      dotnet tool install --global dotnet-aspnet-codegenerator
+      dotnet add package Microsoft.EntityFrameworkCore.Design
+      dotnet add package Microsoft.EntityFrameworkCore.SQLite
+      dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+      dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+      
+      // 協助偵測及診斷EF Core Migration(移轉)的問題
+      dotnet add package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore
+  
+  4. 新增 Data Model
+    * Three Table(Course, Enrollment, Student), 新增3個Entity
+      > 1名 Student, 可選多堂課(Enrollment)
+      > 1堂 Course, 可被多名學生選(Enrollment)
+    
+    * Models.Student.cs
+      
+      using System;
+      using System.Collection.Generic;
+      namespace ILanUniversity.Models
+      {
+        public class Student
+        {
+          public int ID {get;set;}
+          public string LastName {get;set;}
+          public string FirstName {get;set;}
+          public DateTime EnrollmentDate {get;set;}
+
+          // Navigation Properties
+          public ICollection<Enrollment> Enrollments {get;set;}
+        }
+      }
+
+      // 若使用 ICollection<T>, EFCore 預設會新增 HashSet<T>
+    * Models.Enrollment.cs
+
+      using System;
+      namespace ILanUniversity.Models
+      {
+        public enum Grade
+        {
+          A, B, C, D, F
+        }
+
+        public class Enrollment
+        {
+          public int EnrollmentID {get;set;}
+          public int CourseID {get;set;}
+          public int StudentID {get;set;}
+          public Grade? Grade {get;set;}
+
+          // Navigation Properties
+          public Course Course {get;set;}
+          public Student Student {get;set;}
+
+        }
+      }
+    * Models.Course.cs
+
+      using System;
+      using System.Collections.Generic;
+      using System.ComponentModel.DataAnnotations.Schema;
+      namespace ILanUniversity.Models
+      {
+        public class Course
+        {
+          // 指定使用 CourseID 為PK, 而非使用 EFCore 自動產生的.
+          [DatabaseGenerated(DatabaseGeneratedOption.None)]
+          public int CourseID {get;set;}
+          public string Title {get;set;}
+          public int Credits {get;set;}
+
+          // Navigation Properties
+          public ICollection<Enrollment> Enrollments {get;set;}
+        }
+      }
+
+  5. 新增 Database Context
+    * DbContext 是 EFCore內最主要的類別, 決定使用哪些 Data Model.
+    * 須繼承自 Microsoft.EntityFrameworkCore.DbContext 類別.
+    * 1個 entity DbSet 會對應 1個 Table
+    * 1個 entity 會對應 1筆 Row
+    * EFCore新增DB時, 預設以 {DbSet名稱} 作為 {資料表名稱}, 亦可{使用程式員指定名稱} 詳下例
+
+    * Data.SchoolContext.cs
+
+      using ILanUniversity.Models;
+      using Microsoft.EntityFrameworkCore;
+      namespace ILanUniversity.Data
+      {
+        public class SchoolContext: DbContext
+        {
+          public SchoolContext(DbContextOptions<SchoolContext> options)
+          {
+          }
+
+          public DbSet<Student> Students {get;set;}
+          public DbSet<Course> Courses {get;set;}
+          public DbSet<Enrollment> Enrollments {get;set;}
+
+          // 不用DbSet名稱作為TableName(預設), 例: Table Students, Courses 有些程式員無法接受.
+          // 改以指定名稱新增
+          protected override void OnModelCreating(ModelBuilder modelBuilder)
+          {
+            modelBuilder.Entity<Student>().ToTable("Student");
+            modelBuilder.Entity<Course>().ToTable("Course");
+            modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
+          }
+        }
+      }
+
+  6. 註冊 Database Context
+    * .NET Core 使用 DI(依賴性注入), 所以 EFCore Database Context 也要註冊後才能使用.
+    * 去哪註冊服務呢 ?
+      > Startup.cs -> ConfigureServices 方法
+
+    * 範例: Startup.cs
+
+      using ILanUniversity.Data; //放DbContext的地方
+      using Microsoft.EntityFrameworkCore;
+
+      namespace ILanUniversity
+      {
+        public class Startup
+        {
+          ...
+          public void ConfigureServices(IServiceCollection services)
+          {
+            if (env.IsDevelopment())
+            {
+              // 連接SQLite
+              services.AddDbContext<SchoolContext>(options => 
+              options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            }
+            else
+            {
+              // 連接SQL Server
+            services.AddDbContext<SchoolContext>(options => 
+              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }            
+          }
+
+          // 新增資料庫例外篩選器(Add the database exception filter)
+          services.AddDatabaseDeveloperPageExceptionFilter();
+
+          services.AddControllersWithViews();
+        }
+      }
+
+  7. 新增資料庫例外篩選器(Add the database exception filter)
+    * 在開發環境下, 可提供有用的錯誤資訊.
+    * 同樣在 > Startup.cs -> ConfigureServices 方法內註冊
+    * 範例: 詳上列程式碼
+
+  8. 資料庫初始化 + 測試資料 (Initialize DB with test data)
+    * 撰寫新增初始化資料類別
+    * Data.DbInitializer.cs
+
+      using ILanUniversity.Models;
+      using System;
+      using System.Linq;
+
+      namespace ILanUniversity.Data
+      {
+        public static class DbInitializer
+        {
+          public static void Initialize(SchoolContext context)
+          {
+            // 每次都會刪除資料庫, 僅適用於<測試階段>
+            context.Database.EnsureCreated();
+
+            // Look for any students.
+            if (context.Students.Any())
+            {
+              return; // DB has been seeded.
+            }
+
+            var students = new Student[]
+            {
+            new Student{FirstMidName="Carson",LastName="Alexander",EnrollmentDate=DateTime.Parse("2005-09-01")},
+            new Student{FirstMidName="Meredith",LastName="Alonso",EnrollmentDate=DateTime.Parse("2002-09-01")},
+            new Student{FirstMidName="Arturo",LastName="Anand",EnrollmentDate=DateTime.Parse("2003-09-01")},
+            new Student{FirstMidName="Gytis",LastName="Barzdukas",EnrollmentDate=DateTime.Parse("2002-09-01")},
+            new Student{FirstMidName="Yan",LastName="Li",EnrollmentDate=DateTime.Parse("2002-09-01")},
+            new Student{FirstMidName="Peggy",LastName="Justice",EnrollmentDate=DateTime.Parse("2001-09-01")},
+            new Student{FirstMidName="Laura",LastName="Norman",EnrollmentDate=DateTime.Parse("2003-09-01")},
+            new Student{FirstMidName="Nino",LastName="Olivetto",EnrollmentDate=DateTime.Parse("2005-09-01")}
+            };
+            foreach (Student s in students)
+            {
+                context.Students.Add(s);
+            }
+            context.SaveChanges();
+
+            var courses = new Course[]
+            {
+            new Course{CourseID=1050,Title="Chemistry",Credits=3},
+            new Course{CourseID=4022,Title="Microeconomics",Credits=3},
+            new Course{CourseID=4041,Title="Macroeconomics",Credits=3},
+            new Course{CourseID=1045,Title="Calculus",Credits=4},
+            new Course{CourseID=3141,Title="Trigonometry",Credits=4},
+            new Course{CourseID=2021,Title="Composition",Credits=3},
+            new Course{CourseID=2042,Title="Literature",Credits=4}
+            };
+            foreach (Course c in courses)
+            {
+                context.Courses.Add(c);
+            }
+            context.SaveChanges();
+
+            var enrollments = new Enrollment[]
+            {
+            new Enrollment{StudentID=1,CourseID=1050,Grade=Grade.A},
+            new Enrollment{StudentID=1,CourseID=4022,Grade=Grade.C},
+            new Enrollment{StudentID=1,CourseID=4041,Grade=Grade.B},
+            new Enrollment{StudentID=2,CourseID=1045,Grade=Grade.B},
+            new Enrollment{StudentID=2,CourseID=3141,Grade=Grade.F},
+            new Enrollment{StudentID=2,CourseID=2021,Grade=Grade.F},
+            new Enrollment{StudentID=3,CourseID=1050},
+            new Enrollment{StudentID=4,CourseID=1050},
+            new Enrollment{StudentID=4,CourseID=4022,Grade=Grade.F},
+            new Enrollment{StudentID=5,CourseID=4041,Grade=Grade.C},
+            new Enrollment{StudentID=6,CourseID=1045},
+            new Enrollment{StudentID=7,CourseID=3141,Grade=Grade.A},
+            };
+            foreach (Enrollment e in enrollments)
+            {
+                context.Enrollments.Add(e);
+            }
+            context.SaveChanges();
+
+          }
+        }
+      }
+
+    * 程式啟動前執行 {新增初始化資料類別}
+    * 更新 Program.cs
+
+      using ILanUniversity.Data;
+      using Microsoft.Extensions.DependencyInjection;
+      ...
+
+      namespace ILanUniversity
+      {
+        public class Program
+        {
+          public static void Main(string[] args)
+          {
+            var host = CreateHostBuilder(args).Build();
+            CreateDbIfNotExists(host);
+            host.Run();
+          }
+
+          private static void CreateDbIfNotExists(IHost host)
+          {
+            using (var scope = host.Services.CreateScope())
+            {
+              var services = scope.ServiceProvider;
+              try
+              {
+                // Get a database context instance from the dependency injection container.
+                var context = services.GetRequiredService<SchoolContext>();
+                
+                // Call the DbInitializer.Initialize method.
+                DbInitializer.Initialize(context);
+              }
+              catch (Exception ex)
+              {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occured during creating the DB.");
+              }
+
+              // Dispose the context when the Initialize method completes
+            }
+          }
+
+          public static IHostBuilder CreateHostBuilder(string[] args) => ...
+        }
+      }
+
+    * 上述方法, 可在APP首次執行時使用, 新增DB, 塞入Test Data.
+    * 但是當{data model變更}時, 則須, 刪除DB, 更新Seed函式, 再新增DB, 塞入Test Data.
+
+    !! 之後會說明當 {data model變更} 時, 毋須 刪除DB & 新增DB 的方法. !!
+
+  9. {新增Model後}, 自動產生對應的Controller & View 
+    * ORM套件要先裝, 不然程式碼生不出來.
+    * Model已撰寫完成.
+    * 利用 dotnet-aspnet-codegenerator 工具產生程式碼
+    * 官方說明: https://docs.microsoft.com/zh-tw/aspnet/core/fundamentals/tools/dotnet-aspnet-codegenerator?view=aspnetcore-5.0
+ 
+    * 先前範例
+      dotnet-aspnet-codegenerator controller // 指定產生控制器
+      -name JobsController             // 控制器名稱
+      -m Jobs                          // 要使用的模型類別
+      -dc JobsContext                  // DbContext要使用的類別 or 要產生的類別名稱
+      --relativeFolderPath Controllers //指定相對輸出檔案夾路徑
+      --useDefaultLayout               //針對檢視使用預設的配置
+      --referenceScriptLibraries       //所產生檢視中的參考指令碼程式庫
+  
+    * 本專案指令(for Student, Course, Enrollment三個Model)
+      dotnet-aspnet-codegenerator controller
+      -name StudentsController
+      -m Student
+      -dc SchoolContext
+      --relativeFolderPath Controllers //指定相對輸出檔案夾路徑
+      --useDefaultLayout               //針對檢視使用預設的配置
+      --referenceScriptLibraries       //所產生檢視中的參考指令碼程式庫
+
+      dotnet-aspnet-codegenerator controller
+      -name CoursesController
+      -m Course
+      -dc SchoolContext
+      --relativeFolderPath Controllers //指定相對輸出檔案夾路徑
+      --useDefaultLayout               //針對檢視使用預設的配置
+      --referenceScriptLibraries       //所產生檢視中的參考指令碼程式庫
+
+      dotnet-aspnet-codegenerator controller
+      -name EnrollmentsController
+      -m Enrollment
+      -dc SchoolContext
+      --relativeFolderPath Controllers //指定相對輸出檔案夾路徑
+      --useDefaultLayout               //針對檢視使用預設的配置
+      --referenceScriptLibraries       //所產生檢視中的參考指令碼程式庫
+
+  10. 檢視資料庫
+    * 資料庫自動產生, 乃依據 Data.DbInitializer.cs
+    * 因為使用了 context.Database.EnsureCreated(); // 每次都會刪除資料庫, 僅適用於<測試階段>
+      如果Model屬性異動時, 例: Student須多記錄 Email
+      > 類別Student 新增屬性Email
+      > 刪除資料庫
+      > 停止再啟動APP. 資料庫將重新產生
+    
+    !! 注意, 資料庫重新產生, 檢視並不會同步新增, 因為產生工具不同. !!
+
+  11. 慣例(Conventions)
+    * DbContext 的 DbSet 名稱 = 資料表名稱; 
+    * DbContext 的 Entity 未被 DbSet 參考時, Entity名稱 = Table Name
+    * Entity Property名稱 = Column Name
+    * Entity Property名稱 = ID or classnameID時, 將被視為PK
+    * Model 內有 navigation property 將被視為FK, 
+      FK命名規則1: <navigation property name><PK property name>, 
+        例如: navigation property = Student, PK property = ID => FK Name = StudentID
+      FK命名規則2: <primary key property name>, 
+        例如: Enrollment entity的 PK = EnrollmentID
+    
+    !! 注意, 上述慣例可被推翻, 例如: 指定資料表名稱, 指定PK或FK
+
+  12. 非同步指令碼(aysnchronous code)
+    * Asynchronous programming is the default mode for ASP.NET Core and EF Core.
+    * 非同步指令碼 可解決因等待I/O完成, 造成執行緒無法充份利用的問題.
+    * 非同步指令碼 有成本, 但對於效能改善有實質幫助.
+
+    * 關鍵詞 async, Task<T>, await, ToListAsync 讓程式碼變得非同步.
+      public async Task<IActionResult> Index()
+      {
+        return View(await _context.Students.ToListAsync());
+      }
+    
+    * 實作原理
+      The async keyword tells the compiler to generate callbacks for parts of the method body and to automatically create the Task<IActionResult> object that's returned.
+      The return type Task<IActionResult> represents ongoing work with a result of type IActionResult.
+      The await keyword causes the compiler to split the method into two parts. The first part ends with the operation that's started asynchronously. The second part is put into a callback method that's called when the operation completes.
+      ToListAsync is the asynchronous version of the ToList extension method.
+
+    !! 注意事項: 使用 非同步指令碼(aysnchronous code)時
+      # 只在{送至資料庫的查詢或指令}上執行非同步.
+        正例(須非同步): ToListAsync(取列表), SingleOrDefaultAsync(取第1個值), SaveChangesAsync(儲存)
+        反例(不要使用非同步): 單純篩選IQueryable, 例: var students = context.Students.Where(s => s.LastName == "David");
+
+      # EF Context 非執行緒安全, 不要試著平行執行多個作業.
+        使用任何 async EFCore 方法, 都要加上 await 關鍵字.
+
+        public async Task<IActionResult> Index()
+        {
+          // 記得加上 await, 在使用async EFCore 方法時 (ToListAsync())
+          return View(await _context.Students.ToListAsync());
+        }
+
+      # 確定所有 library package 也使用 async
+
+https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
+
+  TODO: 13. Limit entities fetched
+
+  TODO: 14. SQL Logging of EntityFrameworkCore
+
