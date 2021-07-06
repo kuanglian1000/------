@@ -1,10 +1,11 @@
-ASP.NET Core MVC 概觀
+ASP.NET Core MVC 概觀 
+(https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-5.0&tabs=visual-studio)
   > 什麼是MVC模式?
     1. M = Model(模型), V = View(檢視), C = Controller(控制器).
     2. 關注點分離(SOC)是拆分為MVC的優點之一.
     3. View & Controller都相依於Model, 
         但Model不相依於View or Controller, 這是分離的主要優點之一.
-  
+
     > Model職責
       1. 保存應用程式狀態, 商務邏輯或作業.
       2. 商務邏輯應與保存應用程式狀態的實作邏輯, 一起封裝在模型中.
@@ -188,8 +189,61 @@ ASP.NET Core MVC 概觀
       1. 類似自訂控制項/部分檢視, 可在整個AP中重複使用.
       2. 將可共用的邏輯加以封裝
 
-    > 安裝ORM套件(EntityFrameworkCore)
-    
+    > 區分環境別 by Startup.cs (for ASP.NET CORE MVC 架構)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
+        {
+            Configuration = configuration;
+            _env = env;
+        }
+        public IConfiguration Configuration {get;}
+        private readonly IWebHostEnvironment _env;
+        public void ConfigureServices(IServiceCollection services)
+        {
+            if (_env.IsDevelopment())
+            {
+                Console.WriteLine(_env.EnvironmentName);
+            }
+            else if (_env.IsStaging())
+            {
+                Console.WriteLine(_env.EnvironmentName);
+            }
+            else
+            {
+                Console.WriteLine("Not dev or staging env.");
+            }
+            
+            services.AddControllersWithViews();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app)
+        {
+            if (_env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+        }
+
+  > 安裝ORM套件(EntityFrameworkCore)
       dotnet tool install --global dotnet-ef
       dotnet tool install --global dotnet-aspnet-codegenerator
       dotnet add package Microsoft.EntityFrameworkCore.Design
@@ -197,7 +251,63 @@ ASP.NET Core MVC 概觀
       dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
       dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 
+  > 新增MODEL後, 產生對應的Controller & View (ORM套件要先裝, 不然程式碼生不出來)
+      dotnet-aspnet-codegenerator controller 
+      -name JobsController 
+      -m Jobs 
+      -dc JobsContext 
+      --relativeFolderPath Controllers 
+      --useDefaultLayout 
+      --referenceScriptLibraries
+  
+  > 測試用SQLite, 上線用SqlServer by Startup.cs
+
+  > 接下來, 資料庫初始移轉(inital migration), 依據 JobsContext 所產生.
+
+      dotnet ef migrations add InitialCreate
+      dotnet ef database update
+      dotnet ef database update -- --environment Development
+      dotnet ef database update -- --environment Production
+
+      問題:
+        執行 "dotnet ef database update"後, 出現下列錯誤. 
+        Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+
+      原因: 
+        1. EF自動產生的是SQL Server用連接字串,不支援SQLite[測試環境我把它設為讀取SQLite,正式環境讀取SQL Server],所以會
+        2. {C:\Users\syscc\Documents\Visual Studio Code\Projects\MvcMovie\appsettings.json}
+        3. "JobsContext": "Server=(localdb)\\mssqllocaldb;Database=JobsContext-0d04fe32-b4eb-47cb-a886-0161e3b643af;Trusted_Connection=True;MultipleActiveResultSets=true"
+
+      解決辦法: 
+        1. 新增SQLite用連接字串. @appsettings.json => 
+            "JobsContext-Dev": "Data Source=MvcJob.db"
+        2. 測試環境讀取SQLite用連接字串字串即可. @Startup.cs => 
+            public void ConfigureServices(IServiceCollection services)
+            {
+                services.AddControllersWithViews();
+                services.AddDbContext<JobsContext>(options =>
+                {
+                    var connectionString = Configuration.GetConnectionString("JobsContext");
+                    if (Environment.IsDevelopment() || Environment.IsStaging())
+                    {
+                        Console.WriteLine(Environment.EnvironmentName);
+                        Console.WriteLine("Now is IsDevelopment or IsStaging");
+                        connectionString = Configuration.GetConnectionString("JobsContext-Dev"); //重點在這裡.
+                        options.UseSqlite(connectionString);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not dev or staging env.");
+                        options.UseSqlServer(connectionString);
+                    }
+                });            
+            }
+
   > 相容性版本
       1. {SetCompatibilityVersion} 方法可讓應用程式加入或退出 ASP.NET Core MVC 2.1 或更新版本所引入的可能重大行為變更。
 
   > 其他資源
+
+
+ASP.NET Core MVC with EF Core (加強資料庫工具應用.) - tutorial series
+https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
