@@ -190,35 +190,39 @@ ASP.NET Core MVC 概觀
       2. 將可共用的邏輯加以封裝
 
     > 區分環境別 by Startup.cs (for ASP.NET CORE MVC 架構)
+      * 完整範例程式
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
+            Environment = env;
             Configuration = configuration;
-            _env = env;
         }
         public IConfiguration Configuration {get;}
-        private readonly IWebHostEnvironment _env;
+        private IWebHostEnvironment Environment {get;}
         public void ConfigureServices(IServiceCollection services)
         {
-            if (_env.IsDevelopment())
-            {
-                Console.WriteLine(_env.EnvironmentName);
-            }
-            else if (_env.IsStaging())
-            {
-                Console.WriteLine(_env.EnvironmentName);
-            }
-            else
-            {
-                Console.WriteLine("Not dev or staging env.");
-            }
-            
             services.AddControllersWithViews();
+            services.AddDbContext<JobsContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("JobsContext");
+                if (Environment.IsDevelopment() || Environment.IsStaging())
+                {
+                    Console.WriteLine(Environment.EnvironmentName);
+                    Console.WriteLine("Now is IsDevelopment or IsStaging");
+                    //connectionString = Configuration.GetConnectionString("JobsContext-Dev"); //重點在這裡.
+                    options.UseSqlite(connectionString);
+                }
+                else
+                {
+                    Console.WriteLine("Not dev or staging env.");
+                    options.UseSqlServer(connectionString);
+                }
+            });            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            if (_env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -242,7 +246,7 @@ ASP.NET Core MVC 概觀
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
+    
   > 安裝ORM套件(EntityFrameworkCore)
       dotnet tool install --global dotnet-ef
       dotnet tool install --global dotnet-aspnet-codegenerator
@@ -319,6 +323,8 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
     dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
 
   2. Set up the site style (調整網站風格, 修改名稱, 新增選單...)
+    * 調整首頁 Views > Home > Index.cshtml
+    * 調整共用版面 Views > Shared > _Layout.cshtml
 
   3. 安裝ORM套件(EntityFrameworkCore)
       dotnet tool install --global dotnet-ef
@@ -326,6 +332,8 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
       dotnet add package Microsoft.EntityFrameworkCore.Design
       dotnet add package Microsoft.EntityFrameworkCore.SQLite
       dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+      
+      // 自動產生程式碼範本用
       dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
       
       // 協助偵測及診斷EF Core Migration(移轉)的問題
@@ -334,7 +342,8 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
   4. 新增 Data Model
     * Three Table(Course, Enrollment, Student), 新增3個Entity
       > 1名 Student, 可選多堂課(Enrollment)
-      > 1堂 Course, 可被多名學生選(Enrollment)
+      > 1堂 Course, 可被多名學生選取(Enrollment)
+    * 若使用 ICollection<T>建立關聯, EFCore 預設會新增 HashSet<T>
     
     * Models.Student.cs
       
@@ -347,14 +356,14 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
           public int ID {get;set;}
           public string LastName {get;set;}
           public string FirstName {get;set;}
+          // 範例怪怪的, 選課時間放在學生實體內??
           public DateTime EnrollmentDate {get;set;}
 
-          // Navigation Properties
+          // Navigation Properties(關聯實體)
           public ICollection<Enrollment> Enrollments {get;set;}
         }
       }
 
-      // 若使用 ICollection<T>, EFCore 預設會新增 HashSet<T>
     * Models.Enrollment.cs
 
       using System;
@@ -372,7 +381,7 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
           public int StudentID {get;set;}
           public Grade? Grade {get;set;}
 
-          // Navigation Properties
+          // Navigation Properties(關聯實體)
           public Course Course {get;set;}
           public Student Student {get;set;}
 
