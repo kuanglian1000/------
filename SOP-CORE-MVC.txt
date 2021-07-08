@@ -667,7 +667,7 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
       FK命名規則2: <primary key property name>, 
         例如: Enrollment entity的 PK = EnrollmentID
     
-    !! 注意, 上述慣例可被推翻, 例如: 指定資料表名稱, 指定PK或FK
+    !! 注意, 上述慣例可被推翻/覆寫, 例如: 指定資料表名稱, 指定PK或FK
 
   12. 非同步指令碼(aysnchronous code)
     * Asynchronous programming is the default mode for ASP.NET Core and EF Core.
@@ -702,9 +702,44 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
 
       # 確定所有 library package 也使用 async
 
-https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
+  13. Limit entities fetched(效能考量)
+    * 通常會利用分頁或限制回傳筆數上限, 不會開放隨意筆數回傳.
+    * 存取大張資料表時, 可回傳HTTP 200(成功)作為回應, 儘管資料庫存取時出現例外.
+    * MaxModelBindingCollectionSize 預設值 = 1024筆, 下列程式碼將值重設為 100
+    * Startup.cs
+      public void ConfigureServices(IServiceCollection services)
+      {
+        var myMaxModelBindingCollectionSize = Convert.ToInt32(
+          Configuration["MyMaxModelBindingCollectionSize"] ?? "100");
+        services.Configure<MvcOptions>(options => 
+          options.MaxModelBindingCollectionSize = myMaxModelBindingCollectionSize);        
+        ...
+      }
+    
+    * Configuration["MyMaxModelBindingCollectionSize"]的值去哪抓?
+      設定位置: appsetting.{Environment}.json
+        {
+          "ConnectionStrings": {
+            "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MyDB-2;Trusted_Connection=True;MultipleActiveResultSets=true"
+          },
+          "MyMaxModelBindingCollectionSize":"50",
+          "AllowedHosts": "*"
+        }
 
-  TODO: 13. Limit entities fetched
-
-  TODO: 14. SQL Logging of EntityFrameworkCore
+  14. SQL Logging of EntityFrameworkCore
+    * Logging設定通常由 appsetting.{Environment}.json 檔案提供.
+    * 如果要記錄 SQL 指令, 請在檔案內 appsettings.json or appsetting.Development.json
+      加入以下設定 "Microsoft.EntityFrameworkCore.Database.Command": "Information"
+    * appsetting.Development.json 設定範例
+      { 
+        "Logging": {
+          "LogLevel": {
+            "Default": "Information",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+          ,"Microsoft.EntityFrameworkCore.Database.Command": "Information"
+          }
+        },
+        "AllowedHosts": "*"
+      }      
 
