@@ -319,6 +319,12 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
   1. Create web app
     ProjectName : ILanUniversity
     dotnet new mvc --auth Individual //指令: 新增個人登錄驗證功能網站(MVC)
+    
+    2021/07/09
+    TODO: 如果要使用登入驗證功能，請參考下列使用說明。
+    不然，加入SchoolContext後，在產生DB時會出錯。
+    因為，登入驗證功能用的ApplicationContext，也會產生DB。
+    https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/identity?view=aspnetcore-5.0&tabs=visual-studio
 
     dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
 
