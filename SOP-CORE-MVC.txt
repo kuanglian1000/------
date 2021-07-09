@@ -326,7 +326,15 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
     因為，登入驗證功能用的ApplicationContext，也會產生DB。
     https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/identity?view=aspnetcore-5.0&tabs=visual-studio
 
-    dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
+   2021/07/09
+    找到原因：要遷移後，資料庫才會產生。 
+    EF 支援下列模型開發方法：
+    從現有的資料庫產生模型。
+    將模型手動編寫成符合資料庫的程式碼。
+    建立模型之後，請使用 EF 遷移 從模型建立資料庫。 當模型變更時，遷移可讓資料庫演進。
+
+
+dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
 
   2. Set up the site style (調整網站風格, 修改名稱, 新增選單...)
     * 調整首頁 Views > Home > Index.cshtml
