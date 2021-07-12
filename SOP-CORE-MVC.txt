@@ -317,7 +317,7 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
 
   1. Create web app
     ProjectName : ILanUniversity
-    dotnet new mvc --auth Individual //指令: 新增個人登錄驗證功能網站(MVC)
+    dotnet new mvc //指令: 新增MVC架構網站(MVC)
 
     dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
     
@@ -898,4 +898,116 @@ https://docs.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=net
           modelBuilder.Entity<IdentityUser>()
             .ToTable("AspNetUsers",t => t.ExcludeFromMigrations());
         }
-    
+
+Introduction to Identity on ASP.NET Core(登入驗證功能)
+dotnet new mvc --auth Individual
+https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-5.0&tabs=visual-studio
+
+  * 新增登入驗證功能的MVC專案
+    dotnet new mvc --auth Individual
+
+  * 套用移轉, 產生資料庫DB
+    dotnet tool install --global dotnet-ef
+    dotnet ef database update
+  
+  * 註冊身分驗證服務 @Startup.cs
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlite(
+                Configuration.GetConnectionString("DefaultConnection")));
+        services.AddDatabaseDeveloperPageExceptionFilter();
+
+        services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+        services.AddControllersWithViews();
+
+        // 設定身分驗證服務
+        services.Configure<IdentityOptions>(options =>
+        {
+              // Password settings.
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 6;
+            options.Password.RequiredUniqueChars = 1;
+
+            // Lockout settings.
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.AllowedForNewUsers = true;
+
+            // User settings.
+            options.User.AllowedUserNameCharacters =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            options.User.RequireUniqueEmail = false;
+        });
+
+  * 啟用身分驗證服務 @Startup.cs
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseMigrationsEndPoint();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+            endpoints.MapRazorPages();
+        });
+    }
+
+  * 測試身分驗證功能 @XXController.cs
+
+    using Microsoft.AspNetCore.Authorization; //重點
+
+    namespace MvcIdentity.Controllers
+    {
+        public class HomeController : Controller
+        {
+            private readonly ILogger<HomeController> _logger;
+
+            public HomeController(ILogger<HomeController> logger)
+            {
+                _logger = logger;
+            }
+
+            public IActionResult Index()
+            {
+                return View();
+            }
+
+            [Authorize] //重點: 登入後才能瀏覽.
+            public IActionResult Privacy()
+            {
+                return View();
+            }
+
+            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+            public IActionResult Error()
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+        }
+    }
+
+Host and deploy ASP.NET Core(佈署上線)
+https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-5.0#publish-to-a-folder
