@@ -312,13 +312,14 @@ ASP.NET Core MVC 概觀
 
   > 其他資源
 
-
 ASP.NET Core MVC with EF Core (加強資料庫工具應用.) - tutorial series
 https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
 
   1. Create web app
     ProjectName : ILanUniversity
     dotnet new mvc --auth Individual //指令: 新增個人登錄驗證功能網站(MVC)
+
+    dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
     
     2021/07/09
     TODO: 如果要使用登入驗證功能，請參考下列使用說明。
@@ -332,9 +333,6 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
     從現有的資料庫產生模型。
     將模型手動編寫成符合資料庫的程式碼。
     建立模型之後，請使用 EF 遷移 從模型建立資料庫。 當模型變更時，遷移可讓資料庫演進。
-
-
-dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
 
   2. Set up the site style (調整網站風格, 修改名稱, 新增選單...)
     * 調整首頁 Views > Home > Index.cshtml
@@ -766,3 +764,138 @@ dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
         "AllowedHosts": "*"
       }      
 
+Entity Framework Core(資料庫工具)
+https://docs.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli
+
+  {基本觀念}
+    新增專案
+      dotnet new console -o <ProjectName>
+    
+    安裝套件至專案中(存取Sqlite)
+      dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+
+    新增模型(Model)
+      1. 主類別 : DbContext; 繼承至 DbContext
+      2. 資料實體類別, 描述實體屬性及與其他實體間的關係; 例: Student, Course
+
+    新增資料庫(利用migrations移轉來新增DB)
+      dotnet tool install --global dotnet-ef //安裝共用工具(dotnet-ef)
+      dotnet add package Microsoft.EntityFrameworkCore.Design //安裝套件至專案中(自動產生移轉程式碼用)
+      dotnet ef migrations add InitialCreate //產生初始移轉
+      dotnet ef database update //依據最近1次移轉, 產生資料庫DB
+
+    利用【主類別 : DbContext】作資料庫異動(CRUD)
+      using (var db = new BloggingContext())
+      {
+        //Create
+        db.Add(new Blog{...});
+        db.SaveChanges();
+
+        //Read(讀取1筆)
+        var blog = db.Blogs.Order.OrderBy(b=>b.BlogId).First();
+
+        //Update
+        blog.Url = "https://www.ilan.gov.tw";
+        blog.Posts.Add(new Post{ Title="測試", Content="一篇測試文章" }); //新增實體相關子實體項目
+        db.SaveChanges(); //儲存變更
+
+        //Delete
+        db.Remove(blog); //刪除取出來的Blog實體
+        db.SaveChanges(); //儲存變更
+      }
+
+  {資料實體屬性細節設定} https://docs.microsoft.com/en-us/ef/core/modeling/
+    * 實體屬性無設定時, 會依慣例.
+    * 兩種方式可設定實體屬性, 適用優先性(左至右, 由高至低) Fluent API > data annotation(資料註釋) > Conventions(慣例)
+
+      > Fluent API
+        * 在你繼承產生的DB主類別中, OnModelCreating 方法內設定
+          protected override void OnModelCreating(ModelBuilder modelBuilder)
+          {
+            modelBuilder.Entity<Blog>()
+              .Property(b=>b.Url)
+              .IsRequired();
+
+            modelBuilder.Entity<Blog>()
+              .Property(b=> b.Comments)
+              .HasMaxLength(500);
+
+            modelBuilder.Entity<Blog>()
+              .Property(b => b.Title)
+              .IsRequired()
+              .HasMaxLength(160);
+          }
+        
+        * 若你想簡化 OnModelCreating 方法的程式碼長度, 可利用 Grouping configuration, 將設定獨立為類別檔再引用.
+          https://docs.microsoft.com/en-us/ef/core/modeling/#grouping-configuration
+
+      > data annotation(資料註釋)
+        * 在資料實體上, 加上註釋
+          using System.ComponentModel.DataAnnotations;
+          public class Blog
+          {
+            public int BlogId{get;set;}
+
+            [Required] //加上註釋, 必填欄位
+            public string Url{get;set;}
+
+            [Required]
+            [MaxLength(500) , MinLength(5)] //多條件限制
+            public string Comments {get;set;}
+
+            [Required]
+            [StringLength(160)]
+            public string Title {get;set;}
+          }
+
+  {利用Migrations移轉, 更新Table Schema, 在資料實體改變後}
+    * 初版實體
+      public class Blog
+      {
+        public int Id {get;set;}
+        public string name {get;set;}
+      }
+
+    * 安裝共用工具(dotnet-ef)
+      dotnet tool install --global dotnet-ef //安裝共用工具(dotnet-ef)
+
+    * 產生初版移轉(預設放在Migrations資料夾內)
+      dotnet ef migrations add InitialCreate
+
+    * (測試環境) 產生資料庫及綱要
+      dotnet ef database update //套用最新版migrations, 產生資料庫及綱要
+      dotnet ef database update {migrations name} //套用指定migrations, 產生資料庫及綱要.
+        
+        //亦可用於回溯於之前移轉版本, 有產生資料遺失的風險.
+
+      註: (正式環境) 通常不會使用上述指令直接異動DB，而是【產生SQL Scripts】比較保險
+      dotnet ef migrations script                  //採用最新版migrations, 產生SQL Scripts
+      dotnet ef migrations script {指定migrations} //From 指定migrations to 最新版migrations, 產生SQL Scripts
+      dotnet ef migrations script {From} {To}      //From migrations To migrations, 產生SQL Scripts
+    
+      註: (正式環境) 產生已套用移轉的【Idempotent SQL scripts】, 常用於確認【套用至DB的最新版移轉】？
+      dotnet ef migrations script --idempotent
+
+    * 改版實體
+      public class Blog
+      {
+        public int Id {get;set;}
+        public string name {get;set;}
+        public DateTime CreatedTimestamp (get;set;) //新增欄位
+      }
+
+    * 產生改版移轉
+      dotnet ef migrations add AddBlogCreatedTimestamp
+    * 改版資料庫及綱要
+      dotnet ef database update
+
+    !! 注意: 排除在移轉範圍內 !!
+      > 常發生在【主類別: DbContext】 引用 另一個DbContext資料時
+      > 請套用下列指令碼, 將 另一個DbContext資料 排除在移轉範圍外
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+          modelBuilder.Entity<IdentityUser>()
+            .ToTable("AspNetUsers",t => t.ExcludeFromMigrations());
+        }
+    
