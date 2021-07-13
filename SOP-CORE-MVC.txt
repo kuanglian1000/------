@@ -1,5 +1,49 @@
-ASP.NET Core MVC 概觀 
-(https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-5.0&tabs=visual-studio)
+={進行中}=
+
+Get started with ASP.NET Core MVC (MVC架構完整RUN一次) => ProjectName: MvcMovie
+https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-5.0&tabs=visual-studio
+
+  Part 2, add a controller to an ASP.NET Core MVC app
+  Part 3, add a view to an ASP.NET Core MVC app
+  Part 4, add a model to an ASP.NET Core MVC app
+  Part 5, work with a database in an ASP.NET Core MVC app
+  Part 6, controller methods and views in ASP.NET Core
+  Part 7, add search to an ASP.NET Core MVC app
+  Part 8, add a new field to an ASP.NET Core MVC app
+  Part 9, add validation to an ASP.NET Core MVC app
+  Part 10, examine the Details and Delete methods of an ASP.NET Core app
+
+ASP.NET Core MVC(檢視)
+https://docs.microsoft.com/en-us/aspnet/core/mvc/views/overview?view=aspnetcore-5.0
+
+ASP.NET Core MVC(部分檢視, 先跳過)
+https://docs.microsoft.com/en-us/aspnet/core/mvc/views/partial?view=aspnetcore-5.0
+
+ASP.NET Core MVC(控制器)
+https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/actions?view=aspnetcore-5.0
+
+ASP.NET Core MVC(路由)
+https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-5.0
+
+ASP.NET Core MVC(控制器插入服務. Dependency injection into controllers in ASP.NET Core)
+https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection?view=aspnetcore-5.0
+
+ASP.NET Core MVC(檢視插入服務. Dependency injection into views in ASP.NET Core)
+https://docs.microsoft.com/en-us/aspnet/core/mvc/views/dependency-injection?view=aspnetcore-5.0
+
+ASP.NET Core MVC(單元測試. Unit test controller logic in ASP.NET Core)
+https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/testing?view=aspnetcore-5.0
+
+Upload files in ASP.NET Core (for 訪視照片檔案上傳用)
+https://docs.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads?view=aspnetcore-5.0
+
+Host ASP.NET Core on Windows with IIS (for 佈署上線)
+https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-5.0
+
+={完成}=
+
+ASP.NET Core MVC 概觀 (MVC > Overview) (2021/07/08)
+https://docs.microsoft.com/en-us/aspnet/core/mvc/overview?view=aspnetcore-5.0
   > 什麼是MVC模式?
     1. M = Model(模型), V = View(檢視), C = Controller(控制器).
     2. 關注點分離(SOC)是拆分為MVC的優點之一.
@@ -312,13 +356,12 @@ ASP.NET Core MVC 概觀
 
   > 其他資源
 
-ASP.NET Core MVC with EF Core (加強資料庫工具應用.) - tutorial series
+ASP.NET Core MVC with EF Core (加強資料庫工具應用.) => ProjectName: ILanUniversity (2021/07/13)
 https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
 
   1. Create web app
     ProjectName : ILanUniversity
     dotnet new mvc //指令: 新增MVC架構網站(MVC)
-
     dotnet dev-certs https --trust //指令: 信任測試環境簽章(https用)
     
     2021/07/09
@@ -365,6 +408,7 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
       {
         public class Student
         {
+          // EFCore會視為PK, 使用自動遞增
           public int ID {get;set;}
           public string LastName {get;set;}
           public string FirstName {get;set;}
@@ -388,6 +432,7 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
 
         public class Enrollment
         {
+          // EFCore會視為PK, 使用自動遞增
           public int EnrollmentID {get;set;}
           public int CourseID {get;set;}
           public int StudentID {get;set;}
@@ -408,7 +453,8 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
       {
         public class Course
         {
-          // 指定使用 CourseID 為PK, 而非使用 EFCore 自動產生的.
+          // 指定使用 CourseID 為PK, 而非使用 EFCore 自動產生的
+          // 不會套用自動遞增設定.
           [DatabaseGenerated(DatabaseGeneratedOption.None)]
           public int CourseID {get;set;}
           public string Title {get;set;}
@@ -424,7 +470,8 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
     * 須繼承自 Microsoft.EntityFrameworkCore.DbContext 類別.
     * 1個 entity DbSet 會對應 1個 Table
     * 1個 entity 會對應 1筆 Row
-    * EFCore新增DB時, 預設以 {DbSet名稱} 作為 {資料表名稱}, 亦可{使用程式員指定名稱} 詳下例
+    * EFCore新增DB時, 預設以 {DbSet名稱} 作為 {資料表名稱}
+                    , 亦可使用 {程式員指定名稱} 詳下例:
 
     * Data.SchoolContext.cs
 
@@ -434,7 +481,8 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
       {
         public class SchoolContext: DbContext
         {
-          public SchoolContext(DbContextOptions<SchoolContext> options)
+          // : base(options), 這一段不要漏掉了.
+          public SchoolContext(DbContextOptions<SchoolContext> options): base(options)
           {
           }
 
@@ -453,15 +501,15 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
         }
       }
 
-  6. 註冊 Database Context
+  6. 註冊Database服務
     * .NET Core 使用 DI(依賴性注入), 所以 EFCore Database Context 也要註冊後才能使用.
-    * 去哪註冊服務呢 ?
+    * 去哪註冊服務?
       > Startup.cs -> ConfigureServices 方法
 
     * 範例: Startup.cs
 
       using ILanUniversity.Data; //放DbContext的地方
-      using Microsoft.EntityFrameworkCore;
+      using Microsoft.EntityFrameworkCore; //連接資料庫用套件
 
       namespace ILanUniversity
       {
@@ -496,7 +544,27 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
     * 同樣在 > Startup.cs -> ConfigureServices 方法內註冊
     * 範例: 詳上列程式碼
 
-  8. 資料庫初始化 + 測試資料 (Initialize DB with test data)
+  8. (正式環境) 新增初始移轉 + 匯出SQL Scripts
+    dotnet ef migrations add InitialCreate //新增初始移轉 by DbContext
+    dotnet ef migrations script //匯出SQL Scripts by Latest Migration
+    dotnet ef migrations script --output SqlScripts\InitialCreate.sql //匯出至指定資料夾
+
+    !! 注意 !! SQL Scripts匯出後, 要改寫才能用在SQL Server
+      1. 資料表存在否, 語法改寫
+          IF OBJECT_ID('__EFMigrationsHistory', 'U') IS NOT NULL
+          DROP TABLE __EFMigrationsHistory
+          GO
+      2. 自動遞增欄位, 語法改寫為 IDENTITY(1,1), 不能用 AUTOINCREMENT
+      3. 拿掉所有的 "", 除了新增值或異動值外
+          (X)CREATE INDEX "IX_Enrollment_StudentID" ON "Enrollment" ("StudentID");
+          (O)CREATE INDEX IX_Enrollment_StudentID ON Enrollment (StudentID);
+
+          (O)INSERT INTO __EFMigrationsHistory (MigrationId, ProductVersion)
+          VALUES ('20210713014457_InitialCreate', '5.0.7');
+      
+    dotnet ef database update //產生資料庫(測試環境用)
+
+  8. (測試環境)資料庫初始化 + 測試資料 (Initialize DB with test data)
     * 撰寫新增初始化資料類別
     * Data.DbInitializer.cs
 
@@ -510,7 +578,7 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
         {
           public static void Initialize(SchoolContext context)
           {
-            // 每次都會刪除資料庫, 僅適用於<測試階段>
+            // 每次都會刪除資料庫再重新建立, 僅適用於<測試階段>
             context.Database.EnsureCreated();
 
             // Look for any students.
@@ -577,7 +645,7 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
         }
       }
 
-    * 程式啟動前執行 {新增初始化資料類別}
+    * 程式啟動前, {新增初始資料}
     * 更新 Program.cs
 
       using ILanUniversity.Data;
@@ -623,9 +691,9 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
       }
 
     * 上述方法, 可在APP首次執行時使用, 新增DB, 塞入Test Data.
-    * 但是當{data model變更}時, 則須, 刪除DB, 更新Seed函式, 再新增DB, 塞入Test Data.
+    * 但是當{data model變更}時, 則須 (1)刪除DB (2)更新DataSeed函式 (3)新增DB (4)Insert into Test Data.
 
-    !! 之後會說明當 {data model變更} 時, 毋須 刪除DB & 新增DB 的方法. !!
+    !! 之後會說明當 {data model變更} 時, 毋須 {刪除DB & 新增DB} 的方法, 使用 {移轉Migrations from DbContext} !!
 
   9. {新增Model後}, 自動產生對應的Controller & View 
     * ORM套件要先裝, 不然程式碼生不出來.
@@ -647,25 +715,13 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
       -name StudentsController
       -m Student
       -dc SchoolContext
-      --relativeFolderPath Controllers //指定相對輸出檔案夾路徑
-      --useDefaultLayout               //針對檢視使用預設的配置
-      --referenceScriptLibraries       //所產生檢視中的參考指令碼程式庫
+      --relativeFolderPath Controllers
+      --useDefaultLayout      
+      --referenceScriptLibraries
 
-      dotnet-aspnet-codegenerator controller
-      -name CoursesController
-      -m Course
-      -dc SchoolContext
-      --relativeFolderPath Controllers //指定相對輸出檔案夾路徑
-      --useDefaultLayout               //針對檢視使用預設的配置
-      --referenceScriptLibraries       //所產生檢視中的參考指令碼程式庫
+      dotnet-aspnet-codegenerator controller -name CoursesController -m Course -dc SchoolContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
 
-      dotnet-aspnet-codegenerator controller
-      -name EnrollmentsController
-      -m Enrollment
-      -dc SchoolContext
-      --relativeFolderPath Controllers //指定相對輸出檔案夾路徑
-      --useDefaultLayout               //針對檢視使用預設的配置
-      --referenceScriptLibraries       //所產生檢視中的參考指令碼程式庫
+      dotnet-aspnet-codegenerator controller -name EnrollmentsController -m Enrollment -dc SchoolContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
 
   10. 檢視資料庫
     * 資料庫自動產生, 乃依據 Data.DbInitializer.cs
@@ -675,7 +731,7 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
       > 刪除資料庫
       > 停止再啟動APP. 資料庫將重新產生
     
-    !! 注意, 資料庫重新產生, 檢視並不會同步新增, 因為產生工具不同. !!
+    !! 注意, 資料庫重新產生後, 檢視並不會同步更新, 因為工具不同(dotnet-aspnet-codegenerator). !!
 
   11. 慣例(Conventions)
     * DbContext 的 DbSet 名稱 = 資料表名稱; 
@@ -728,6 +784,7 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
     * 存取大張資料表時, 可回傳HTTP 200(成功)作為回應, 儘管資料庫存取時出現例外.
     * MaxModelBindingCollectionSize 預設值 = 1024筆, 下列程式碼將值重設為 100
     * Startup.cs
+      using Microsoft.AspNetCore.Mvc; //這個要加, For MvcOptions
       public void ConfigureServices(IServiceCollection services)
       {
         var myMaxModelBindingCollectionSize = Convert.ToInt32(
@@ -757,14 +814,15 @@ https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/?view=aspnetcore-5.0
           "LogLevel": {
             "Default": "Information",
             "Microsoft": "Warning",
-            "Microsoft.Hosting.Lifetime": "Information"
-          ,"Microsoft.EntityFrameworkCore.Database.Command": "Information"
+            "Microsoft.Hosting.Lifetime": "Information",
+            // 增加下1行, SQL Command 會顯示在 Terminal內.
+            "Microsoft.EntityFrameworkCore.Database.Command": "Information"
           }
         },
         "AllowedHosts": "*"
       }      
 
-Entity Framework Core(資料庫工具)
+Entity Framework Core(資料庫工具) (2021/07/12) => ProjectName: EFGetStarted
 https://docs.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli
 
   {基本觀念}
@@ -865,6 +923,10 @@ https://docs.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=net
     * (測試環境) 產生資料庫及綱要
       dotnet ef database update //套用最新版migrations, 產生資料庫及綱要
       dotnet ef database update {migrations name} //套用指定migrations, 產生資料庫及綱要.
+
+      !!注意 (SQlite支援)!! 
+        1. dotnet ef database update 指令, 不完整, 異動DB上可能出現錯誤
+        2. dotnet ef migrations add xxx, OK, 產生移轉沒問題
         
         //亦可用於回溯於之前移轉版本, 有產生資料遺失的風險.
 
@@ -899,7 +961,7 @@ https://docs.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=net
             .ToTable("AspNetUsers",t => t.ExcludeFromMigrations());
         }
 
-Introduction to Identity on ASP.NET Core(登入驗證功能)
+Introduction to Identity on ASP.NET Core(登入驗證功能) (2021/07/12) => ProjectName: MvcIdentity
 dotnet new mvc --auth Individual
 https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-5.0&tabs=visual-studio
 
@@ -1009,5 +1071,11 @@ https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?vi
         }
     }
 
-Host and deploy ASP.NET Core(佈署上線)
-https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-5.0#publish-to-a-folder
+
+={延後}=
+
+Persist and retrieve relational data with Entity Framework Core (加強資料庫工具應用 => 使用 Azure 環境, 不好實作, 先不作了 2021/07/13)
+https://docs.microsoft.com/en-us/learn/modules/persist-data-ef-core/?view=aspnetcore-5.0
+
+Secure an ASP.NET Core web app with the Identity framework (登入驗證功能實作 => 使用 Azure 環境, 不好實作, 先不作了 2021/07/13)
+https://docs.microsoft.com/en-us/learn/modules/secure-aspnet-core-identity/?view=aspnetcore-5.0
