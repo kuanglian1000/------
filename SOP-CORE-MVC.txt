@@ -3,12 +3,141 @@
 Get started with ASP.NET Core MVC (MVC架構完整RUN一次) => ProjectName: MvcMovie
 https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-5.0&tabs=visual-studio
 
-  Part 2, add a controller to an ASP.NET Core MVC app
-  Part 3, add a view to an ASP.NET Core MVC app
-  Part 4, add a model to an ASP.NET Core MVC app
-  Part 5, work with a database in an ASP.NET Core MVC app
-  Part 6, controller methods and views in ASP.NET Core
-  Part 7, add search to an ASP.NET Core MVC app
+  Part 2, add a controller to an ASP.NET Core MVC app (OK)
+  Part 3, add a view to an ASP.NET Core MVC app (OK)
+  Part 4, add a model to an ASP.NET Core MVC app (OK)
+    * controller/action/id
+      下列兩種方式, 都能將 id=1 傳給Controller
+      https://localhost:5001/movies/details/1
+      https://localhost:5001/movies/details?id=1
+
+    > 回傳單筆
+      * return View(movie); // Controller 將挑出來的Model, 回傳給View使用
+      * @model MvcMovie.Models.Movie // View在頁面先定義後, 即可使用
+      * Model 物件是強型別 // @Model.Id, 就能抓取 movie.Id 值.
+
+    > 回傳清單
+      * return View(await _context.Movie.ToListAsync()); // 存取DB後, 以非同步方式回傳多筆給View // 使用非同步函式, 記得加上 await
+      * @model IEnumerable<MvcMovie.Models.Movie> // View抓到的是 可列舉的清單
+      * @foreach (var item in Model) // 使用迴圈逐一存取項目
+
+    > SQL Logging of Entity Framework Core
+      * 在appsettings.json內, 加入下列LOGGING設定 {,"Microsoft.EntityFrameworkCore.Database.Command": "Information"}
+        "Logging": {
+          "LogLevel": {
+            "Default": "Information",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+           ,"Microsoft.EntityFrameworkCore.Database.Command": "Information"
+          }
+        },
+
+  Part 5, work with a database in an ASP.NET Core MVC app (OK)
+  Part 6, controller methods and views in ASP.NET Core (OK)
+    * [Bind] 屬性是一種方式, 用來防止 over-posting 攻擊.
+    * [Bind] 限制要變更的屬性項目, 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Movie movie)
+    * 另一種防止 over-posting 攻擊的方式, ViewModels
+    
+    * [ValidateAntiForgeryToken], 用來防止 XSRF/CSRF 攻擊, 
+        它會去檢查 Form Tag Helper 產生的TOKEN, 通常放在最後面, 長的像下列碼
+        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Inyxgp63fRFqUePGvuI5jGZsloJu1L7X9le1gy7NCIlSduCRx9jDQClrV9pOTTmqUyXnJBXhmrjcUVDJyDUMm7-MF_9rK8aAZdRdlOri7FmKVkRe_2v5LIHGKFcTjPrWPYnc9AdSbomkiOSaTEg7RU" />
+    
+    * Label Tag Helper, 用來顯示名稱
+    * Input Tag Helper, 用來產生輸入欄位
+    * Validation Tag Helper, 用來顯示與屬性相關的驗證結果訊息
+
+    !! 注意 !! 
+      [HttpGet] 屬性是預設值, 可加可不加.
+        千萬不要在 [HttpGet] Action方法內, 異動資料, 有資安上的風險.
+      [HttpPost] 屬性則是 新增, 修改, 刪除及其他異動資料時, 使用的.
+        要特別加註上去.
+  Part 7, add search to an ASP.NET Core MVC app (OK)
+    > Add Search by genre (by HttpGet)
+      * 不需要用 HttpPost, 就能達成篩選目的.
+      * 使用 HttpGet, 查詢字串會放在URL內.
+
+      // Controller.cs
+      public async Task<IActionResult> Index(string searchString)
+      {
+          var movies = from m in _context.Movie
+                        select m;
+          if (!String.IsNullOrEmpty(searchString))
+          {
+              movies = movies.Where(s => s.Title.Contains(searchString));
+          }
+          return View(await movies.ToListAsync());
+      }
+
+      // View.cshtml
+      @* 新增查詢欄位, 指定用[HttpGet]方式傳送, 即使Controller有[HttpPost]的Action, 一樣不會跑進去 *@
+      <form asp-controller="Movies" asp-action="Index" method="GET">
+          <p>
+              名稱: <input type="text" name="searchString">
+              <input type="submit" value="篩選">
+          </p>
+      </form>
+
+    > Add search by genre to the Index View (by ViewModel)
+      // MvcMovie.Models.MovieGenreViewModel.cs
+      using Microsoft.AspNetCore.Mvc.Rendering;
+      using System.Collections.Generic;
+      namespace MvcMovie.Models
+      {
+          public class MovieGenreViewModel
+          {
+              public List<Movie> Movies { get; set; }
+              public SelectList Genres { get; set; }
+              // User Selected Genre
+              public string MovieGenre { get; set; }
+              // User Input SearchString
+              public string SearchString { get; set; }
+          }
+      }
+
+      // Controller.cs
+      public async Task<IActionResult> Index(string movieGenre, string searchString)
+        {
+            IQueryable<string> genreQuery = from m in _context.Movie
+                                            orderby m.Genre
+                                            select m.Genre;
+            var movies = from m in _context.Movie
+                         select m;
+
+            if(!string.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title.Contains(searchString));
+            }
+
+            if(!string.IsNullOrEmpty(movieGenre))
+            {
+                movies = movies.Where(s => s.Genre == movieGenre);
+            }
+
+            var movieViewModel = new MovieGenreViewModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync())
+                , Movies = await movies.ToListAsync()
+            };
+            return View(movieViewModel);
+        }
+      
+      // View.cshtml
+      @model MvcMovie.Models.MovieGenreViewModel
+      @* 新增查詢欄位, 使用 ViewModel *@
+      <form asp-controller="Movies" asp-action="Index" method="get">
+          <p>
+              類型: <select asp-for="MovieGenre" asp-items="Model.Genres">
+                  <option value="">All</option>
+              </select>
+              <br>
+              名稱: <input type="text" name="searchString">
+              <input type="submit" value="篩選">
+          </p>
+      </form>
+
   Part 8, add a new field to an ASP.NET Core MVC app
   Part 9, add validation to an ASP.NET Core MVC app
   Part 10, examine the Details and Delete methods of an ASP.NET Core app
